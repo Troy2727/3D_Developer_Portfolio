@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100px" height="100px">
+  <g transform="translate(15, 15) scale(0.7)">
+    <path fill="#FFA000" d="M50,92.6l-40-25.3L20,17.8l18.8,35.9L50,92.6z"/>
+    <path fill="#F57F17" d="M50,92.6l-1.8-70.9L29.8,7.4L50,92.6z"/>
+    <path fill="#FFCA28" d="M50,92.6l40-25.3L76.8,21.7L50,92.6z"/>
+    <path fill="#FFA000" d="M10,67.3L20,17.8L76.8,21.7L90,67.3L50,92.6L10,67.3z"/>
+  </g>
+</svg>
