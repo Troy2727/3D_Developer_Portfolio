@@ -10,7 +10,7 @@ const ContactExperience = () => {
   return (
     <Canvas
       shadows
-      camera={{ position: [0, 3, 7], fov: 45 }}
+      camera={{ position: [0, 2, 8], fov: isMobile ? 50 : 45 }} // Adjusted camera position and FOV for better view
       gl={{ powerPreference: 'high-performance', antialias: false }} // Disable antialiasing on mobile for better performance
       dpr={isMobile ? 1 : [1, 2]} // Lower resolution on mobile
       performance={{ min: 0.5 }} // Allow performance scaling
@@ -28,12 +28,18 @@ const ContactExperience = () => {
 
       {/* Configure OrbitControls with passive event listeners */}
       <OrbitControls
-        enableZoom={false}
-        enableRotate={!isMobile}
-        minPolarAngle={Math.PI / 5}
-        maxPolarAngle={Math.PI / 2}
+        enablePan={false}
+        enableZoom={true} // Enable zoom functionality
+        enableRotate={true} // Enable rotation on all devices including mobile
+        maxDistance={30} // Increased max distance for more zoom out
+        minDistance={3} // Decreased minimum distance for closer zoom
+        zoomSpeed={1.0} // Faster zoom speed
+        rotateSpeed={1.0} // Faster rotation speed
+        minPolarAngle={0} // Allow full vertical rotation (up)
+        maxPolarAngle={Math.PI} // Allow full vertical rotation (down)
         makeDefault
-        enableDamping={false}
+        enableDamping={true} // Enable damping for smoother controls
+        dampingFactor={0.05} // Lower damping for more fluid movement
         touchAction="none"
       />
 
@@ -48,7 +54,7 @@ const ContactExperience = () => {
         </mesh>
       </group>
 
-      <group scale={0.03} position={[0, -1.49, -2]} castShadow>
+      <group scale={isMobile ? 0.025 : 0.03} position={[0, isMobile ? -1.45 : -1.49, -2]} castShadow rotation={[0, -Math.PI / 8, 0]}>
         <Computer />
       </group>
     </Canvas>
