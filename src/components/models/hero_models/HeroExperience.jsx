@@ -23,15 +23,16 @@ const HeroExperience = () => {
       <OrbitControls
         enablePan={false}
         enableZoom={true} // Enable zoom functionality
-        enableRotate={!isMobile}
-        maxDistance={25} // Increased max distance for zoom out
-        minDistance={5} // Minimum zoom distance
-        zoomSpeed={0.5} // Control zoom speed
-        minPolarAngle={Math.PI / 5}
-        maxPolarAngle={Math.PI / 2}
+        enableRotate={true} // Enable rotation on all devices including mobile
+        maxDistance={30} // Increased max distance for more zoom out
+        minDistance={3} // Decreased minimum distance for closer zoom
+        zoomSpeed={1.0} // Faster zoom speed
+        rotateSpeed={1.0} // Faster rotation speed
+        minPolarAngle={0} // Allow full vertical rotation (up)
+        maxPolarAngle={Math.PI} // Allow full vertical rotation (down)
         makeDefault
-        enableDamping={true} // Enable damping for smoother zoom
-        dampingFactor={0.05} // Control damping speed
+        enableDamping={true} // Enable damping for smoother controls
+        dampingFactor={0.05} // Keep the same damping factor
         touchAction="none"
       />
 
@@ -39,8 +40,8 @@ const HeroExperience = () => {
         <HeroLights />
         {!isMobile && <Particles count={isMobile ? 30 : 100} />} {/* Remove particles on mobile */}
         <group
-          scale={isMobile ? 0.5 : 1} // Smaller scale on mobile
-          position={[0, isMobile ? -2 : -3.5, 0]} // Adjust position on mobile
+          scale={isMobile ? 0.8 : 1} // Increased scale on mobile for better visibility
+          position={[0, isMobile ? -2.5 : -3.5, 0]} // Adjusted position for better view
           rotation={[0, -Math.PI / 4, 0]}
         >
           <Room />

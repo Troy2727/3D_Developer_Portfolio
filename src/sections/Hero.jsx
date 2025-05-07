@@ -26,25 +26,27 @@ const Hero = () => {
         <header className="flex flex-col justify-center md:w-[45%] w-full md:px-10 px-5 xl:max-w-[45%]">
           <div className="flex flex-col gap-5 md:gap-7">
             <div className="hero-text">
-              <h1>
-                <span className="word-gradient word-gradient-1">Shaping</span>
-                <span className="slide">
-                  <span className="wrapper">
-                    {words.map((word, index) => (
-                      <span
-                        key={index}
-                        className="flex items-center md:gap-3 gap-1 pb-2"
-                      >
-                        <img
-                          src={word.imgPath}
-                          alt="person"
-                          className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full bg-white-50"
-                        />
-                        <span className={`word-gradient word-gradient-${(index % 4) + 1}`}>{word.text}</span>
-                      </span>
-                    ))}
+              <h1 className="flex items-center flex-nowrap whitespace-nowrap mb-2">
+                <span className="word-gradient word-gradient-1 mr-2">Shaping</span>
+                <div className="inline-block h-[40px] md:h-[60px] w-[120px] md:w-[180px] relative overflow-hidden">
+                  <span className="slide">
+                    <span className="wrapper">
+                      {words.map((word, index) => (
+                        <span
+                          key={index}
+                          className="flex items-center gap-1 pb-2"
+                        >
+                          <img
+                            src={word.imgPath}
+                            alt="person"
+                            className="xl:size-10 md:size-8 size-6 p-1 rounded-full bg-white-50"
+                          />
+                          <span className={`word-gradient word-gradient-${(index % 4) + 1}`}>{word.text}</span>
+                        </span>
+                      ))}
+                    </span>
                   </span>
-                </span>
+                </div>
               </h1>
               <h1>
                 <span className="word-gradient word-gradient-2">into</span>{" "}
@@ -77,8 +79,8 @@ const Hero = () => {
           </div>
         </figure>
 
-        {/* Mobile 3D Experience - Simplified version */}
-        <div className="md:hidden w-full h-[20vh] mt-2">
+        {/* Mobile 3D Experience - Improved version */}
+        <div className="md:hidden w-full h-[40vh] mt-6 relative">
           <HeroExperience />
         </div>
       </div>
