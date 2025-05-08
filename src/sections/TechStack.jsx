@@ -1,10 +1,27 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useState } from "react";
 
 import TitleHeader from "../components/TitleHeader";
 import { techStackImgs } from "../constants";
 
 const TechStack = () => {
+  // State to track which card is being touched
+  const [touchedCardIndex, setTouchedCardIndex] = useState(null);
+
+  // Handle touch start event
+  const handleTouchStart = (index) => {
+    setTouchedCardIndex(index);
+  };
+
+  // Handle touch end event with delay
+  const handleTouchEnd = (index) => {
+    // Add a delay before removing the touched state
+    setTimeout(() => {
+      setTouchedCardIndex(null);
+    }, 500); // 500ms delay for more noticeable effect
+  };
+
   // Animate the tech cards in the skills section
   useGSAP(() => {
     // This animation is triggered when the user scrolls to the #skills wrapper
@@ -42,25 +59,22 @@ const TechStack = () => {
         />
         <div className="mt-6 md:mt-10">
           {/* All tech stack icons in a single grid */}
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 max-w-[900px] mx-auto">
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8 max-w-[1000px] mx-auto">
             {techStackImgs.map((techStackIcon, index) => (
               <div
                 key={index}
-                className="tech-card overflow-hidden group rounded-full mx-auto"
-                style={{ width: '90px', height: '160px' }}
+                className={`tech-card rounded-full mx-auto ${touchedCardIndex === index ? 'touched' : ''}`}
+                onTouchStart={() => handleTouchStart(index)}
+                onTouchEnd={() => handleTouchEnd(index)}
+                onTouchCancel={() => handleTouchEnd(index)}
               >
-                <div className="tech-card-animated-bg" />
-                <div className="flex flex-col justify-center items-center h-full py-5 relative z-10">
-                  <div className="flex justify-center items-center">
-                    <img
-                      src={techStackIcon.imgPath}
-                      alt={techStackIcon.name}
-                      className="w-10 h-10 md:w-14 md:h-14 object-contain transition-transform duration-300 mb-3"
-                    />
-                  </div>
-                  <div className="w-full text-center px-1">
-                    <p className="text-xs sm:text-sm font-semibold text-white-50 line-clamp-2">{techStackIcon.name}</p>
-                  </div>
+                <div className="tech-card-animated-bg"></div>
+                <div className="tech-card-content">
+                  <img
+                    src={techStackIcon.imgPath}
+                    alt={techStackIcon.name}
+                  />
+                  <p className="line-clamp-2">{techStackIcon.name}</p>
                 </div>
               </div>
             ))}
