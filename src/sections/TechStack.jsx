@@ -41,9 +41,9 @@ const TechStack = () => {
           sub=""
         />
         <div className="mt-6 md:mt-10">
-          {/* Tech stack icons - 3 rows with 5 items per row */}
+          {/* Tech stack icons - all in one grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-4">
-            {techStackImgs.slice(0, 5).map((techStackIcon, index) => (
+            {techStackImgs.slice(0, 6).map((techStackIcon, index) => (
             <div
               key={index}
               className="tech-card overflow-hidden group rounded-full"
@@ -68,9 +68,9 @@ const TechStack = () => {
 
           {/* Second row */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-4">
-            {techStackImgs.slice(5, 10).map((techStackIcon, index) => (
+            {techStackImgs.slice(6, 12).map((techStackIcon, index) => (
             <div
-              key={index + 5}
+              key={index + 6}
               className="tech-card overflow-hidden group rounded-full"
               style={{ width: '100%', maxWidth: '100px', height: '160px', margin: '0 auto' }} /* Vertical oval/pill shape */
             >
@@ -93,9 +93,9 @@ const TechStack = () => {
 
           {/* Third row */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {techStackImgs.slice(10, 15).map((techStackIcon, index) => (
+            {techStackImgs.slice(12, 15).map((techStackIcon, index) => (
             <div
-              key={index + 10}
+              key={index + 12}
               className="tech-card overflow-hidden group rounded-full"
               style={{ width: '100%', maxWidth: '100px', height: '160px', margin: '0 auto' }} /* Vertical oval/pill shape */
             >
