@@ -28,13 +28,13 @@ const Hero = () => {
             <div className="hero-text">
               <h1 className="flex items-center flex-nowrap whitespace-nowrap mb-2">
                 <span className="word-gradient word-gradient-1 mr-2">Shaping</span>
-                <div className="inline-block h-[40px] md:h-[60px] w-[120px] md:w-[180px] relative overflow-hidden">
+                <div className="inline-block h-[40px] md:h-[60px] w-[210px] md:w-[320px] relative overflow-hidden">
                   <span className="slide">
                     <span className="wrapper">
                       {words.map((word, index) => (
                         <span
                           key={index}
-                          className="flex items-center gap-1 pb-2"
+                          className="flex items-center gap-2 pb-2"
                         >
                           <img
                             src={word.imgPath}
