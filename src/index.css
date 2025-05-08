@@ -90,6 +90,7 @@ section {
 
     h1 {
       @apply flex flex-wrap items-center;
+      white-space: nowrap; /* Prevent line breaks within each h1 */
     }
 
     img {
@@ -444,6 +445,7 @@ section {
   background-size: 300% 100%;
   animation: gradientShift 6s infinite linear;
   font-weight: 700; /* Make gradient text slightly bolder */
+  margin-right: 0.3em; /* Add spacing between words */
 }
 
 .word-gradient-1 {

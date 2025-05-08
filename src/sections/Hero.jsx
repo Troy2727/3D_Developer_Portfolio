@@ -49,13 +49,13 @@ const Hero = () => {
                 </div>
               </h1>
               <h1>
-                <span className="word-gradient word-gradient-2">into</span>{" "}
-                <span className="word-gradient word-gradient-3">Real</span>{" "}
+                <span className="word-gradient word-gradient-2">into</span>
+                <span className="word-gradient word-gradient-3">Real</span>
                 <span className="word-gradient word-gradient-4">Projects</span>
               </h1>
               <h1>
-                <span className="word-gradient word-gradient-1">that</span>{" "}
-                <span className="word-gradient word-gradient-2">Deliver</span>{" "}
+                <span className="word-gradient word-gradient-1">that</span>
+                <span className="word-gradient word-gradient-2">Deliver</span>
                 <span className="word-gradient word-gradient-3">Results</span>
               </h1>
             </div>
