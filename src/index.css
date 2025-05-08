@@ -273,12 +273,14 @@ section {
   .tech-card {
     @apply flex flex-col justify-center items-center transition-all duration-300;
     background-color: #000000;
-    padding: 0.75rem 0.5rem;
+    padding: 0.5rem 0.25rem;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     border: 1px solid #333333;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 90px;
+    flex-shrink: 0;
   }
 
   .tech-card:hover {

@@ -41,78 +41,28 @@ const TechStack = () => {
           sub=""
         />
         <div className="mt-6 md:mt-10">
-          {/* Tech stack icons - first row */}
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-4">
-            {techStackImgs.slice(0, 5).map((techStackIcon, index) => (
-            <div
-              key={index}
-              className="tech-card overflow-hidden group rounded-full"
-              style={{ width: '100%', maxWidth: '100px', height: '160px', margin: '0 auto' }} /* Vertical oval/pill shape */
-            >
-              <div className="tech-card-animated-bg" />
-              <div className="flex flex-col justify-center items-center h-full py-5 relative z-10">
-                <div className="flex justify-center items-center">
-                  <img
-                    src={techStackIcon.imgPath}
-                    alt={techStackIcon.name}
-                    className="w-12 h-12 md:w-14 md:h-14 object-contain transition-transform duration-300 mb-3"
-                  />
-                </div>
-                <div className="w-full text-center px-2">
-                  <p className="text-sm font-semibold text-white-50 truncate">{techStackIcon.name}</p>
-                </div>
-              </div>
-            </div>
-            ))}
-          </div>
-
-          {/* Second row */}
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-4">
-            {techStackImgs.slice(5, 10).map((techStackIcon, index) => (
-            <div
-              key={index + 5}
-              className="tech-card overflow-hidden group rounded-full"
-              style={{ width: '100%', maxWidth: '100px', height: '160px', margin: '0 auto' }} /* Vertical oval/pill shape */
-            >
-              <div className="tech-card-animated-bg" />
-              <div className="flex flex-col justify-center items-center h-full py-5 relative z-10">
-                <div className="flex justify-center items-center">
-                  <img
-                    src={techStackIcon.imgPath}
-                    alt={techStackIcon.name}
-                    className="w-12 h-12 md:w-14 md:h-14 object-contain transition-transform duration-300 mb-3"
-                  />
-                </div>
-                <div className="w-full text-center px-2">
-                  <p className="text-sm font-semibold text-white-50 truncate">{techStackIcon.name}</p>
+          {/* All tech stack icons in a single grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 max-w-[900px] mx-auto">
+            {techStackImgs.map((techStackIcon, index) => (
+              <div
+                key={index}
+                className="tech-card overflow-hidden group rounded-full mx-auto"
+                style={{ width: '90px', height: '160px' }}
+              >
+                <div className="tech-card-animated-bg" />
+                <div className="flex flex-col justify-center items-center h-full py-5 relative z-10">
+                  <div className="flex justify-center items-center">
+                    <img
+                      src={techStackIcon.imgPath}
+                      alt={techStackIcon.name}
+                      className="w-10 h-10 md:w-14 md:h-14 object-contain transition-transform duration-300 mb-3"
+                    />
+                  </div>
+                  <div className="w-full text-center px-1">
+                    <p className="text-xs sm:text-sm font-semibold text-white-50 line-clamp-2">{techStackIcon.name}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            ))}
-          </div>
-
-          {/* Third row */}
-          <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {techStackImgs.slice(10, 15).map((techStackIcon, index) => (
-            <div
-              key={index + 12}
-              className="tech-card overflow-hidden group rounded-full"
-              style={{ width: '100%', maxWidth: '100px', height: '160px', margin: '0 auto' }} /* Vertical oval/pill shape */
-            >
-              <div className="tech-card-animated-bg" />
-              <div className="flex flex-col justify-center items-center h-full py-5 relative z-10">
-                <div className="flex justify-center items-center">
-                  <img
-                    src={techStackIcon.imgPath}
-                    alt={techStackIcon.name}
-                    className="w-12 h-12 md:w-14 md:h-14 object-contain transition-transform duration-300 mb-3"
-                  />
-                </div>
-                <div className="w-full text-center px-2">
-                  <p className="text-sm font-semibold text-white-50 truncate">{techStackIcon.name}</p>
-                </div>
-              </div>
-            </div>
             ))}
           </div>
         </div>
