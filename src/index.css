@@ -764,9 +764,15 @@ section {
   }
 }
 
-/* Explicitly disable card hover effects on touch devices */
+/* Touch device support for cards */
 @media (hover: none) {
-  .card:hover::before, .card:active::before {
+  /* Disable hover effects on touch devices */
+  .card:hover::before {
     opacity: 0;
+  }
+
+  /* Enable touch effects for cards */
+  .card.touched::before {
+    opacity: 1;
   }
 }
