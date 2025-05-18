@@ -15,7 +15,7 @@ const TechStack = () => {
   };
 
   // Handle touch end event with delay
-  const handleTouchEnd = (index) => {
+  const handleTouchEnd = () => {
     // Add a delay before removing the touched state
     setTimeout(() => {
       setTouchedCardIndex(null);
