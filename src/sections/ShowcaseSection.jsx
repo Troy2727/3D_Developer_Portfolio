@@ -5,17 +5,17 @@ import { useGSAP } from "@gsap/react";
 
 // Project links
 const projectLinks = {
+  coeditflow: {
+    github: "https://github.com/Troy2727/coedit_flow.git",
+    vercel: "https://coeditflow.vercel.app"
+  },
   analytica: {
     github: "https://github.com/Troy2727/analytica.git",
     vercel: "https://analytica-phi.vercel.app"
   },
-  brainwave: {
-    github: "https://github.com/Troy2727/brainwave-AI.git",
-    vercel: "https://brainwave-ai-gamma.vercel.app"
-  },
-  prepwise: {
-    github: "https://github.com/Troy2727/ai_mock_interview.git",
-    vercel: "https://ai-mock-interview-nine-ivory.vercel.app"
+  spotify: {
+    github: "https://github.com/Troy2727/spotify_clone.git",
+    vercel: "https://spotify-clone-jade-pi-29.vercel.app"
   }
 };
 
@@ -23,9 +23,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 const AppShowcase = () => {
   const sectionRef = useRef(null);
+  const coeditflowRef = useRef(null);
   const analyticaRef = useRef(null);
-  const brainwaveRef = useRef(null);
-  const prepwiseRef = useRef(null);
+  const spotifyRef = useRef(null);
 
   useGSAP(() => {
     // Animation for the main section
@@ -36,7 +36,7 @@ const AppShowcase = () => {
     );
 
     // Animations for each app showcase
-    const cards = [analyticaRef.current, brainwaveRef.current, prepwiseRef.current];
+    const cards = [coeditflowRef.current, analyticaRef.current, spotifyRef.current];
 
     cards.forEach((card, index) => {
       gsap.fromTo(
@@ -63,24 +63,59 @@ const AppShowcase = () => {
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
         <div className="showcaselayout">
-          <div ref={analyticaRef} className="first-project-wrapper">
+          <div ref={coeditflowRef} className="first-project-wrapper">
             <div className="image-wrapper bg-white p-0">
-              <img src="/images/project1.png" alt="Analytica Analytics Tool" className="max-w-full max-h-full object-contain" />
+              <img src="/images/project1.png" alt="CoEditFlow Collaborative Document Editor" className="max-w-full max-h-full object-contain" />
             </div>
             <div className="text-content">
+              <h2>
+                CoEditFlow - Real-Time Collaborative Document Editor
+              </h2>
+              <p className="text-white-50 md:text-xl">
+                A real-time collaborative document editor inspired by Google Docs, built using modern web technologies to showcase advanced frontend and backend integration.
+                This project demonstrates proficiency in building scalable, real-time applications with a focus on user experience and performance.
+              </p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Next.js</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">TypeScript</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Tailwind CSS</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Socket.io</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">MongoDB</span>
+              </div>
+              <div className="flex gap-4 mt-4">
+                <a href={projectLinks.coeditflow.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                  <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
+                  <span>GitHub</span>
+                </a>
+                <a href={projectLinks.coeditflow.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                  <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
+                  <span>Vercel</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="project-list-wrapper overflow-hidden">
+            <div className="project" ref={analyticaRef}>
+              <div className="image-wrapper bg-white p-0">
+                <img
+                  src="/images/project2.png"
+                  alt="Analytica Analytics Tool"
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
               <h2>
                 Analytica
               </h2>
               <p className="text-white-50 md:text-xl">
                 Analytica is a free and open-source analytics tool that requires just one line of code to set up.
-                It comes with built-in Discord notifications and works seamlessly with any website, giving you all the analytics data you need to make informed decisions.
+                It comes with built-in Discord notifications and works seamlessly with any website.
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Next.js</span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">shadcn/ui</span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Discord</span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Supabase</span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Vercel</span>
               </div>
               <div className="flex gap-4 mt-4">
                 <a href={projectLinks.analytica.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
@@ -93,59 +128,35 @@ const AppShowcase = () => {
                 </a>
               </div>
             </div>
-          </div>
 
-          <div className="project-list-wrapper overflow-hidden">
-            <div className="project" ref={brainwaveRef}>
+            <div className="project" ref={spotifyRef}>
               <div className="image-wrapper bg-white p-0">
                 <img
-                  src="/images/project2.jpg"
-                  alt="Brainwave AI Website"
+                  src="/images/project3.png"
+                  alt="Spotify Clone"
                   className="max-w-full max-h-full object-contain"
                 />
               </div>
-              <h2>Brainwave AI - Modern UI/UX Website</h2>
-              <p className="text-white-50 text-sm mt-2">
-                A modern UI/UX website for an AI platform with sleek animations and responsive design.
+              <h2>
+                Spotify Clone
+              </h2>
+              <p className="text-white-50 md:text-xl">
+                This project combines the power of real-time communication and a sleek music streaming interface to deliver an interactive and enjoyable user experience.
+                With this app, you can listen to music, interact with users, chat in real-time, and manage your albums and songs.
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">React</span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Tailwind CSS</span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Framer Motion</span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Vite</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Node.js</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">MongoDB</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Socket.IO</span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">TypeScript</span>
               </div>
-              <div className="flex gap-4 mt-3">
-                <a href={projectLinks.brainwave.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+              <div className="flex gap-4 mt-4">
+                <a href={projectLinks.spotify.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
                   <span>GitHub</span>
                 </a>
-                <a href={projectLinks.brainwave.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                  <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
-                  <span>Vercel</span>
-                </a>
-              </div>
-            </div>
-
-            <div className="project" ref={prepwiseRef}>
-              <div className="image-wrapper bg-white p-0">
-                <img src="/images/project3.png" alt="Prepwise Interview Platform" className="max-w-full max-h-full object-contain" />
-              </div>
-              <h2>Prepwise: AI Interview Preparation Platform</h2>
-              <p className="text-white-50 text-sm mt-2">
-                An AI-powered platform that helps you prepare for job interviews with realistic mock interviews and personalized feedback.
-              </p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Next.js</span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Vapi</span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Tailwind CSS</span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Firebase</span>
-              </div>
-              <div className="flex gap-4 mt-3">
-                <a href={projectLinks.prepwise.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                  <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
-                  <span>GitHub</span>
-                </a>
-                <a href={projectLinks.prepwise.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.spotify.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
                   <span>Vercel</span>
                 </a>
