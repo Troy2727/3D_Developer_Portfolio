@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 
 // Project links
 const projectLinks = {
-  coeditflow: {
+  livedocs: {
     github: "https://github.com/Troy2727/coedit_flow.git",
     vercel: "https://coeditflow.vercel.app"
   },
@@ -23,7 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const AppShowcase = () => {
   const sectionRef = useRef(null);
-  const coeditflowRef = useRef(null);
+  const livedocsRef = useRef(null);
   const analyticaRef = useRef(null);
   const spotifyRef = useRef(null);
 
@@ -36,7 +36,7 @@ const AppShowcase = () => {
     );
 
     // Animations for each app showcase
-    const cards = [coeditflowRef.current, analyticaRef.current, spotifyRef.current];
+    const cards = [livedocsRef.current, analyticaRef.current, spotifyRef.current];
 
     cards.forEach((card, index) => {
       gsap.fromTo(
@@ -63,17 +63,18 @@ const AppShowcase = () => {
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
         <div className="showcaselayout">
-          <div ref={coeditflowRef} className="first-project-wrapper">
+          <div ref={livedocsRef} className="first-project-wrapper">
             <div className="image-wrapper bg-white p-0">
-              <img src="/images/project1.png" alt="CoEditFlow Collaborative Document Editor" className="max-w-full max-h-full object-contain" />
+              <img src="/images/project1.png" alt="Live Docs Application - Collaborative Document Editor" className="max-w-full max-h-full object-contain" />
             </div>
             <div className="text-content">
               <h2>
-                CoEditFlow - Real-Time Collaborative Document Editor
+                Live Docs Application - Real-Time Collaborative Document Editor
               </h2>
-              <p className="text-white-50 md:text-xl">
-                A real-time collaborative document editor inspired by Google Docs, built using modern web technologies to showcase advanced frontend and backend integration.
-                This project demonstrates proficiency in building scalable, real-time applications with a focus on user experience and performance.
+              <p className="text-white-50 text-base md:text-lg leading-relaxed">
+                📄 Real-Time Collaborative Document Editor
+
+Live Docs Application is a full-featured, real-time collaborative document editor inspired by Google Docs. Built with modern web technologies, it enables multiple users to edit documents simultaneously while showcasing seamless frontend–backend integration. The platform includes live cursors, inline commenting, role-based permissions, and version history — all supported by a scalable real-time infrastructure. This project demonstrates advanced knowledge of state synchronization, WebSockets, access control, and conflict resolution, with a strong focus on performance and user experience.
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Next.js</span>
@@ -83,11 +84,11 @@ const AppShowcase = () => {
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">MongoDB</span>
               </div>
               <div className="flex gap-4 mt-4">
-                <a href={projectLinks.coeditflow.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.livedocs.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
                   <span>GitHub</span>
                 </a>
-                <a href={projectLinks.coeditflow.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.livedocs.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
                   <span>Vercel</span>
                 </a>
@@ -107,9 +108,8 @@ const AppShowcase = () => {
               <h2>
                 Analytica
               </h2>
-              <p className="text-white-50 md:text-xl">
-                Analytica is a free and open-source analytics tool that requires just one line of code to set up.
-                It comes with built-in Discord notifications and works seamlessly with any website.
+              <p className="text-white-50 text-base md:text-lg leading-relaxed">
+                Analytica is a free, open-source analytics and event tracking tool built for developers. With a one-line integration, it enables real-time monitoring of user journeys, custom event tracking, and performance insights. Analytica features Discord notifications out of the box, allowing developers and teams to receive instant alerts about critical user interactions or traffic spikes. Designed to be fast, privacy-conscious, and developer-friendly, it works with any website and can be self-hosted for full control over your data.
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">Next.js</span>
@@ -140,9 +140,8 @@ const AppShowcase = () => {
               <h2>
                 Spotify Clone
               </h2>
-              <p className="text-white-50 md:text-xl">
-                This project combines the power of real-time communication and a sleek music streaming interface to deliver an interactive and enjoyable user experience.
-                With this app, you can listen to music, interact with users, chat in real-time, and manage your albums and songs.
+              <p className="text-white-50 text-base md:text-lg leading-relaxed">
+                This advanced Spotify Clone is more than just a music player — it's a real-time, social streaming platform. Users can stream music, manage albums and playlists, chat live, and see who's online. The app also includes a real-time activity feed, showing what other users are listening to, similar to Spotify's friend activity feature. Built with a focus on interactivity and smooth UX, this project showcases proficiency in media streaming, real-time communication, presence tracking, and dynamic frontend design.
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs">React</span>
