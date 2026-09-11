@@ -1,5 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useMediaQuery } from "react-responsive";
 
 import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
@@ -7,6 +8,8 @@ import { words } from "../constants";
 import HeroExperience from "../components/models/hero_models/HeroExperience";
 
 const Hero = () => {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+
   useGSAP(() => {
     gsap.fromTo(
       ".hero-text h1",
@@ -23,18 +26,18 @@ const Hero = () => {
 
       <div className="hero-layout">
         {/* LEFT: Hero Content */}
-        <header className="flex flex-col justify-center md:w-[45%] w-full md:px-10 px-5 xl:max-w-[45%]">
+        <header className="@container flex flex-col justify-center md:w-[45%] w-full md:px-10 px-5 xl:max-w-[45%]">
           <div className="flex flex-col gap-5 md:gap-7">
             <div className="hero-text">
               <h1 className="flex items-center flex-nowrap whitespace-nowrap mb-2">
-                <span className="word-gradient word-gradient-1 mr-2">Shaping</span>
-                <div className="inline-block h-[40px] md:h-[60px] w-[210px] md:w-[320px] relative overflow-hidden">
+                <span className="text-white font-bold mr-[0.3em]">Shaping</span>
+                <div className="inline-block h-[1.5em] w-[210px] md:w-[calc(4.8em+48px)] relative overflow-hidden">
                   <span className="slide">
                     <span className="wrapper">
                       {words.map((word, index) => (
                         <span
                           key={index}
-                          className="flex items-center gap-2 pb-2"
+                          className="flex items-center gap-2"
                         >
                           <img
                             src={word.imgPath}
@@ -49,14 +52,14 @@ const Hero = () => {
                 </div>
               </h1>
               <h1>
-                <span className="word-gradient word-gradient-2">into</span>
-                <span className="word-gradient word-gradient-3">Real</span>
-                <span className="word-gradient word-gradient-4">Projects</span>
+                <span className="text-white font-bold mr-[0.3em]">into</span>
+                <span className="text-white font-bold mr-[0.3em]">Real</span>
+                <span className="text-white font-bold mr-[0.3em]">Projects</span>
               </h1>
               <h1>
-                <span className="word-gradient word-gradient-1">that</span>
-                <span className="word-gradient word-gradient-2">Deliver</span>
-                <span className="word-gradient word-gradient-3">Results</span>
+                <span className="text-white font-bold mr-[0.3em]">that</span>
+                <span className="text-white font-bold mr-[0.3em]">Deliver</span>
+                <span className="text-white font-bold mr-[0.3em]">Results</span>
               </h1>
             </div>
 
@@ -72,17 +75,18 @@ const Hero = () => {
           </div>
         </header>
 
-        {/* RIGHT: 3D Model or Visual */}
-        <figure className="md:w-[55%] hidden md:flex md:items-center md:justify-center">
-          <div className="hero-3d-layout">
+        {/* RIGHT: 3D Model or Visual - only one canvas is mounted per breakpoint */}
+        {isMobile ? (
+          <div className="w-full h-[40vh] mt-6 relative">
             <HeroExperience />
           </div>
-        </figure>
-
-        {/* Mobile 3D Experience - Improved version */}
-        <div className="md:hidden w-full h-[40vh] mt-6 relative">
-          <HeroExperience />
-        </div>
+        ) : (
+          <figure className="md:w-[55%] flex items-center justify-center">
+            <div className="hero-3d-layout">
+              <HeroExperience />
+            </div>
+          </figure>
+        )}
       </div>
 
       <AnimatedCounter />

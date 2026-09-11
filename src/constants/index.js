@@ -29,7 +29,7 @@ const words = [
 ];
 
 const counterItems = [
-  { value: 1, suffix: "+", label: "Years of Experience" },
+  { value: 2, suffix: "+", label: "Years of Experience" },
   { value: 6, suffix: "+", label: "Satisfied Clients" },
   { value: 12, suffix: "+", label: "Completed Projects" },
   { value: 90, suffix: "%", label: "Client Retention Rate" },
@@ -90,6 +90,7 @@ const abilities = [
 ];
 
 const techStackImgs = [
+  // Markup & styling
   {
     name: "HTML5",
     imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
@@ -99,9 +100,18 @@ const techStackImgs = [
     imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg",
   },
   {
+    name: "Tailwind CSS",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg",
+  },
+  {
+    name: "Bootstrap",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-original.svg",
+  },
+  {
     name: "JavaScript",
     imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
   },
+  // Frontend
   {
     name: "TypeScript",
     imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg",
@@ -115,40 +125,54 @@ const techStackImgs = [
     imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg",
   },
   {
-    name: "Node.js",
-    imgPath: "/images/logos/nodejs-logo-final.svg",
-  },
-  {
     name: "Next.js",
     imgPath: "/images/logos/nextjs.svg",
   },
   {
-    name: "MongoDB",
-    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
+    name: "Three.js",
+    imgPath: "/images/logos/threejs-wireframe.svg",
   },
+  // Backend & databases
   {
-    name: "Firebase",
-    imgPath: "/images/logos/firebase.svg",
-  },
-  {
-    name: "PostgreSQL",
-    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg",
+    name: "Node.js",
+    imgPath: "/images/logos/nodejs-logo-final.svg",
   },
   {
     name: "Python",
     imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
   },
   {
+    name: "Go",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg",
+  },
+  {
+    name: "PostgreSQL",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg",
+  },
+  {
+    name: "MongoDB",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
+  },
+  // Cloud, DevOps & tools
+  {
+    name: "Firebase",
+    imgPath: "/images/logos/firebase.svg",
+  },
+  {
+    name: "AWS",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+  },
+  {
+    name: "Docker",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg",
+  },
+  {
+    name: "Kubernetes",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/kubernetes/kubernetes-original.svg",
+  },
+  {
     name: "Git",
     imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
-  },
-  {
-    name: "Three.js",
-    imgPath: "/images/logos/threejs-wireframe.svg",
-  },
-  {
-    name: "Bootstrap",
-    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-original.svg",
   },
 ];
 
@@ -289,20 +313,19 @@ const testimonials = [
 
 const socialImgs = [
   {
-    name: "insta",
-    imgPath: "/images/insta.png",
+    name: "GitHub",
+    imgPath: "/images/socials/github.svg",
+    url: "https://github.com/Troy2727",
   },
   {
-    name: "fb",
-    imgPath: "/images/fb.png",
+    name: "X",
+    imgPath: "/images/socials/x.svg",
+    url: "https://x.com/AlexMieses27",
   },
   {
-    name: "x",
-    imgPath: "/images/x.png",
-  },
-  {
-    name: "linkedin",
-    imgPath: "/images/linkedin.png",
+    name: "LinkedIn",
+    imgPath: "/images/socials/linkedin.svg",
+    url: "https://www.linkedin.com/in/alexmieses",
   },
 ];
 

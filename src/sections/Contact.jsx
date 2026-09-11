@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
@@ -7,11 +7,34 @@ import ContactExperience from "../components/models/contact/ContactExperience";
 const Contact = () => {
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null); // "success" | "error" | null
   const [form, setForm] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  // Only mount the 3D scene once it scrolls into view, so it doesn't render off-screen
+  const experienceRef = useRef(null);
+  const [showExperience, setShowExperience] = useState(false);
+
+  useEffect(() => {
+    const el = experienceRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShowExperience(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +44,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Show loading state
+    setStatus(null);
 
     try {
       await emailjs.sendForm(
@@ -32,8 +56,10 @@ const Contact = () => {
 
       // Reset form and stop loading
       setForm({ name: "", email: "", message: "" });
+      setStatus("success");
     } catch (error) {
-      console.error("EmailJS Error:", error); // Optional: show toast
+      console.error("EmailJS Error:", error);
+      setStatus("error");
     } finally {
       setLoading(false); // Always stop loading, even on error
     }
@@ -104,12 +130,22 @@ const Contact = () => {
                     </div>
                   </div>
                 </button>
+
+                {status === "success" && (
+                  <p className="text-green-400">Message sent! I’ll get back to you soon.</p>
+                )}
+                {status === "error" && (
+                  <p className="text-red-400">Something went wrong. Please try again later.</p>
+                )}
               </form>
             </div>
           </div>
           <div className="xl:col-span-7 min-h-96">
-            <div className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden">
-              <ContactExperience />
+            <div
+              ref={experienceRef}
+              className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden"
+            >
+              {showExperience && <ContactExperience />}
             </div>
           </div>
         </div>

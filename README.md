@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="public/images/readme.png" alt="Project Banner">
+   <img src="docs/readme.png" alt="Project Banner">
   <br />
 
   <div>

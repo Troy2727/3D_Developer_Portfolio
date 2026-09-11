@@ -65,7 +65,7 @@ const AppShowcase = () => {
         <div className="showcaselayout">
           <div ref={livedocsRef} className="first-project-wrapper">
             <div className="image-wrapper bg-white p-0">
-              <img src="/images/project1.png" alt="Live Docs Application - Collaborative Document Editor" className="max-w-full max-h-full object-contain" />
+              <img src="/images/project1.jpg" alt="Live Docs Application - Collaborative Document Editor" className="max-w-full max-h-full object-contain" />
             </div>
             <div className="text-content">
               <h2>

@@ -9,14 +9,25 @@ const Footer = () => {
         </div>
         <div className="socials mb-4 md:mb-0">
           {socialImgs.map((socialImg, index) => (
-            <div key={index} className="icon">
-              <img src={socialImg.imgPath} alt="social icon" />
-            </div>
+            <a
+              key={index}
+              href={socialImg.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={socialImg.name}
+              className="icon"
+            >
+              <img
+                src={socialImg.imgPath}
+                alt={`${socialImg.name} icon`}
+                className="size-5 md:size-6 object-contain"
+              />
+            </a>
           ))}
         </div>
         <div className="flex flex-col justify-center">
           <p className="text-center md:text-end text-[10px] leading-tight md:text-base">
-            © 2025 Alex Mieses. All rights reserved.
+            © {new Date().getFullYear()} Alex Mieses. All rights reserved.
           </p>
         </div>
       </div>

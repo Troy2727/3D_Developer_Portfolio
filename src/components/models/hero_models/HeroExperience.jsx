@@ -14,7 +14,7 @@ const HeroExperience = () => {
     <Canvas
       camera={{ position: [0, 0, 15], fov: isMobile ? 60 : 45 }} // Wider FOV on mobile
       gl={{ powerPreference: 'high-performance', antialias: false }} // Disable antialiasing on mobile for better performance
-      dpr={isMobile ? 1 : [1, 2]} // Lower resolution on mobile
+      dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling
     >
       {/* deep blue ambient */}
@@ -38,7 +38,7 @@ const HeroExperience = () => {
 
       <Suspense fallback={null}>
         <HeroLights />
-        {!isMobile && <Particles count={isMobile ? 30 : 100} />} {/* Remove particles on mobile */}
+        {!isMobile && <Particles count={100} />} {/* Remove particles on mobile */}
         <group
           scale={isMobile ? 0.8 : 1} // Increased scale on mobile for better visibility
           position={[0, isMobile ? -2.5 : -3.5, 0]} // Adjusted position for better view

@@ -12,7 +12,7 @@ const ContactExperience = () => {
       shadows
       camera={{ position: [0, 2, 8], fov: isMobile ? 50 : 45 }} // Adjusted camera position and FOV for better view
       gl={{ powerPreference: 'high-performance', antialias: false }} // Disable antialiasing on mobile for better performance
-      dpr={isMobile ? 1 : [1, 2]} // Lower resolution on mobile
+      dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling
     >
       <ambientLight intensity={0.5} color="#fff4e6" />

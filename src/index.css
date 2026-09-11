@@ -86,7 +86,8 @@ section {
   }
 
   .hero-text {
-    @apply flex flex-col justify-center md:text-[60px] text-[26px] font-semibold relative z-10 pointer-events-none;
+    /* md+: scale down to fit the header column (widest line ≈ 9.2em + 48px icon/gap), max 60px */
+    @apply flex flex-col justify-center md:text-[length:min(60px,calc((100cqw-48px)/9.4))] text-[26px] font-semibold relative z-10 pointer-events-none;
 
     h1 {
       @apply flex flex-wrap items-center;
@@ -523,7 +524,7 @@ section {
       @apply flex items-center justify-center gap-5;
 
       .icon {
-        @apply border border-black-50 bg-black-100 flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500;
+        @apply border border-white-50/25 bg-black-50 flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500;
       }
 
       img {
@@ -534,7 +535,7 @@ section {
     /* Apply social icon hover effects only on devices that support hover */
     @media (hover: hover) {
       .socials .icon:hover {
-        @apply bg-black-50;
+        @apply bg-black-200 border-white-50/50;
       }
     }
   }
