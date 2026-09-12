@@ -83,7 +83,7 @@ const AppShowcase = () => {
                   Go
                 </span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                  <img src="/images/logos/mysql.svg" alt="" className="w-4 h-4" />
+                  <img src="/images/logos/mysql.svg" alt="" className="w-5 h-5" />
                   MySQL
                 </span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
@@ -95,7 +95,7 @@ const AppShowcase = () => {
                   Stripe
                 </span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="" className="w-4 h-4" />
+                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="" className="w-5 h-5" />
                   Docker
                 </span>
               </div>
