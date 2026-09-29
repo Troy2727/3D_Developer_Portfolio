@@ -4,16 +4,12 @@ const navLinks = [
     link: "#work",
   },
   {
-    name: "Experience",
+    name: "Education",
     link: "#experience",
   },
   {
     name: "Skills",
     link: "#skills",
-  },
-  {
-    name: "Testimonials",
-    link: "#testimonials",
   },
 ];
 
@@ -30,9 +26,7 @@ const words = [
 
 const counterItems = [
   { value: 2, suffix: "+", label: "Years of Experience" },
-  { value: 6, suffix: "+", label: "Satisfied Clients" },
   { value: 12, suffix: "+", label: "Completed Projects" },
-  { value: 90, suffix: "%", label: "Client Retention Rate" },
 ];
 
 const logoIconsList = [
@@ -215,7 +209,7 @@ const expCards = [
     imgPath: "/images/mit-exp1.jpg",
     logoPath: "/images/mit-logo.png",
     title: "React.js Developer",
-    date: "Jan 2024 - Present",
+    date: "Jan 2024 - Sep 2024",
     responsibilities: [
       "Studying and understanding web applications using React.js and other related technologies at MIT xPRO.",
       "Collaborating with fellow students and instructors at MIT xPRO to enhance learning and understanding.",
@@ -228,7 +222,7 @@ const expCards = [
     imgPath: "/images/mit-exp2.jpg",
     logoPath: "/images/mit-logo.png",
     title: "React Native Developer",
-    date: "Jan 2024 - Present",
+    date: "Jan 2024 - Sep 2024",
     responsibilities: [
       "Developing mobile applications using React Native as part of the MIT xPRO curriculum.",
       "Learning to integrate backend services with mobile frontends for complete application functionality.",
@@ -241,7 +235,7 @@ const expCards = [
     imgPath: "/images/mit-exp3.jpg",
     logoPath: "/images/mit-logo.png",
     title: "Full Stack Developer",
-    date: "Jan 2024 - Present",
+    date: "Jan 2024 - Sep 2024",
     responsibilities: [
       "Building complete web applications using the MERN stack (MongoDB, Express, React, Node.js) at MIT xPRO.",
       "Developing RESTful APIs and implementing database design using MongoDB and Mongoose.",
@@ -262,51 +256,6 @@ const expLogos = [
   },
   {
     name: "mit-logo",
-    imgPath: "/images/mit-logo.png",
-  },
-];
-
-const testimonials = [
-  {
-    name: "Dr. Abel Sanchez",
-    mentions: "Research Scientist & Executive Director, MIT Geospatial Data Center",
-    review:
-      "As a Certified Graduate of MIT xPRO's Professional Certificate in Coding, Alex demonstrated exceptional technical skills and problem-solving abilities. His MERN stack projects consistently exceeded our rigorous standards, showcasing both creativity and solid engineering principles.",
-    imgPath: "/images/Dr. Abel Sanchez.png",
-  },
-  {
-    name: "Professor John Williams",
-    mentions: "Professor of Information Engineering and Director of MIT's Geospatial Data Center",
-    review:
-      "Alex's work during the MIT xPRO program exemplified the kind of technical excellence and innovative thinking we aim to foster. His projects demonstrated not only solid coding skills but also a keen understanding of software architecture and user experience design principles.",
-    imgPath: "/images/Professor John Williams.png",
-  },
-  {
-    name: "Maureen Cathey",
-    mentions: "Career Coach, MIT xPRO",
-    review:
-      "Alex's portfolio demonstrates the perfect blend of technical expertise and professional presentation that employers are looking for. His commitment to continuous learning and application of MIT xPRO principles in real-world projects sets him apart from other candidates.",
-    imgPath: "/images/mit-logo.png",
-  },
-  {
-    name: "Ryan Gendel",
-    mentions: "Professor, MIT xPRO",
-    review:
-      "Throughout the MIT xPRO program, Alex consistently demonstrated a deep understanding of full-stack development concepts. His ability to quickly grasp complex topics and implement them in practical applications shows his potential as a developer.",
-    imgPath: "/images/mit-logo.png",
-  },
-  {
-    name: "Dr. Hal Abelson",
-    mentions: "Professor of Computer Science, MIT CSAIL",
-    review:
-      "Alex's MERN stack projects in the MIT xPRO Full Stack Development program demonstrated exceptional technical proficiency. His React components were well-structured, his Node.js implementations were efficient, and his MongoDB database designs showed a deep understanding of data modeling principles.",
-    imgPath: "/images/mit-logo.png",
-  },
-  {
-    name: "Dr. Cynthia Breazeal",
-    mentions: "Professor of Media Arts and Sciences, MIT Media Lab",
-    review:
-      "In the MIT xPRO Full Stack Development program, Alex created impressive full-stack applications that showcased both technical excellence and user-centered design. His ability to integrate MongoDB, Express, React, and Node.js into cohesive, responsive applications demonstrated the kind of full-stack mastery we aim to develop.",
     imgPath: "/images/mit-logo.png",
   },
 ];
@@ -336,7 +285,6 @@ export {
   counterItems,
   expCards,
   expLogos,
-  testimonials,
   socialImgs,
   techStackIcons,
   techStackImgs,

@@ -96,8 +96,8 @@ const Experience = () => {
     >
       <div className="w-full h-full md:px-20 px-5">
         <TitleHeader
-          title="Professional Work Experience"
-          sub="💼 My Career Overview"
+          title="Education"
+          sub="🎓 MIT xPRO Professional Certificate"
         />
         <div className="mt-16 md:mt-32 relative">
           <div className="relative z-50 xl:space-y-32 space-y-6 md:space-y-10">
