@@ -112,7 +112,7 @@ const AppShowcase = () => {
             <div className="project" ref={analyticaRef}>
               <div className="image-wrapper bg-white p-0">
                 <img
-                  src="/images/project2.png"
+                  src="/images/analytica-dashboard.jpg"
                   alt="Analytica Analytics Tool"
                   className="max-w-full max-h-full object-contain"
                 />
