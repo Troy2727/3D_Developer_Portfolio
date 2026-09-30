@@ -63,7 +63,7 @@ const AppShowcase = () => {
       <div className="w-full">
         <div className="showcaselayout">
           <div ref={fanclashRef} className="first-project-wrapper">
-            <div className="image-wrapper p-0">
+            <div className="image-wrapper p-0 h-auto aspect-[5/4]">
               <img src="/images/fanclash.jpg" alt="FanClash - Live Video Debate Arena for Sports Fans" className="max-w-full max-h-full object-contain" />
             </div>
             <div className="text-content">
