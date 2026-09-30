@@ -63,7 +63,7 @@ const AppShowcase = () => {
       <div className="w-full">
         <div className="showcaselayout">
           <div ref={fanclashRef} className="first-project-wrapper">
-            <div className="image-wrapper bg-white p-0">
+            <div className="image-wrapper p-0">
               <img src="/images/fanclash.jpg" alt="FanClash - Live Video Debate Arena for Sports Fans" className="max-w-full max-h-full object-contain" />
             </div>
             <div className="text-content">
@@ -110,7 +110,7 @@ const AppShowcase = () => {
 
           <div className="project-list-wrapper overflow-hidden">
             <div className="project" ref={analyticaRef}>
-              <div className="image-wrapper p-0">
+              <div className="image-wrapper p-0 xl:h-auto xl:aspect-video">
                 <img
                   src="/images/analytica-card.jpg"
                   alt="Analytica Analytics Tool"
@@ -154,7 +154,7 @@ const AppShowcase = () => {
             </div>
 
             <div className="project" ref={livedocsRef}>
-              <div className="image-wrapper bg-white p-0">
+              <div className="image-wrapper p-0">
                 <img
                   src="/images/project1.jpg"
                   alt="Live Docs Application - Collaborative Document Editor"
