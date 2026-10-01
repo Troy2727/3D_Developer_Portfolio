@@ -77,7 +77,7 @@ const Hero = () => {
 
         {/* RIGHT: 3D Model or Visual - only one canvas is mounted per breakpoint */}
         {isMobile ? (
-          <div className="w-full h-[40vh] mt-6 relative">
+          <div className="w-full h-[45vh] mt-6 relative">
             <HeroExperience />
           </div>
         ) : (
