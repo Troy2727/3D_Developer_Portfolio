@@ -82,7 +82,7 @@ section {
   }
 
   .hero-layout {
-    @apply relative z-10 xl:mt-20 mt-16 md:h-dvh h-auto min-h-[70vh] flex xl:items-center items-start justify-center flex-col md:flex-row;
+    @apply relative z-10 xl:mt-20 md:mt-36 mt-16 xl:h-dvh h-auto min-h-[70vh] flex xl:items-center items-start justify-center flex-col xl:flex-row;
   }
 
   .hero-text {
@@ -108,7 +108,8 @@ section {
   }
 
   .hero-3d-layout {
-    @apply xl:w-[70%] w-full h-full min-h-[50vh] absolute xl:-top-20 top-24 xl:-right-20 right-0;
+    /* below xl the room stacks under the text in its own box instead of overlapping it */
+    @apply xl:w-[70%] w-full xl:h-full h-[60vh] xl:min-h-[50vh] relative xl:absolute xl:-top-20 xl:-right-20;
   }
 
   .navbar {

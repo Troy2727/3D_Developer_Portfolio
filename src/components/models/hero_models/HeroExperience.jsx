@@ -8,7 +8,7 @@ import HeroLights from "./HeroLights";
 import Particles from "./Particles";
 
 const HeroExperience = () => {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" }); // below Tailwind's md breakpoint
 
   return (
     <Canvas

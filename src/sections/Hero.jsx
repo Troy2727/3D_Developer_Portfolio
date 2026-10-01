@@ -8,7 +8,7 @@ import { words } from "../constants";
 import HeroExperience from "../components/models/hero_models/HeroExperience";
 
 const Hero = () => {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 767px)" }); // below Tailwind's md breakpoint
 
   useGSAP(() => {
     gsap.fromTo(
@@ -26,7 +26,7 @@ const Hero = () => {
 
       <div className="hero-layout">
         {/* LEFT: Hero Content */}
-        <header className="@container flex flex-col justify-center md:w-[45%] w-full md:px-10 px-5 xl:max-w-[45%]">
+        <header className="@container flex flex-col justify-center xl:w-[45%] w-full md:px-10 px-5 xl:max-w-[45%]">
           <div className="flex flex-col gap-5 md:gap-7">
             <div className="hero-text">
               <h1 className="flex items-center flex-nowrap whitespace-nowrap mb-2">
@@ -81,7 +81,7 @@ const Hero = () => {
             <HeroExperience />
           </div>
         ) : (
-          <figure className="md:w-[55%] flex items-center justify-center">
+          <figure className="xl:w-[55%] w-full flex items-center justify-center">
             <div className="hero-3d-layout">
               <HeroExperience />
             </div>
