@@ -121,7 +121,7 @@ const AppShowcase = () => {
                 Analytica
               </h2>
               <p className="text-white-50 text-base md:text-lg leading-relaxed">
-                Analytica is a free, open-source analytics and event tracking tool built for developers. With a one-line integration, it enables real-time monitoring of user journeys, custom event tracking, and performance insights. Analytica features Discord notifications out of the box, allowing developers and teams to receive instant alerts about critical user interactions or traffic spikes. Designed to be fast, privacy-conscious, and developer-friendly, it works with any website and can be self-hosted for full control over your data.
+                Analytica is a free, open-source web analytics tool that installs with one line of code. It tracks visitors, custom events, and performance in real time, sends Discord alerts for the moments that matter, and can be self-hosted for full control over your data.
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
@@ -154,9 +154,9 @@ const AppShowcase = () => {
             </div>
 
             <div className="project" ref={livedocsRef}>
-              <div className="image-wrapper p-0">
+              <div className="image-wrapper p-0 xl:h-auto xl:aspect-video">
                 <img
-                  src="/images/project1.jpg"
+                  src="/images/livedocs-card.jpg"
                   alt="Live Docs Application - Collaborative Document Editor"
                   className="max-w-full max-h-full object-contain"
                 />
@@ -165,7 +165,7 @@ const AppShowcase = () => {
                 Live Docs - Real-Time Collaborative Document Editor
               </h2>
               <p className="text-white-50 text-base md:text-lg leading-relaxed">
-                Live Docs Application is a full-featured, real-time collaborative document editor inspired by Google Docs. Built with modern web technologies, it enables multiple users to edit documents simultaneously while showcasing seamless frontend–backend integration. The platform includes live cursors, inline commenting, role-based permissions, and version history — all supported by a scalable real-time infrastructure. This project demonstrates advanced knowledge of state synchronization, WebSockets, access control, and conflict resolution, with a strong focus on performance and user experience.
+                Live Docs is a real-time collaborative editor where several people write in the same document at once, with live cursors, comment threads, role-based sharing, and version history. Built on Lexical and Liveblocks with Clerk auth, it adds tables and images, and a Playwright end-to-end suite runs on every pull request.
               </p>
               <div className="flex flex-wrap gap-2 mt-3">
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
@@ -181,12 +181,12 @@ const AppShowcase = () => {
                   Tailwind CSS
                 </span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                  <img src="/images/logos/socketio.svg" alt="" className="w-4 h-4" />
-                  Socket.io
+                  <img src="/images/logos/liveblocks.svg" alt="" className="w-4 h-4" />
+                  Liveblocks
                 </span>
                 <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg" alt="" className="w-4 h-4" />
-                  MongoDB
+                  <img src="/images/logos/clerk.svg" alt="" className="w-4 h-4" />
+                  Clerk
                 </span>
               </div>
               <div className="flex gap-4 mt-4">
