@@ -205,45 +205,46 @@ const AppShowcase = () => {
                 </a>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="project" ref={nexoraRef}>
-              <div className="image-wrapper p-0 xl:h-auto xl:aspect-video">
-                <img
-                  src="/images/nexora-card.jpg"
-                  alt="NEXORA Task Manager Dashboard"
-                  className="max-w-full max-h-full object-contain"
-                />
-              </div>
-              <h2>
-                NEXORA - Full-Stack Task Manager for Teams
-              </h2>
-              <p className="text-white-50 text-base md:text-lg leading-relaxed">
-                NEXORA takes every task from idea to done: a kanban board with enforced status rules, a calendar, reports with CSV export, focus timers and goals, plus team invites, roles, and chat. The FastAPI and PostgreSQL backend keeps every task private to its owner, and an 81-test pytest suite runs in CI.
-              </p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                  <img src="/images/logos/python.svg" alt="" className="w-4 h-4" />
-                  Python
-                </span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" alt="" className="w-4 h-4" />
-                  FastAPI
-                </span>
-                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="" className="w-4 h-4" />
-                  PostgreSQL
-                </span>
-              </div>
-              <div className="flex gap-4 mt-4">
-                <a href={projectLinks.nexora.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                  <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
-                  <span>GitHub</span>
-                </a>
-                <a href={projectLinks.nexora.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                  <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
-                  <span>Vercel</span>
-                </a>
-              </div>
+        <div ref={nexoraRef} className="wide-project">
+          <div className="image-wrapper">
+            <img
+              src="/images/nexora-card.jpg"
+              alt="NEXORA Task Manager Dashboard"
+            />
+          </div>
+          <div className="text-content">
+            <h2>
+              NEXORA - Full-Stack Task Manager for Teams
+            </h2>
+            <p className="text-white-50 text-base md:text-lg leading-relaxed">
+              NEXORA takes every task from idea to done: a kanban board with enforced status rules, a calendar, reports with CSV export, focus timers and goals, plus team invites, roles, and chat. The FastAPI and PostgreSQL backend keeps every task private to its owner, and an 81-test pytest suite runs in CI.
+            </p>
+            <div className="flex flex-wrap gap-2 mt-3">
+              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                <img src="/images/logos/python.svg" alt="" className="w-4 h-4" />
+                Python
+              </span>
+              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" alt="" className="w-4 h-4" />
+                FastAPI
+              </span>
+              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="" className="w-4 h-4" />
+                PostgreSQL
+              </span>
+            </div>
+            <div className="flex gap-4 mt-4">
+              <a href={projectLinks.nexora.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
+                <span>GitHub</span>
+              </a>
+              <a href={projectLinks.nexora.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
+                <span>Vercel</span>
+              </a>
             </div>
           </div>
         </div>
