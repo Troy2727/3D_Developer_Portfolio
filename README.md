@@ -74,11 +74,7 @@ The site is a single landing page built around an interactive 3D room you can ro
 
 <p align="center">
   <a href="docs/diagrams/architecture-dark.svg" title="Open this diagram full size">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/architecture-dark.gif" />
-      <source media="(prefers-color-scheme: light)" srcset="docs/diagrams/architecture-light.gif" />
-      <img src="docs/diagrams/architecture-light.gif" alt="How alexportfolio.net works: a visitor loads a single-page React 19 app in the browser, which renders the Three.js 3D scenes, runs GSAP scroll animations, and sends the contact form through EmailJS. Every push to main on GitHub is linted and built by GitHub Actions and deployed by Vercel." width="100%" />
-    </picture>
+    <img src="docs/diagrams/architecture-dark.gif" alt="How alexportfolio.net works: a visitor loads a single-page React 19 app in the browser, which renders the Three.js 3D scenes, runs GSAP scroll animations, and sends the contact form through EmailJS. Every push to main on GitHub is linted and built by GitHub Actions and deployed by Vercel." width="100%" />
   </a>
 </p>
 
