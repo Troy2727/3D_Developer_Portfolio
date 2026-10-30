@@ -118,7 +118,7 @@ const AppShowcase = () => {
                 </span>
               </div>
               <div className="flex gap-4 mt-4">
-                <a href={projectLinks.fanclash.live} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.fanclash.live} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/vercel-circle.svg" alt="Live Site" className="w-6 h-6" />
                   <span>Live Site</span>
                 </a>
@@ -164,11 +164,11 @@ const AppShowcase = () => {
                 </span>
               </div>
               <div className="flex gap-4 mt-4">
-                <a href={projectLinks.voxwell.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.voxwell.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
                   <span>GitHub</span>
                 </a>
-                <a href={projectLinks.voxwell.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.voxwell.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
                   <span>Vercel</span>
                 </a>
@@ -208,11 +208,11 @@ const AppShowcase = () => {
                 </span>
               </div>
               <div className="flex gap-4 mt-4">
-                <a href={projectLinks.analytica.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.analytica.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
                   <span>GitHub</span>
                 </a>
-                <a href={projectLinks.analytica.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.analytica.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
                   <span>Vercel</span>
                 </a>
@@ -259,11 +259,11 @@ const AppShowcase = () => {
                 </span>
               </div>
               <div className="flex gap-4 mt-auto pt-4">
-                <a href={projectLinks.livedocs.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.livedocs.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
                   <span>GitHub</span>
                 </a>
-                <a href={projectLinks.livedocs.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.livedocs.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
                   <span>Vercel</span>
                 </a>
@@ -300,11 +300,11 @@ const AppShowcase = () => {
                 </span>
               </div>
               <div className="flex gap-4 mt-auto pt-4">
-                <a href={projectLinks.nexora.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.nexora.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
                   <span>GitHub</span>
                 </a>
-                <a href={projectLinks.nexora.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                <a href={projectLinks.nexora.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 min-h-11 text-white-50 hover:text-white transition-colors">
                   <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
                   <span>Vercel</span>
                 </a>

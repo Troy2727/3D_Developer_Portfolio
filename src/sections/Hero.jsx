@@ -48,7 +48,9 @@ const Hero = () => {
             />
 
             {/* Proof on the first screen, next to the call to action */}
-            <ul className="grid grid-cols-3 gap-2 md:gap-3 max-w-xl">
+            {/* One row of three cards when there's room (≥340px), a stacked list on the narrowest phones */}
+            <div className="@container/proof">
+            <ul className="grid grid-cols-1 @min-[340px]/proof:grid-cols-3 gap-2 md:gap-3 max-w-xl">
               <li className="@container">
                 <div className="proof-item">
                   <span className="proof-icon bg-red-400/10 border-red-400/25 text-red-400">
@@ -102,6 +104,7 @@ const Hero = () => {
                 </div>
               </li>
             </ul>
+            </div>
           </div>
         </header>
 

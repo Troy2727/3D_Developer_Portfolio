@@ -51,7 +51,7 @@ const NavBar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden flex flex-col justify-center items-center gap-1.5 z-50 p-2"
+          className="lg:hidden flex flex-col justify-center items-center gap-1.5 z-50 p-2 size-11"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle mobile menu"
         >

@@ -26,7 +26,7 @@ const Footer = () => {
           ))}
         </div>
         <div className="flex flex-col justify-center">
-          <p className="text-center md:text-end text-[10px] leading-tight md:text-base">
+          <p className="text-center md:text-end text-xs leading-tight md:text-base">
             © {new Date().getFullYear()} Alex Mieses. All rights reserved.
           </p>
         </div>
