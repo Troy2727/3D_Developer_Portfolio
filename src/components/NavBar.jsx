@@ -32,7 +32,7 @@ const NavBar = () => {
     <header className={`navbar ${scrolled ? "scrolled" : "not-scrolled"}`}>
       <div className="inner max-w-7xl mx-auto">
         <a href="#hero" className="logo">
-          Alex JSMaestro
+          Alex Mieses
         </a>
 
         {/* Desktop Navigation */}
@@ -63,7 +63,7 @@ const NavBar = () => {
         {/* Mobile Navigation */}
         <div className={`fixed top-0 left-0 w-full h-full bg-black z-50 lg:hidden transition-all duration-300 ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`} style={{ minHeight: '100vh' }}>
           <div className="flex justify-between items-center p-6">
-            <a href="#hero" className="text-white text-2xl font-bold">Alex JSMaestro</a>
+            <a href="#hero" className="text-white text-2xl font-bold">Alex Mieses</a>
             <button
               className="text-white p-2"
               onClick={() => setMobileMenuOpen(false)}

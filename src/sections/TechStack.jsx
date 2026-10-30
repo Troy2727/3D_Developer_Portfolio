@@ -55,7 +55,7 @@ const TechStack = () => {
       <div className="w-full h-full md:px-10 px-5">
         <TitleHeader
           title="My Preferred Tech Stack"
-          sub=""
+          sub="🛠️ Tools I build with"
         />
         <div className="mt-6 md:mt-10">
           {/* All tech stack icons in a single grid */}

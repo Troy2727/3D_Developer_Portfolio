@@ -13,17 +13,6 @@ const navLinks = [
   },
 ];
 
-const words = [
-  { text: "Ideas", imgPath: "/images/ideas.svg" },
-  { text: "Concepts", imgPath: "/images/concepts.svg" },
-  { text: "Designs", imgPath: "/images/designs.svg" },
-  { text: "Code", imgPath: "/images/code.svg" },
-  { text: "Ideas", imgPath: "/images/ideas.svg" },
-  { text: "Concepts", imgPath: "/images/concepts.svg" },
-  { text: "Designs", imgPath: "/images/designs.svg" },
-  { text: "Code", imgPath: "/images/code.svg" },
-];
-
 const counterItems = [
   { value: 2, suffix: "+", label: "Years of Experience" },
   { value: 12, suffix: "+", label: "Completed Projects" },
@@ -118,7 +107,7 @@ const techStackImgs = [
   },
   {
     name: "AWS",
-    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+    imgPath: "https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-plain.svg",
   },
   {
     name: "Docker",
@@ -243,7 +232,6 @@ const socialImgs = [
 ];
 
 export {
-  words,
   abilities,
   counterItems,
   expCards,

@@ -4,7 +4,6 @@ import { useMediaQuery } from "react-responsive";
 
 import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
-import { words } from "../constants";
 import HeroExperience from "../components/models/hero_models/HeroExperience";
 
 const Hero = () => {
@@ -29,42 +28,17 @@ const Hero = () => {
         <header className="@container flex flex-col justify-center xl:w-[45%] w-full md:px-10 px-5 xl:max-w-[45%]">
           <div className="flex flex-col gap-5 md:gap-7">
             <div className="hero-text">
-              <h1 className="flex items-center flex-nowrap whitespace-nowrap mb-2">
-                <span className="text-white font-bold mr-[0.3em]">Shaping</span>
-                <div className="inline-block h-[1.5em] w-[210px] md:w-[calc(4.8em+48px)] relative overflow-hidden">
-                  <span className="slide">
-                    <span className="wrapper">
-                      {words.map((word, index) => (
-                        <span
-                          key={index}
-                          className="flex items-center gap-2"
-                        >
-                          <img
-                            src={word.imgPath}
-                            alt="person"
-                            className="xl:size-10 md:size-8 size-6 p-1 rounded-full bg-white-50"
-                          />
-                          <span className={`word-gradient word-gradient-${(index % 4) + 1}`}>{word.text}</span>
-                        </span>
-                      ))}
-                    </span>
-                  </span>
-                </div>
+              <h1>
+                <span className="text-white font-bold">Full-stack engineer</span>
               </h1>
               <h1>
-                <span className="text-white font-bold mr-[0.3em]">into</span>
-                <span className="text-white font-bold mr-[0.3em]">Real</span>
-                <span className="text-white font-bold mr-[0.3em]">Projects</span>
-              </h1>
-              <h1>
-                <span className="text-white font-bold mr-[0.3em]">that</span>
-                <span className="text-white font-bold mr-[0.3em]">Deliver</span>
-                <span className="text-white font-bold mr-[0.3em]">Results</span>
+                <span className="text-white font-bold mr-[0.3em]">who ships</span>
+                <span className="word-gradient word-gradient-2">real products.</span>
               </h1>
             </div>
 
-            <p className="text-white-50 text-sm md:text-lg relative z-10 pointer-events-none max-w-full md:max-w-[95%]">
-              Hi, I'm Alex. As a certified graduate of MIT xPRO's Professional Certificate in Coding: Full Stack Development with MERN. I specialize in Python, JavaScript, TypeScript, React, and Three.js many more development.
+            <p className="text-white-50 text-base md:text-lg relative z-10 pointer-events-none max-w-full md:max-w-[95%]">
+              Hi, I'm Alex. I build production apps end to end in Go, Python, TypeScript, and React, from live video platforms to local AI tools.
             </p>
 
             <Button
@@ -72,6 +46,21 @@ const Hero = () => {
               className="md:w-80 md:h-16 w-full h-12 mt-2"
               id="counter"
             />
+
+            {/* Proof on the first screen, next to the call to action */}
+            <ul className="flex flex-wrap items-center gap-x-5 gap-y-3 text-white-50 text-sm md:text-base">
+              <li>🎓 MIT xPRO Certified</li>
+              <li className="flex items-center gap-2">
+                <span className="size-2 rounded-full bg-green-400" />
+                <span>
+                  Founder of{" "}
+                  <a href="https://fanclash.io" target="_blank" rel="noopener noreferrer" className="text-white underline underline-offset-4 hover:text-white-50">
+                    FanClash
+                  </a>
+                </span>
+              </li>
+              <li>12+ completed projects</li>
+            </ul>
           </div>
         </header>
 

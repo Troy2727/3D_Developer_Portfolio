@@ -3,6 +3,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
+import TitleHeader from "../components/TitleHeader";
+
 // Project links
 const projectLinks = {
   fanclash: {
@@ -71,6 +73,12 @@ const AppShowcase = () => {
   return (
     <div id="work" ref={sectionRef} className="app-showcase">
       <div className="w-full">
+        <div className="mb-8 md:mb-16">
+          <TitleHeader
+            title="Selected Work"
+            sub="🚀 Products I've built and shipped"
+          />
+        </div>
         <div className="showcaselayout">
           <div ref={fanclashRef} className="first-project-wrapper">
             <div className="image-wrapper p-0 h-auto aspect-[5/4]">
