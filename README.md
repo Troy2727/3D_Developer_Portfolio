@@ -3,9 +3,17 @@
   <br />
 
   <div>
-    <img src="https://img.shields.io/badge/-Three.js-black?style=for-the-badge&logo=three.js&logoColor=white" />
+    <img src="https://img.shields.io/badge/-React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+    <img src="https://img.shields.io/badge/-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+    <img src="https://img.shields.io/badge/-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+    <img src="https://img.shields.io/badge/-Three.js-black?style=for-the-badge&logo=threedotjs&logoColor=white" />
+    <img src="https://img.shields.io/badge/-React_Three_Fiber-black?style=for-the-badge&logo=threedotjs&logoColor=white" />
     <img src="https://img.shields.io/badge/-GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white" />
-    <img src="https://img.shields.io/badge/-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+    <img src="https://img.shields.io/badge/-Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white" />
+    <img src="https://img.shields.io/badge/-EmailJS-FF9E0F?style=for-the-badge" />
+    <img src="https://img.shields.io/badge/-ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" />
+    <img src="https://img.shields.io/badge/-GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" />
+    <img src="https://img.shields.io/badge/-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white" />
   </div>
 
   <h3 align="center">Interactive 3D Portfolio Website</h3>
