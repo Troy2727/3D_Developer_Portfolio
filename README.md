@@ -2,9 +2,7 @@
   <a href="docs/hero-2026-10.jpg" title="Click to see full size">
     <img src="docs/hero-2026-10.jpg" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D room" />
   </a>
-  <br />
-  <sub>Click the screenshot to see it full size.</sub>
-  <br />
+  <p><sub>Click the screenshot to see it full size.</sub></p>
 
   <div>
     <img src="https://img.shields.io/badge/-React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
