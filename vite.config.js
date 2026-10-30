@@ -36,9 +36,11 @@ export default defineConfig({
     chunkSizeWarningLimit: 1600,
     rollupOptions: {
       output: {
+        // three.js is left out on purpose: forcing it into one chunk also pulled React's
+        // runtime into that chunk, so the page had to download all of three.js before
+        // first paint. Rollup now keeps it in the lazily loaded 3D scene chunks.
         manualChunks: {
           'react-vendor': ['react', 'react-dom'],
-          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
         }
       }
     }

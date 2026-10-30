@@ -40,8 +40,8 @@ const HeroExperience = () => {
         <HeroLights />
         {!isMobile && <Particles count={100} />} {/* Remove particles on mobile */}
         <group
-          scale={isMobile ? 1.1 : 1} // Larger on mobile so the room fills the screen width
-          position={[0, isMobile ? -3.2 : -3.5, 0]} // Adjusted position for better view
+          scale={isMobile ? 1.5 : 1} // Larger on mobile so the room fills the screen width
+          position={[0, isMobile ? -4.2 : -3.5, 0]} // Adjusted position for better view
           rotation={[0, -Math.PI / 4, 0]}
         >
           <Room />

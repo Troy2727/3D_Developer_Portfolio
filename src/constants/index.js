@@ -20,19 +20,19 @@ const counterItems = [
 
 const abilities = [
   {
-    imgPath: "/images/seo.png",
-    title: "Quality Focus",
-    desc: "Delivering high-quality results while maintaining attention to every detail.",
+    imgPath: "/images/feature-realtime.svg",
+    title: "Real-Time Platforms",
+    desc: "Live video rooms, chat, and audience voting in Go and React, running in production at FanClash.",
   },
   {
-    imgPath: "/images/chat.png",
-    title: "Reliable Communication",
-    desc: "Keeping you updated at every step to ensure transparency and clarity.",
+    imgPath: "/images/feature-local-ai.svg",
+    title: "Local AI Tools",
+    desc: "Voice cloning, dubbing, and transcription that run on your own machine, open-sourced as Voxwell.",
   },
   {
-    imgPath: "/images/time.png",
-    title: "On-Time Delivery",
-    desc: "Making sure projects are completed on schedule, with quality & attention to detail.",
+    imgPath: "/images/feature-fullstack.svg",
+    title: "Full-Stack Products",
+    desc: "Analytics, collaborative docs, and team tools, from database and auth to dashboard and tests.",
   },
 ];
 
@@ -161,7 +161,7 @@ const expCards = [
     review: "As a certified graduate of MIT xPRO, I've gained comprehensive knowledge in modern web development technologies and best practices.",
     imgPath: "/images/mit-exp1.jpg",
     logoPath: "/images/mit-logo.png",
-    title: "React.js Developer",
+    title: "React.js Development",
     date: "Jan 2024 - Sep 2024",
     responsibilities: [
       "Studying and understanding web applications using React.js and other related technologies at MIT xPRO.",
@@ -174,7 +174,7 @@ const expCards = [
     review: "My experience at MIT xPRO has provided me with valuable skills in developing cross-platform mobile applications.",
     imgPath: "/images/mit-exp2.jpg",
     logoPath: "/images/mit-logo.png",
-    title: "React Native Developer",
+    title: "React Native Development",
     date: "Jan 2024 - Sep 2024",
     responsibilities: [
       "Developing mobile applications using React Native as part of the MIT xPRO curriculum.",
@@ -187,7 +187,7 @@ const expCards = [
     review: "The MIT xPRO program has equipped me with full stack development skills that are directly applicable to real-world projects.",
     imgPath: "/images/mit-exp3.jpg",
     logoPath: "/images/mit-logo.png",
-    title: "Full Stack Developer",
+    title: "Full Stack Development (MERN)",
     date: "Jan 2024 - Sep 2024",
     responsibilities: [
       "Building complete web applications using the MERN stack (MongoDB, Express, React, Node.js) at MIT xPRO.",

@@ -1,10 +1,13 @@
+import { lazy, Suspense } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useMediaQuery } from "react-responsive";
 
 import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
-import HeroExperience from "../components/models/hero_models/HeroExperience";
+
+// Loaded after first paint so the headline doesn't wait on the 3D library
+const HeroExperience = lazy(() => import("../components/models/hero_models/HeroExperience"));
 
 const Hero = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" }); // below Tailwind's md breakpoint
@@ -111,12 +114,16 @@ const Hero = () => {
         {/* RIGHT: 3D Model or Visual - only one canvas is mounted per breakpoint */}
         {isMobile ? (
           <div className="w-full h-[45vh] mt-6 relative">
-            <HeroExperience />
+            <Suspense fallback={null}>
+              <HeroExperience />
+            </Suspense>
           </div>
         ) : (
           <figure className="xl:w-[55%] w-full flex items-center justify-center">
             <div className="hero-3d-layout">
-              <HeroExperience />
+              <Suspense fallback={null}>
+                <HeroExperience />
+              </Suspense>
             </div>
           </figure>
         )}

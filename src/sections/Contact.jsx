@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
 
 import TitleHeader from "../components/TitleHeader";
-import ContactExperience from "../components/models/contact/ContactExperience";
+
+// Loaded only when the section scrolls into view
+const ContactExperience = lazy(() => import("../components/models/contact/ContactExperience"));
 
 const Contact = () => {
   const formRef = useRef(null);
@@ -145,7 +147,11 @@ const Contact = () => {
               ref={experienceRef}
               className="bg-[#cd7c2e] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden"
             >
-              {showExperience && <ContactExperience />}
+              {showExperience && (
+                <Suspense fallback={null}>
+                  <ContactExperience />
+                </Suspense>
+              )}
             </div>
           </div>
         </div>
