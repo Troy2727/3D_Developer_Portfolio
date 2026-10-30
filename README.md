@@ -46,7 +46,7 @@ The site is a single landing page built around an interactive 3D room you can ro
 
 ## <a name="selected-work">🚀 Selected Work</a>
 
-<img src="docs/screenshot-work.jpg" alt="The Selected Work section with the FanClash and Voxwell project cards" />
+<img src="docs/screenshot-work.jpg" alt="Project gallery: FanClash as the flagship, with Voxwell, Analytica, Live Docs, and NEXORA, each showing its name, a one-line description, and its tech stack" />
 
 | Project | What it is | Stack | Links |
 |---|---|---|---|
