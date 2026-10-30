@@ -75,7 +75,7 @@ The site is a single landing page built around an interactive 3D room you can ro
 ## <img src="docs/icons/tech-stack.svg" width="28" height="28" align="top" alt="" /> <a name="tech-stack">Tech Stack</a>
 
 <p align="center">
-  <a href="docs/diagrams/architecture-dark.svg" title="Click to see full size">
+  <a href="docs/diagrams/architecture-dark.gif" title="Click to see full size">
     <img src="docs/diagrams/architecture-dark.gif" alt="How alexportfolio.net works: a visitor loads a single-page React 19 app in the browser, which renders the Three.js 3D scenes, runs GSAP scroll animations, and sends the contact form through EmailJS. Every push to main on GitHub is linted and built by GitHub Actions and deployed by Vercel." width="100%" />
   </a>
 </p>
