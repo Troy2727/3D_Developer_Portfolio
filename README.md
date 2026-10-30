@@ -1,7 +1,9 @@
 <div align="center">
-  <a href="https://www.alexportfolio.net/">
+  <a href="docs/hero-2026-10.jpg" title="Click to see full size">
     <img src="docs/hero-2026-10.jpg" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D room" />
   </a>
+  <br />
+  <sub>Click the screenshot to see it full size.</sub>
   <br />
 
   <div>
@@ -46,7 +48,9 @@ The site is a single landing page built around an interactive 3D room you can ro
 
 ## <img src="docs/icons/selected-work.svg" width="28" height="28" align="top" alt="" /> <a name="selected-work">Selected Work</a>
 
-<img src="docs/screenshot-work.jpg" alt="Project gallery: FanClash as the flagship, with Voxwell, Analytica, Live Docs, and NEXORA, each showing its name, a one-line description, and its tech stack" />
+<a href="docs/screenshot-work.jpg" title="Click to see full size"><img src="docs/screenshot-work.jpg" alt="Project gallery: FanClash as the flagship, with Voxwell, Analytica, Live Docs, and NEXORA, each showing its name, a one-line description, and its tech stack" /></a>
+
+<p align="center"><sub>Click the gallery to see it full size.</sub></p>
 
 | Project | What it is | Stack | Links |
 |---|---|---|---|
@@ -73,10 +77,12 @@ The site is a single landing page built around an interactive 3D room you can ro
 ## <img src="docs/icons/tech-stack.svg" width="28" height="28" align="top" alt="" /> <a name="tech-stack">Tech Stack</a>
 
 <p align="center">
-  <a href="docs/diagrams/architecture-dark.svg" title="Open this diagram full size">
+  <a href="docs/diagrams/architecture-dark.svg" title="Click to see full size">
     <img src="docs/diagrams/architecture-dark.gif" alt="How alexportfolio.net works: a visitor loads a single-page React 19 app in the browser, which renders the Three.js 3D scenes, runs GSAP scroll animations, and sends the contact form through EmailJS. Every push to main on GitHub is linted and built by GitHub Actions and deployed by Vercel." width="100%" />
   </a>
 </p>
+
+<p align="center"><sub>Click the diagram to see it full size.</sub></p>
 
 - **UI:** React 19, Vite, Tailwind CSS v4
 - **3D:** Three.js, React Three Fiber, Drei, React Three Postprocessing
