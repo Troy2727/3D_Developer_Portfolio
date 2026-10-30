@@ -44,7 +44,7 @@ const Hero = () => {
             <Button
               text="See My Work"
               className="md:w-80 md:h-16 w-full h-12 mt-2"
-              id="counter"
+              id="work"
             />
 
             {/* Proof on the first screen, next to the call to action */}
@@ -59,7 +59,7 @@ const Hero = () => {
                   </a>
                 </span>
               </li>
-              <li>12+ completed projects</li>
+              <li>18+ completed projects</li>
             </ul>
           </div>
         </header>

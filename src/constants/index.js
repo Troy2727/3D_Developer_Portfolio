@@ -15,7 +15,7 @@ const navLinks = [
 
 const counterItems = [
   { value: 2, suffix: "+", label: "Years of Experience" },
-  { value: 12, suffix: "+", label: "Completed Projects" },
+  { value: 18, suffix: "+", label: "Completed Projects" },
 ];
 
 const abilities = [
