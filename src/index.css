@@ -240,11 +240,15 @@ section {
       }
     }
 
-    .wide-project {
-      @apply flex xl:flex-row flex-col gap-3 md:gap-5 xl:gap-10 justify-between mt-6 md:mt-10 xl:mt-24;
+    .paired-projects {
+      @apply grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mt-6 md:mt-10 xl:mt-24;
+
+      .project {
+        @apply flex flex-col;
+      }
 
       .image-wrapper {
-        @apply xl:w-[60%] aspect-video rounded-xl overflow-hidden;
+        @apply aspect-video rounded-xl overflow-hidden;
 
         img {
           @apply w-full h-full object-contain rounded-xl;
@@ -252,7 +256,7 @@ section {
       }
 
       .text-content {
-        @apply xl:w-[40%];
+        @apply flex flex-col flex-1 mt-3 md:mt-5;
 
         h2 {
           @apply text-base md:text-xl lg:text-2xl font-semibold;

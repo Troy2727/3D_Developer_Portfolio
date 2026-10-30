@@ -213,92 +213,94 @@ const AppShowcase = () => {
           </div>
         </div>
 
-        <div ref={livedocsRef} className="wide-project">
-          <div className="image-wrapper">
-            <img
-              src="/images/livedocs-card.jpg"
-              alt="Live Docs Application - Collaborative Document Editor"
-            />
-          </div>
-          <div className="text-content">
-            <h2>
-              Live Docs - Real-Time Collaborative Document Editor
-            </h2>
-            <p className="text-white-50 text-base md:text-lg leading-relaxed">
-              Live Docs is a real-time collaborative editor where several people write in the same document at once, with live cursors, comment threads, role-based sharing, and version history. Built on Lexical and Liveblocks with Clerk auth, it adds tables and images, and a Playwright end-to-end suite runs on every pull request.
-            </p>
-            <div className="flex flex-wrap gap-2 mt-3">
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="/images/logos/nextjs.svg" alt="" className="w-4 h-4" />
-                Next.js
-              </span>
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="" className="w-4 h-4" />
-                TypeScript
-              </span>
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg" alt="" className="w-4 h-4" />
-                Tailwind CSS
-              </span>
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="/images/logos/liveblocks.svg" alt="" className="w-4 h-4" />
-                Liveblocks
-              </span>
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="/images/logos/clerk.svg" alt="" className="w-4 h-4" />
-                Clerk
-              </span>
+        <div className="paired-projects">
+          <div ref={livedocsRef} className="project">
+            <div className="image-wrapper">
+              <img
+                src="/images/livedocs-card.jpg"
+                alt="Live Docs Application - Collaborative Document Editor"
+              />
             </div>
-            <div className="flex gap-4 mt-4">
-              <a href={projectLinks.livedocs.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
-                <span>GitHub</span>
-              </a>
-              <a href={projectLinks.livedocs.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
-                <span>Vercel</span>
-              </a>
+            <div className="text-content">
+              <h2>
+                Live Docs - Real-Time Collaborative Document Editor
+              </h2>
+              <p className="text-white-50 text-base md:text-lg leading-relaxed">
+                Live Docs is a real-time collaborative editor where several people write in the same document at once, with live cursors, comment threads, role-based sharing, and version history. Built on Lexical and Liveblocks with Clerk auth, it adds tables and images, and a Playwright end-to-end suite runs on every pull request.
+              </p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="/images/logos/nextjs.svg" alt="" className="w-4 h-4" />
+                  Next.js
+                </span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="" className="w-4 h-4" />
+                  TypeScript
+                </span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg" alt="" className="w-4 h-4" />
+                  Tailwind CSS
+                </span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="/images/logos/liveblocks.svg" alt="" className="w-4 h-4" />
+                  Liveblocks
+                </span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="/images/logos/clerk.svg" alt="" className="w-4 h-4" />
+                  Clerk
+                </span>
+              </div>
+              <div className="flex gap-4 mt-auto pt-4">
+                <a href={projectLinks.livedocs.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                  <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
+                  <span>GitHub</span>
+                </a>
+                <a href={projectLinks.livedocs.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                  <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
+                  <span>Vercel</span>
+                </a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div ref={nexoraRef} className="wide-project">
-          <div className="image-wrapper">
-            <img
-              src="/images/nexora-card.jpg"
-              alt="NEXORA Task Manager Dashboard"
-            />
-          </div>
-          <div className="text-content">
-            <h2>
-              NEXORA - Full-Stack Task Manager for Teams
-            </h2>
-            <p className="text-white-50 text-base md:text-lg leading-relaxed">
-              NEXORA takes every task from idea to done: a kanban board with enforced status rules, a calendar, reports with CSV export, focus timers and goals, plus team invites, roles, and chat. The FastAPI and PostgreSQL backend keeps every task private to its owner, and an 81-test pytest suite runs in CI.
-            </p>
-            <div className="flex flex-wrap gap-2 mt-3">
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="/images/logos/python.svg" alt="" className="w-4 h-4" />
-                Python
-              </span>
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" alt="" className="w-4 h-4" />
-                FastAPI
-              </span>
-              <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
-                <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="" className="w-4 h-4" />
-                PostgreSQL
-              </span>
+          <div ref={nexoraRef} className="project">
+            <div className="image-wrapper">
+              <img
+                src="/images/nexora-card.jpg"
+                alt="NEXORA Task Manager Dashboard"
+              />
             </div>
-            <div className="flex gap-4 mt-4">
-              <a href={projectLinks.nexora.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
-                <span>GitHub</span>
-              </a>
-              <a href={projectLinks.nexora.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
-                <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
-                <span>Vercel</span>
-              </a>
+            <div className="text-content">
+              <h2>
+                NEXORA - Full-Stack Task Manager for Teams
+              </h2>
+              <p className="text-white-50 text-base md:text-lg leading-relaxed">
+                NEXORA takes every task from idea to done: a kanban board with enforced status rules, a calendar, reports with CSV export, focus timers and goals, plus team invites, roles, and chat. The FastAPI and PostgreSQL backend keeps every task private to its owner, and an 81-test pytest suite runs in CI.
+              </p>
+              <div className="flex flex-wrap gap-2 mt-3">
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="/images/logos/python.svg" alt="" className="w-4 h-4" />
+                  Python
+                </span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" alt="" className="w-4 h-4" />
+                  FastAPI
+                </span>
+                <span className="bg-black-200 py-1 px-3 rounded-full text-xs flex items-center gap-1.5">
+                  <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="" className="w-4 h-4" />
+                  PostgreSQL
+                </span>
+              </div>
+              <div className="flex gap-4 mt-auto pt-4">
+                <a href={projectLinks.nexora.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                  <img src="/images/logos/github.svg" alt="GitHub" className="w-6 h-6" />
+                  <span>GitHub</span>
+                </a>
+                <a href={projectLinks.nexora.vercel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white-50 hover:text-white transition-colors">
+                  <img src="/images/logos/vercel-circle.svg" alt="Vercel" className="w-6 h-6" />
+                  <span>Vercel</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
