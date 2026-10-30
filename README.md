@@ -28,23 +28,23 @@
   </p>
 </div>
 
-## 📋 Table of Contents
+## <img src="docs/icons/contents.svg" width="28" height="28" align="top" alt="" /> Table of Contents
 
-1. 🤖 [About](#about)
-2. 🚀 [Selected Work](#selected-work)
-3. 🔋 [Features](#features)
-4. ⚙️ [Tech Stack](#tech-stack)
-5. 🗂️ [Project Structure](#project-structure)
-6. 🤸 [Quick Start](#quick-start)
-7. 🚢 [Deployment](#deployment)
+1. <img src="docs/icons/about.svg" width="18" height="18" align="top" alt="" /> [About](#about)
+2. <img src="docs/icons/selected-work.svg" width="18" height="18" align="top" alt="" /> [Selected Work](#selected-work)
+3. <img src="docs/icons/features.svg" width="18" height="18" align="top" alt="" /> [Features](#features)
+4. <img src="docs/icons/tech-stack.svg" width="18" height="18" align="top" alt="" /> [Tech Stack](#tech-stack)
+5. <img src="docs/icons/project-structure.svg" width="18" height="18" align="top" alt="" /> [Project Structure](#project-structure)
+6. <img src="docs/icons/quick-start.svg" width="18" height="18" align="top" alt="" /> [Quick Start](#quick-start)
+7. <img src="docs/icons/deployment.svg" width="18" height="18" align="top" alt="" /> [Deployment](#deployment)
 
-## <a name="about">🤖 About</a>
+## <img src="docs/icons/about.svg" width="28" height="28" align="top" alt="" /> <a name="about">About</a>
 
 This is the source for [alexportfolio.net](https://www.alexportfolio.net/), my personal portfolio. I'm a full-stack engineer, the founder of [FanClash](https://fanclash.io), and an MIT xPRO certified developer. I build production apps end to end in Go, Python, TypeScript, and React.
 
 The site is a single landing page built around an interactive 3D room you can rotate and zoom, followed by my projects, education, tech stack, and a working contact form.
 
-## <a name="selected-work">🚀 Selected Work</a>
+## <img src="docs/icons/selected-work.svg" width="28" height="28" align="top" alt="" /> <a name="selected-work">Selected Work</a>
 
 <img src="docs/screenshot-work.jpg" alt="Project gallery: FanClash as the flagship, with Voxwell, Analytica, Live Docs, and NEXORA, each showing its name, a one-line description, and its tech stack" />
 
@@ -56,7 +56,7 @@ The site is a single landing page built around an interactive 3D room you can ro
 | **Live Docs** | Real-time collaborative editor with live cursors, comments, sharing, and version history | Next.js, TypeScript, Liveblocks, Clerk | [GitHub](https://github.com/Troy2727/coedit_flow) · [Live](https://coeditflow.vercel.app) |
 | **NEXORA** | Task manager for teams with a kanban board, goals, reports, and chat, backed by an 81-test pytest suite | Python, FastAPI, PostgreSQL | [GitHub](https://github.com/Troy2727/NEXORA) · [Live](https://nexora-five-dun.vercel.app) |
 
-## <a name="features">🔋 Features</a>
+## <img src="docs/icons/features.svg" width="28" height="28" align="top" alt="" /> <a name="features">Features</a>
 
 👉 **Interactive 3D hero**: a lit 3D room with floating particles, built with React Three Fiber. Drag to rotate, scroll to zoom.
 
@@ -70,7 +70,17 @@ The site is a single landing page built around an interactive 3D room you can ro
 
 👉 **Mobile first**: only one 3D canvas is mounted per breakpoint, and the layout is checked at phone, tablet, and desktop widths.
 
-## <a name="tech-stack">⚙️ Tech Stack</a>
+## <img src="docs/icons/tech-stack.svg" width="28" height="28" align="top" alt="" /> <a name="tech-stack">Tech Stack</a>
+
+<p align="center">
+  <a href="docs/diagrams/architecture-dark.svg" title="Open this diagram full size">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/diagrams/architecture-dark.gif" />
+      <source media="(prefers-color-scheme: light)" srcset="docs/diagrams/architecture-light.gif" />
+      <img src="docs/diagrams/architecture-light.gif" alt="How alexportfolio.net works: a visitor loads a single-page React 19 app in the browser, which renders the Three.js 3D scenes, runs GSAP scroll animations, and sends the contact form through EmailJS. Every push to main on GitHub is linted and built by GitHub Actions and deployed by Vercel." width="100%" />
+    </picture>
+  </a>
+</p>
 
 - **UI:** React 19, Vite, Tailwind CSS v4
 - **3D:** Three.js, React Three Fiber, Drei, React Three Postprocessing
@@ -79,7 +89,7 @@ The site is a single landing page built around an interactive 3D room you can ro
 - **Quality:** ESLint, GitHub Actions (lint and build on every push and pull request)
 - **Hosting:** Vercel
 
-## <a name="project-structure">🗂️ Project Structure</a>
+## <img src="docs/icons/project-structure.svg" width="28" height="28" align="top" alt="" /> <a name="project-structure">Project Structure</a>
 
 ```
 src/
@@ -95,7 +105,7 @@ public/
 └── models/         # Compressed .glb 3D models
 ```
 
-## <a name="quick-start">🤸 Quick Start</a>
+## <img src="docs/icons/quick-start.svg" width="28" height="28" align="top" alt="" /> <a name="quick-start">Quick Start</a>
 
 **Prerequisites:** [Git](https://git-scm.com/) and [Node.js](https://nodejs.org/en) 20 or newer.
 
@@ -126,10 +136,10 @@ npm run build     # production build in dist/
 npm run preview   # serve the production build
 ```
 
-## <a name="deployment">🚢 Deployment</a>
+## <img src="docs/icons/deployment.svg" width="28" height="28" align="top" alt="" /> <a name="deployment">Deployment</a>
 
 Every push to `main` runs the CI workflow (`npm ci`, lint, build) and deploys to production on Vercel at [alexportfolio.net](https://www.alexportfolio.net/). Set the three EmailJS variables in the Vercel project settings.
 
-## 🙏 Acknowledgements
+## <img src="docs/icons/acknowledgements.svg" width="28" height="28" align="top" alt="" /> Acknowledgements
 
 The original 3D layout started from the JavaScript Mastery 3D portfolio tutorial. The content, projects, copy, and design changes are my own.
