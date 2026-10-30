@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://www.alexportfolio.net/">
-    <img src="docs/screenshot-hero.jpg" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D room" />
+    <img src="docs/hero-2026-10.jpg" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D room" />
   </a>
   <br />
 
