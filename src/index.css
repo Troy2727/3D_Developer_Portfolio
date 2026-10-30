@@ -95,6 +95,28 @@ section {
     }
   }
 
+  /* Proof cards under the hero call to action.
+     Each card sits in an @container: icon beside the text when the card is wide enough, stacked above it otherwise */
+  .proof-item {
+    @apply h-full flex flex-col @min-[176px]:flex-row @min-[176px]:items-center gap-2 @min-[176px]:gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3;
+  }
+
+  .proof-icon {
+    @apply size-8 md:size-10 shrink-0 flex items-center justify-center rounded-lg border;
+
+    svg {
+      @apply size-4 md:size-5;
+    }
+  }
+
+  .proof-value {
+    @apply flex items-center gap-1.5 whitespace-nowrap text-white font-semibold text-sm md:text-base leading-tight;
+  }
+
+  .proof-label {
+    @apply block text-white-50 text-xs md:text-sm leading-tight mt-0.5;
+  }
+
   .hero-badge {
     @apply bg-black-200 py-1 md:py-2 px-3 md:px-4 rounded-full w-fit text-xs md:text-base text-nowrap;
   }
