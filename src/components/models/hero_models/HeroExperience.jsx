@@ -11,6 +11,9 @@ import StudioLights from "./studio/StudioLights";
 // The camera orbits the middle of the room all the way around; walls between the
 // camera and the room cut away (see Studio.jsx). Polar limits keep it above the floor.
 const TARGET = [0.0, 1.0, -0.05];
+// On xl the nav runs across the top of the room; aiming 30 cm higher sits the room about
+// 60 px lower, clear of the nav, while the hint and buttons stay on the first screen
+const WIDE_TARGET = [0.0, 1.3, -0.05];
 
 // On xl the canvas sits behind the headline. Shifting the film (not the orbit target)
 // moves the room to the right while it still spins around its own center.
@@ -43,6 +46,7 @@ const HeroExperience = () => {
   const isWide = useMediaQuery({ query: "(min-width: 1280px)" }); // Tailwind's xl, where text and room share the row
   // Phones show the room in a nearly square box, so start the camera farther back
   const pull = isMobile ? 1.18 : 1;
+  const target = isWide ? WIDE_TARGET : TARGET;
   const isTouch = useMediaQuery({ query: "(pointer: coarse)" });
   // Clicking a monitor zooms in on its screen ("claude" or "code"); clicking it again, Esc,
   // a click elsewhere, or the button zooms back out
@@ -65,7 +69,7 @@ const HeroExperience = () => {
       role="img"
       aria-label="3D model of Alex's developer studio: an oak desk with two curved monitors showing Claude and VS Code, an RGB keyboard, a bookshelf with plants, a neon sign reading hello, world, and late-afternoon sun through the blinds."
       shadows
-      camera={{ position: [TARGET[0] - 4.0 * pull, TARGET[1] + 1.65 * pull, TARGET[2] + 5.0 * pull], fov: 35 }}
+      camera={{ position: [target[0] - 4.0 * pull, target[1] + 1.65 * pull, target[2] + 5.0 * pull], fov: 35 }}
       gl={{ powerPreference: 'high-performance', antialias: !isMobile }} // Disable antialiasing on mobile for better performance
       dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling
@@ -76,7 +80,7 @@ const HeroExperience = () => {
       <CameraFocus focus={focus} isWide={isWide} />
       <OrbitControls
         makeDefault
-        target={TARGET}
+        target={target}
         enablePan={false}
         enableZoom={true}
         minDistance={3.5}

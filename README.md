@@ -1,6 +1,6 @@
 <div align="center">
-  <a href="docs/hero-2026-10.jpg" title="Click to see full size">
-    <img src="docs/hero-2026-10.jpg" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D room" />
+  <a href="docs/hero-2026-11.png" title="Click to see full size">
+    <img src="docs/hero-2026-11.png" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D developer studio, with two curved monitors running Claude and VS Code, a bookshelf, plants, a neon sign and late-afternoon sun through the blinds" />
   </a>
   <p><sub>Click the screenshot to see it full size.</sub></p>
 
