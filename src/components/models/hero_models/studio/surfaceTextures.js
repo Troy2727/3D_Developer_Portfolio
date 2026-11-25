@@ -122,3 +122,38 @@ export function steamTexture() {
   g.fillRect(0, 0, 64, 64);
   return toTexture(canvas);
 }
+
+// Woven wool rug: warm light base, wool speckle, a border band and a fine lattice
+export function rugTexture() {
+  const [canvas, g] = makeCanvas(1024, 724);
+  const r = seeded(13);
+  g.fillStyle = "#bdb2a3";
+  g.fillRect(0, 0, 1024, 724);
+  for (let i = 0; i < 9000; i++) {
+    g.fillStyle = r() > 0.5 ? "rgba(255,250,240,0.18)" : "rgba(80,66,52,0.14)";
+    g.fillRect(r() * 1024, r() * 724, 2, 2);
+  }
+  // Border: an outer band and a thin inner line
+  g.strokeStyle = "#8a7f72";
+  g.lineWidth = 26;
+  g.strokeRect(34, 34, 1024 - 68, 724 - 68);
+  g.lineWidth = 4;
+  g.strokeRect(78, 78, 1024 - 156, 724 - 156);
+  // Lattice of thin diagonal lines inside the border
+  g.save();
+  g.beginPath();
+  g.rect(84, 84, 1024 - 168, 724 - 168);
+  g.clip();
+  g.strokeStyle = "rgba(122,110,96,0.55)";
+  g.lineWidth = 3;
+  for (let x = -724; x < 1024 + 724; x += 64) {
+    g.beginPath();
+    g.moveTo(x, 0);
+    g.lineTo(x + 724, 724);
+    g.moveTo(x + 724, 0);
+    g.lineTo(x, 724);
+    g.stroke();
+  }
+  g.restore();
+  return toTexture(canvas);
+}

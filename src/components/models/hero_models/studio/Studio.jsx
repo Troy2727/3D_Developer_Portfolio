@@ -11,7 +11,8 @@ import Monitors from "./Monitors";
 import { WallOutlet } from "./PowerOutlet";
 import PcTower from "./PcTower";
 import Shelf from "./Shelf";
-import { floorTexture, skyTexture } from "./surfaceTextures";
+import NeonSign from "./NeonSign";
+import { floorTexture, rugTexture, skyTexture } from "./surfaceTextures";
 import WallArt from "./WallArt";
 
 // Real-world meters. Floor at y = 0, back wall face at z = -0.6,
@@ -34,6 +35,7 @@ const setDrawn = (material, drawn) => {
 const Studio = () => {
   const floor = useMemo(() => floorTexture(), []);
   const sky = useMemo(() => skyTexture(), []);
+  const rug = useMemo(() => rugTexture(), []);
   const backWall = useMemo(() => new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.95 }), []);
   const sideWall = useMemo(() => new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.95 }), []);
   const backDecor = useRef();
@@ -61,7 +63,7 @@ const Studio = () => {
       </mesh>
       <mesh position={[0.15, 0.004, 0.55]} rotation-x={-Math.PI / 2} receiveShadow>
         <planeGeometry args={[1.7, 1.2]} />
-        <meshStandardMaterial color="#5d5750" roughness={1} />
+        <meshStandardMaterial map={rug} roughness={1} />
       </mesh>
 
       {/* Back wall */}
@@ -72,7 +74,7 @@ const Studio = () => {
       <Wall args={[0.1, 1.4, 0.35]} position={[1.35, 1.55, -0.525]} material={sideWall} />
       <Wall args={[0.1, 1.4, 0.45]} position={[1.35, 1.55, 1.075]} material={sideWall} />
 
-      {/* Things on the back wall hide with it: baseboard, the framed prints and the outlet */}
+      {/* Things on the back wall hide with it: baseboard, the framed prints, the outlet and the neon sign */}
       <group ref={backDecor}>
         <mesh position={[-0.2, 0.04, -0.5925]} receiveShadow>
           <boxGeometry args={[3.0, 0.08, 0.015]} />
@@ -80,6 +82,7 @@ const Studio = () => {
         </mesh>
         <WallArt />
         <WallOutlet />
+        <NeonSign position={[0.58, 2.22, 0]} />
       </group>
 
       {/* Invisible ceiling and window-wall extension: they cast shadow only, so the
