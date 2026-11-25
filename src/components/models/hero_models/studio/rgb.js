@@ -6,7 +6,7 @@ import * as THREE from "three";
 // Visitors who ask for reduced motion get a still frame instead.
 export const RGB_SPEED = 0.08; // hue turns per second
 
-const reducedMotion =
+export const reducedMotion =
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export const rgbHue = (t, offset = 0) => ((((reducedMotion ? 0 : t) * RGB_SPEED + offset) % 1) + 1) % 1;

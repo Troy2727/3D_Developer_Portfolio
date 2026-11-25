@@ -1,4 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
 import Blinds from "./Blinds";
 import Chair from "./Chair";
@@ -13,17 +15,36 @@ import { floorTexture, printTexture, skyTexture } from "./surfaceTextures";
 // window wall face at x = 1.3 with a 1.2 x 1.4 m window opening.
 const WALL_COLOR = "#e7dfd3";
 
-const Wall = ({ args, position }) => (
-  <mesh position={position} castShadow receiveShadow>
+const Wall = ({ args, position, material }) => (
+  <mesh position={position} material={material} castShadow receiveShadow>
     <boxGeometry args={args} />
-    <meshStandardMaterial color={WALL_COLOR} roughness={0.95} />
   </mesh>
 );
+
+// Cutaway: a wall between the camera and the room stops drawing (but still casts its
+// shadow, so the sun stripes stay right), and comes back when the camera moves away.
+const setDrawn = (material, drawn) => {
+  material.colorWrite = drawn;
+  material.depthWrite = drawn;
+};
 
 const Studio = () => {
   const floor = useMemo(() => floorTexture(), []);
   const sky = useMemo(() => skyTexture(), []);
   const print = useMemo(() => printTexture(), []);
+  const backWall = useMemo(() => new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.95 }), []);
+  const sideWall = useMemo(() => new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.95 }), []);
+  const backDecor = useRef();
+  const sideDecor = useRef();
+
+  useFrame(({ camera }) => {
+    const behindBack = camera.position.z < -0.6;
+    const outsideWindow = camera.position.x > 1.3;
+    setDrawn(backWall, !behindBack);
+    setDrawn(sideWall, !outsideWindow);
+    backDecor.current.visible = !behindBack;
+    sideDecor.current.visible = !outsideWindow;
+  });
 
   return (
     <group>
@@ -42,22 +63,30 @@ const Studio = () => {
       </mesh>
 
       {/* Back wall */}
-      <Wall args={[3.1, 2.6, 0.1]} position={[-0.15, 1.3, -0.65]} />
+      <Wall args={[3.1, 2.6, 0.1]} position={[-0.15, 1.3, -0.65]} material={backWall} />
       {/* Window wall, built around the opening (z -0.35..0.85, y 0.85..2.25) */}
-      <Wall args={[0.1, 0.85, 2.0]} position={[1.35, 0.425, 0.3]} />
-      <Wall args={[0.1, 0.35, 2.0]} position={[1.35, 2.425, 0.3]} />
-      <Wall args={[0.1, 1.4, 0.35]} position={[1.35, 1.55, -0.525]} />
-      <Wall args={[0.1, 1.4, 0.45]} position={[1.35, 1.55, 1.075]} />
+      <Wall args={[0.1, 0.85, 2.0]} position={[1.35, 0.425, 0.3]} material={sideWall} />
+      <Wall args={[0.1, 0.35, 2.0]} position={[1.35, 2.425, 0.3]} material={sideWall} />
+      <Wall args={[0.1, 1.4, 0.35]} position={[1.35, 1.55, -0.525]} material={sideWall} />
+      <Wall args={[0.1, 1.4, 0.45]} position={[1.35, 1.55, 1.075]} material={sideWall} />
 
-      {/* Baseboards */}
-      <mesh position={[-0.2, 0.04, -0.5925]} receiveShadow>
-        <boxGeometry args={[3.0, 0.08, 0.015]} />
-        <meshStandardMaterial color="#f3efe8" roughness={0.7} />
-      </mesh>
-      <mesh position={[1.2925, 0.04, 0.35]} receiveShadow>
-        <boxGeometry args={[0.015, 0.08, 1.9]} />
-        <meshStandardMaterial color="#f3efe8" roughness={0.7} />
-      </mesh>
+      {/* Things on the back wall hide with it: baseboard and framed print */}
+      <group ref={backDecor}>
+        <mesh position={[-0.2, 0.04, -0.5925]} receiveShadow>
+          <boxGeometry args={[3.0, 0.08, 0.015]} />
+          <meshStandardMaterial color="#f3efe8" roughness={0.7} />
+        </mesh>
+        <group position={[-0.42, 1.74, -0.585]}>
+          <mesh castShadow>
+            <boxGeometry args={[0.46, 0.58, 0.025]} />
+            <meshStandardMaterial color="#1a1a1a" roughness={0.6} />
+          </mesh>
+          <mesh position-z={0.0135}>
+            <planeGeometry args={[0.4, 0.5]} />
+            <meshStandardMaterial map={print} roughness={0.85} />
+          </mesh>
+        </group>
+      </group>
 
       {/* Invisible ceiling and window-wall extension: they cast shadow only, so the
           sun enters through the window and not over the open sides of the diorama */}
@@ -70,28 +99,24 @@ const Studio = () => {
         <meshBasicMaterial colorWrite={false} depthWrite={false} />
       </mesh>
 
-      {/* View outside the window */}
-      <mesh position={[2.0, 1.5, 0.25]} rotation-y={-Math.PI / 2}>
-        <planeGeometry args={[3.2, 2.6]} />
-        <meshBasicMaterial map={sky} toneMapped={false} />
-      </mesh>
-      <Blinds />
-
-      {/* Framed print */}
-      <group position={[-0.42, 1.74, -0.585]}>
-        <mesh castShadow>
-          <boxGeometry args={[0.46, 0.58, 0.025]} />
-          <meshStandardMaterial color="#1a1a1a" roughness={0.6} />
+      {/* Things on the window wall hide with it: baseboard and the view outside.
+          The blinds stay, since they cast the light stripes. */}
+      <group ref={sideDecor}>
+        <mesh position={[1.2925, 0.04, 0.35]} receiveShadow>
+          <boxGeometry args={[0.015, 0.08, 1.9]} />
+          <meshStandardMaterial color="#f3efe8" roughness={0.7} />
         </mesh>
-        <mesh position-z={0.0135}>
-          <planeGeometry args={[0.4, 0.5]} />
-          <meshStandardMaterial map={print} roughness={0.85} />
+        {/* Just outside the opening, so it never shows around the wall from the side */}
+        <mesh position={[1.405, 1.55, 0.25]} rotation-y={-Math.PI / 2}>
+          <planeGeometry args={[1.24, 1.44]} />
+          <meshBasicMaterial map={sky} toneMapped={false} />
         </mesh>
       </group>
+      <Blinds />
 
       <Desk />
       <Monitors />
-      <Chair position={[0.2, 0, 0.72]} rotation-y={-0.45} />
+      <Chair position={[0.2, 0, 0.72]} rotation={-0.45} />
       <Shelf position={[-1.22, 0, -0.43]} />
       <FloorPlant position={[1.04, 0, -0.33]} />
       <PcTower position={[0.5, 0, -0.3]} />
