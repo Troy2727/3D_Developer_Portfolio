@@ -121,9 +121,20 @@ section {
     @apply bg-black-200 py-1 md:py-2 px-3 md:px-4 rounded-full w-fit text-xs md:text-base text-nowrap;
   }
 
+  /* On touch screens the 3D fills half the viewport, so vertical swipes must scroll the
+     page. OrbitControls sets an inline touch-action: none; pan-y hands vertical swipes
+     back to the browser, while horizontal swipes still orbit and drag the chair. */
+  @media (pointer: coarse) {
+    .hero-canvas,
+    .hero-canvas * {
+      touch-action: pan-y !important;
+    }
+  }
+
   .hero-3d-layout {
-    /* below xl the room stacks under the text in its own box instead of overlapping it */
-    @apply xl:w-[70%] w-full xl:h-full h-[60vh] xl:min-h-[50vh] relative xl:absolute xl:-top-20 xl:-right-20;
+    /* below xl the room stacks under the text in its own box instead of overlapping it;
+       from 2xl the box stays inside the screen so the window side of the room isn't cut off */
+    @apply xl:w-[70%] w-full xl:h-full h-[60vh] xl:min-h-[50vh] relative xl:absolute xl:-top-20 xl:-right-20 2xl:right-0;
   }
 
   .navbar {
