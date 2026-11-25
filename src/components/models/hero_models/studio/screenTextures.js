@@ -41,20 +41,42 @@ const paragraph = (g, str, x, y, maxWidth, lineHeight, font, color) => {
   return y + lineHeight;
 };
 
-// Minimal JSX highlighter with VS Code Dark+ colors
+// "Alex Studio" theme for both screens' code, built from the site's palette: its charcoals,
+// its #d9ecff text, and the blue -> purple -> pink gradient behind "real products."
+const THEME = {
+  bg: "#1c1c21",
+  sidebar: "#16161a",
+  activityBar: "#0e0e10",
+  border: "#282732",
+  text: "#d9ecff",
+  muted: "#839cb5",
+  dim: "#4b4b5c",
+  lineHighlight: "rgba(123,97,255,0.10)",
+  selection: "rgba(123,97,255,0.22)",
+  pink: "#FF69B4",
+  purple: "#9d8bff",
+  blue: "#00BFFF",
+  lavender: "#c3a6ff",
+  amber: "#f2b56b",
+  cyan: "#7fdbff",
+  comment: "#6b6b80",
+  green: "#6ee7b7",
+};
+
+// Minimal JSX highlighter
 const RULES = [
-  [/^\/\/.*/, "#6a9955"],
-  [/^"[^"]*"/, "#ce9178"],
-  [/^(import|from|export|default|return)\b/, "#c586c0"],
-  [/^(const|let)\b/, "#569cd6"],
-  [/^<\/?[A-Z]\w*/, "#4ec9b0"],
-  [/^<\/?[a-z]\w*/, "#569cd6"],
-  [/^\w+(?==)/, "#9cdcfe"],
-  [/^-?\d+(\.\d+)?/, "#b5cea8"],
-  [/^[A-Z]\w*/, "#4ec9b0"],
-  [/^\w+/, "#9cdcfe"],
+  [/^\/\/.*/, THEME.comment],
+  [/^"[^"]*"/, THEME.amber],
+  [/^(import|from|export|default|return)\b/, THEME.pink],
+  [/^(const|let)\b/, THEME.purple],
+  [/^<\/?[A-Z]\w*/, THEME.blue],
+  [/^<\/?[a-z]\w*/, "#6aa8f0"],
+  [/^\w+(?==)/, THEME.lavender],
+  [/^-?\d+(\.\d+)?/, THEME.cyan],
+  [/^[A-Z]\w*/, THEME.blue],
+  [/^\w+/, THEME.text],
   [/^\s+/, null],
-  [/^./, "#d4d4d4"],
+  [/^./, "#b9c6d8"],
 ];
 
 const codeLine = (g, line, x, y) => {
@@ -278,29 +300,29 @@ const COMMAND = "$ npm run dev";
 const CODE_LOOP = TYPED_AT + 9;
 
 const TREE = [
-  [0, "⌄ 3D_DEVELOPER_PORTFOLIO", "#cccccc"],
-  [1, "⌄ src", "#cccccc"],
-  [2, "⌄ components", "#cccccc"],
-  [3, "⌄ hero_models", "#cccccc"],
-  [4, "⌄ studio", "#cccccc"],
-  [5, "Blinds.jsx", "#e5c07b"],
-  [5, "Chair.jsx", "#e5c07b"],
-  [5, "Desk.jsx", "#e5c07b"],
-  [5, "FloorPlant.jsx", "#e5c07b"],
-  [5, "Headphones.jsx", "#e5c07b"],
-  [5, "LedStrip.jsx", "#e5c07b"],
-  [5, "Microphone.jsx", "#e5c07b"],
-  [5, "Monitors.jsx", "#e5c07b"],
-  [5, "PcTower.jsx", "#e5c07b"],
-  [5, "Peripherals.jsx", "#e5c07b"],
-  [5, "Shelf.jsx", "#e5c07b"],
-  [5, "Studio.jsx", "#e5c07b"],
-  [5, "StudioLights.jsx", "#e5c07b"],
-  [4, "HeroExperience.jsx", "#e5c07b"],
-  [2, "› sections", "#cccccc"],
-  [3, "Hero.jsx", "#e5c07b"],
-  [3, "Contact.jsx", "#e5c07b"],
-  [1, "package.json", "#cbcb41"],
+  [0, "⌄ 3D_DEVELOPER_PORTFOLIO", "FOLDER"],
+  [1, "⌄ src", "FOLDER"],
+  [2, "⌄ components", "FOLDER"],
+  [3, "⌄ hero_models", "FOLDER"],
+  [4, "⌄ studio", "FOLDER"],
+  [5, "Blinds.jsx", "FILE"],
+  [5, "Chair.jsx", "FILE"],
+  [5, "Desk.jsx", "FILE"],
+  [5, "FloorPlant.jsx", "FILE"],
+  [5, "Headphones.jsx", "FILE"],
+  [5, "LedStrip.jsx", "FILE"],
+  [5, "Microphone.jsx", "FILE"],
+  [5, "Monitors.jsx", "FILE"],
+  [5, "PcTower.jsx", "FILE"],
+  [5, "Peripherals.jsx", "FILE"],
+  [5, "Shelf.jsx", "FILE"],
+  [5, "Studio.jsx", "FILE"],
+  [5, "StudioLights.jsx", "FILE"],
+  [4, "HeroExperience.jsx", "FILE"],
+  [2, "› sections", "FOLDER"],
+  [3, "Hero.jsx", "FILE"],
+  [3, "Contact.jsx", "FILE"],
+  [1, "package.json", "PKG"],
 ];
 
 // VS Code's activity bar: line icons drawn around each icon's center (cx, cy)
@@ -380,25 +402,25 @@ const ICONS = {
 const TOP_ICONS = ["explorer", "search", "sourceControl", "runDebug", "extensions", "testing", "remote"];
 
 const activityBar = (g) => {
-  g.fillStyle = "#333333";
+  g.fillStyle = THEME.activityBar;
   g.fillRect(0, 0, 72, H);
   g.lineWidth = 3;
   g.lineCap = "round";
   g.lineJoin = "round";
   TOP_ICONS.forEach((name, i) => {
     const y = 44 + i * 76;
-    g.strokeStyle = i === 0 ? "#ffffff" : "#858585";
+    g.strokeStyle = i === 0 ? THEME.text : "#6c7486";
     ICONS[name](g, 36, y);
   });
   // Explorer is the open view; Source Control has three changed files
-  g.fillStyle = "#ffffff";
+  g.fillStyle = THEME.pink;
   g.fillRect(0, 44 - 26, 4, 52);
-  g.fillStyle = "#0078d4";
+  g.fillStyle = "#7B61FF";
   g.beginPath();
   g.arc(48, 44 + 2 * 76 + 12, 10, 0, Math.PI * 2);
   g.fill();
   text(g, "3", 48, 44 + 2 * 76 + 17, `700 14px ${SANS}`, "#ffffff", "center");
-  g.strokeStyle = "#858585";
+  g.strokeStyle = "#6c7486";
   ICONS.accounts(g, 36, H - 136);
   ICONS.manage(g, 36, H - 82);
 };
@@ -415,34 +437,35 @@ const codeTimeline = {
     };
   },
   render: (g, state) => {
-    g.fillStyle = "#1e1e1e";
+    g.fillStyle = THEME.bg;
     g.fillRect(0, 0, W, H);
 
     // Activity bar and explorer
     activityBar(g);
-    g.fillStyle = "#252526";
+    g.fillStyle = THEME.sidebar;
     g.fillRect(72, 0, 380, H);
-    text(g, "EXPLORER", 100, 44, `600 21px ${SANS}`, "#bbbbbb");
+    text(g, "EXPLORER", 100, 44, `600 21px ${SANS}`, THEME.muted);
     TREE.forEach(([depth, name, color], i) => {
       const y = 92 + i * 40;
       if (name === "Studio.jsx") {
-        g.fillStyle = "#37373d";
+        g.fillStyle = THEME.selection;
         g.fillRect(72, y - 28, 380, 40);
       }
-      text(g, name, 96 + depth * 22, y, `400 23px ${SANS}`, color);
+      const tint = { FOLDER: THEME.muted, FILE: THEME.text, PKG: THEME.amber }[color];
+      text(g, name, 96 + depth * 22, y, `400 23px ${SANS}`, tint);
     });
 
     // Tabs: a dot on Studio.jsx until it's saved
-    g.fillStyle = "#252526";
+    g.fillStyle = THEME.sidebar;
     g.fillRect(452, 0, W - 452, 60);
-    g.fillStyle = "#1e1e1e";
+    g.fillStyle = THEME.bg;
     g.fillRect(452, 0, 230, 60);
-    g.fillStyle = "#0078d4";
+    g.fillStyle = THEME.pink;
     g.fillRect(452, 0, 230, 3);
-    text(g, state.saved ? "Studio.jsx" : "Studio.jsx  ●", 500, 40, `400 24px ${SANS}`, "#ffffff");
-    text(g, "Monitors.jsx", 712, 40, `400 24px ${SANS}`, "#969696");
-    text(g, "Hero.jsx", 900, 40, `400 24px ${SANS}`, "#969696");
-    text(g, "src › components › hero_models › studio › Studio.jsx", 486, 92, `400 21px ${SANS}`, "#a9a9a9");
+    text(g, state.saved ? "Studio.jsx" : "Studio.jsx  ●", 500, 40, `400 24px ${SANS}`, THEME.text);
+    text(g, "Monitors.jsx", 712, 40, `400 24px ${SANS}`, THEME.muted);
+    text(g, "Hero.jsx", 900, 40, `400 24px ${SANS}`, THEME.muted);
+    text(g, "src › components › hero_models › studio › Studio.jsx", 486, 92, `400 21px ${SANS}`, THEME.muted);
 
     // The code typed so far, with the cursor at the end
     let left = state.typed;
@@ -453,10 +476,10 @@ const codeTimeline = {
       const shown = line.slice(0, left);
       const current = left <= line.length;
       if (current) {
-        g.fillStyle = "rgba(255,255,255,0.04)";
+        g.fillStyle = THEME.lineHighlight;
         g.fillRect(452, y - 27, W - 452, 36);
       }
-      text(g, String(i + 1), 540, y, `400 24px ${MONO}`, current ? "#c6c6c6" : "#6e7681", "right");
+      text(g, String(i + 1), 540, y, `400 24px ${MONO}`, current ? THEME.muted : THEME.dim, "right");
       codeLine(g, shown, 576, y);
       if (current) {
         g.font = `400 27px ${MONO}`;
@@ -465,22 +488,26 @@ const codeTimeline = {
       left -= line.length + 1;
     });
     if (caret && state.caret && !state.saved) {
-      g.fillStyle = "#aeafad";
+      g.fillStyle = THEME.pink;
       g.fillRect(caret[0] + 1, caret[1] - 26, 3, 32);
     }
 
     // Terminal: the dev server starts once the file is saved
-    g.fillStyle = "#3c3c3c";
+    g.fillStyle = THEME.border;
     g.fillRect(452, 838, W - 452, 1);
-    text(g, "PROBLEMS     OUTPUT     TERMINAL", 486, 876, `500 20px ${SANS}`, "#969696");
-    g.fillStyle = "#e7e7e7";
+    text(g, "PROBLEMS     OUTPUT     TERMINAL", 486, 876, `500 20px ${SANS}`, THEME.muted);
+    g.fillStyle = THEME.pink;
     g.fillRect(712, 884, 106, 2);
-    const terminal = [[COMMAND.slice(0, Math.max(2, state.command)), "#cccccc"]];
-    if (state.ready) terminal.push(["  VITE v6.3.4  ready in 412 ms", "#23d18b"], ["  ➜  Local:   http://localhost:5173/", "#cccccc"]);
+    const terminal = [[COMMAND.slice(0, Math.max(2, state.command)), THEME.text]];
+    if (state.ready) terminal.push(["  VITE v6.3.4  ready in 412 ms", THEME.green], ["  ➜  Local:   http://localhost:5173/", THEME.blue]);
     terminal.forEach(([line, color], i) => text(g, line, 486, 924 + i * 36, `400 24px ${MONO}`, color));
 
     // Status bar
-    g.fillStyle = "#007acc";
+    // Status bar in the site's purple -> pink gradient
+    const bar = g.createLinearGradient(0, 0, W, 0);
+    bar.addColorStop(0, "#7B61FF");
+    bar.addColorStop(1, THEME.pink);
+    g.fillStyle = bar;
     g.fillRect(0, H - 40, W, 40);
     text(g, "⎇ main    ✓ 0 problems", 24, H - 12, `400 21px ${SANS}`, "#ffffff");
     text(g, "Spaces: 2    UTF-8    JavaScript JSX", W - 24, H - 12, `400 21px ${SANS}`, "#ffffff", "right");
