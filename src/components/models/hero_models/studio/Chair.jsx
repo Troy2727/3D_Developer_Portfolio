@@ -11,7 +11,7 @@ const FACE = { x: -0.05, z: -0.1 };
 const BOUNDS = { x: [-1.2, 0.6], z: [0.48, 1.0] }; // clear of the shelf, desk and fig
 const clamp = (v, [lo, hi]) => Math.min(hi, Math.max(lo, v));
 
-const Chair = ({ position }) => {
+const Chair = ({ position, visible = true }) => {
   const chair = useRef();
   const grab = useRef(null);
   const hit = useMemo(() => new THREE.Vector3(), []);
@@ -38,6 +38,7 @@ const Chair = ({ position }) => {
   return (
     <group
       ref={chair}
+      visible={visible}
       onPointerDown={(e) => {
         e.stopPropagation();
         if (!e.ray.intersectPlane(FLOOR, hit)) return;

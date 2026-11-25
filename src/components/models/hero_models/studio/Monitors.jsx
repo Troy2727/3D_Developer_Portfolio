@@ -1,8 +1,10 @@
 import { useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
 import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 
-import { claudeScreenTexture, codeScreenTexture } from "./screenTextures";
+import { reducedMotion } from "./rgb";
+import { createClaudeScreen, createCodeScreen } from "./screenTextures";
 import { makeCanvas, toTexture } from "./surfaceTextures";
 
 // HP 27" curved (16:9): 597 x 336 mm panel, thin bezels on three sides, a chin with the logo
@@ -154,18 +156,35 @@ const Webcam = () => (
   </group>
 );
 
-const Monitors = () => {
-  const claude = useMemo(() => claudeScreenTexture(), []);
-  const code = useMemo(() => codeScreenTexture(), []);
+// The screens play their typing animations; phones redraw them less often, and visitors
+// who prefer reduced motion see the finished frame.
+const SCREEN_FPS = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches ? 6 : 12;
+const FINISHED = 20; // seconds into both loops: conversation and code complete
+
+const Monitors = ({ onSelect }) => {
+  const claude = useMemo(() => createClaudeScreen(SCREEN_FPS), []);
+  const code = useMemo(() => createCodeScreen(SCREEN_FPS), []);
   const logo = useMemo(() => hpLogoTexture(), []);
 
+  const select = (screen) => (e) => {
+    e.stopPropagation();
+    onSelect?.(screen);
+  };
+
+  useFrame(({ clock }) => {
+    const t = reducedMotion ? FINISHED : clock.elapsedTime;
+    claude.update(t);
+    code.update(t);
+  });
+
   return (
-    <group>
+    // Clicking a monitor zooms the camera in on its screen (HeroExperience.jsx)
+    <group onPointerOver={() => (document.body.style.cursor = "zoom-in")} onPointerOut={() => (document.body.style.cursor = "")}>
       {/* Outer edges angled forward, like a real dual setup */}
-      <Monitor screen={claude} logo={logo} position={[-0.325, CENTER_Y, -0.36]} rotation-y={0.14}>
+      <Monitor screen={claude.texture} logo={logo} position={[-0.325, CENTER_Y, -0.36]} rotation-y={0.14} onClick={select("claude")}>
         <LightBar />
       </Monitor>
-      <Monitor screen={code} logo={logo} position={[0.325, CENTER_Y, -0.36]} rotation-y={-0.14}>
+      <Monitor screen={code.texture} logo={logo} position={[0.325, CENTER_Y, -0.36]} rotation-y={-0.14} onClick={select("code")}>
         <Webcam />
       </Monitor>
     </group>

@@ -32,7 +32,9 @@ const setDrawn = (material, drawn) => {
   material.depthWrite = drawn;
 };
 
-const Studio = () => {
+// focused: the camera is zoomed in on the screens (HeroExperience.jsx); the chair steps
+// aside so it doesn't block them. onFocusScreen("claude" | "code"): a monitor was clicked.
+const Studio = ({ focused = false, onFocusScreen }) => {
   const floor = useMemo(() => floorTexture(), []);
   const sky = useMemo(() => skyTexture(), []);
   const rug = useMemo(() => rugTexture(), []);
@@ -113,8 +115,8 @@ const Studio = () => {
       <Blinds />
 
       <Desk />
-      <Monitors />
-      <Chair position={[0.2, 0, 0.72]} />
+      <Monitors onSelect={onFocusScreen} />
+      <Chair position={[0.2, 0, 0.72]} visible={!focused} />
       <Shelf position={[-1.22, 0, -0.6]} />
       <FloorPlant position={[0.95, 0, -0.12]} />
       <PcTower position={[0.5, 0, -0.3]} />
