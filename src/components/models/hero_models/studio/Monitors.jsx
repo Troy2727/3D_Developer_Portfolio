@@ -9,8 +9,8 @@ import { makeCanvas, toTexture } from "./surfaceTextures";
 const PANEL = [0.597, 0.336];
 const BODY = [0.613, 0.372, 0.016];
 const PANEL_Y = 0.012; // panel sits above center because of the chin
-const DESK_TOP = 0.75;
-const CENTER_Y = 1.036; // body center: 10 cm of stand under the chin
+const DESK_TOP = 0.85; // monitors stand on the walnut riser (desk 0.75 + 0.10)
+const CENTER_Y = 1.136; // body center: 10 cm of stand under the chin
 
 // Curved 1000R panel: every point wraps around a vertical axis 1 m in front of the
 // screen, so the edges come ~4.5 cm toward you. Body, screen and rear housing all bend.

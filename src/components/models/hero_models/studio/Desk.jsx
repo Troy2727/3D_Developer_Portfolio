@@ -1,10 +1,12 @@
 import { useMemo } from "react";
 import { RoundedBox } from "@react-three/drei";
 
+import CableTray from "./CableTray";
 import Coffee from "./Coffee";
 import Headphones from "./Headphones";
 import LedStrip from "./LedStrip";
 import Microphone from "./Microphone";
+import MonitorRiser from "./MonitorRiser";
 import MugWarmer, { CORD_EXIT_X, CORD_EXIT_Y, CORD_EXIT_Z, WARMER_TOP } from "./MugWarmer";
 import { PluggedCord } from "./PowerOutlet";
 import { Keyboard, Mouse } from "./Peripherals";
@@ -125,7 +127,9 @@ const Desk = () => {
       <Plant position={[-0.71, TOP, -0.47]} />
       <Headphones position={[0.66, TOP, 0.07]} />
       <Microphone position={[0.74, TOP, -0.53]} />
+      <MonitorRiser position-y={TOP} />
       <LedStrip />
+      <CableTray position-y={TOP - 0.03} />
     </group>
   );
 };

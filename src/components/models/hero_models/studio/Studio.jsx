@@ -112,7 +112,7 @@ const Studio = () => {
       <Desk />
       <Monitors />
       <Chair position={[0.2, 0, 0.72]} />
-      <Shelf position={[-1.22, 0, -0.43]} />
+      <Shelf position={[-1.22, 0, -0.6]} />
       <FloorPlant position={[0.95, 0, -0.12]} />
       <PcTower position={[0.5, 0, -0.3]} />
     </group>
