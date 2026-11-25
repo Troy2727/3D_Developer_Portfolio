@@ -5,6 +5,7 @@ import Coffee from "./Coffee";
 import Headphones from "./Headphones";
 import LedStrip from "./LedStrip";
 import Microphone from "./Microphone";
+import MugWarmer, { WARMER_TOP } from "./MugWarmer";
 import { Keyboard, Mouse } from "./Peripherals";
 import { oakTexture } from "./surfaceTextures";
 
@@ -112,8 +113,12 @@ const Desk = () => {
         </mesh>
       </group>
 
-      {/* In front of the left monitor's outer edge, so the steam rises clear of it */}
-      <Coffee position={[-0.68, TOP, -0.14]} />
+      {/* Hot coffee on its warmer, in front of the left monitor's outer edge so the
+          steam rises clear of it and the warmer clears the notebook */}
+      <group position={[-0.7, TOP, -0.18]}>
+        <MugWarmer />
+        <Coffee position-y={WARMER_TOP} />
+      </group>
       <Plant position={[-0.71, TOP, -0.47]} />
       <Headphones position={[0.66, TOP, 0.07]} />
       <Microphone position={[0.74, TOP, -0.53]} />
