@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import * as THREE from "three";
 
-import { makeCanvas, mountainPrintTexture, printTexture, shapesPrintTexture, toTexture } from "./surfaceTextures";
+import { codeTagPrintTexture, gitGraphPrintTexture, stackPrintTexture } from "./printArt";
+import { makeCanvas, toTexture } from "./surfaceTextures";
 
 // A gallery row on the back wall (face at z = -0.6): three framed prints, centered on
 // one line with even 4 cm gaps. Each frame is built like a real one: four moulding bars,
@@ -71,9 +71,9 @@ const Frame = ({ x, size: [w, h], border, color, art, artSize: [aw, ah], shadow 
 const WallArt = () => {
   const textures = useMemo(
     () => ({
-      build: printTexture(),
-      mountains: mountainPrintTexture(),
-      shapes: shapesPrintTexture(),
+      stack: stackPrintTexture(),
+      git: gitGraphPrintTexture(),
+      codeTag: codeTagPrintTexture(),
       shadow: shadowTexture(),
     }),
     []
@@ -81,9 +81,9 @@ const WallArt = () => {
 
   return (
     <group>
-      <Frame x={-0.42} size={[0.46, 0.58]} border={0.024} color="#151515" art={textures.build} artSize={[0.36, 0.45]} shadow={textures.shadow} />
-      <Frame x={0.06} size={[0.42, 0.34]} border={0.022} color="#5b3a24" art={textures.mountains} artSize={[0.3, 0.234]} shadow={textures.shadow} />
-      <Frame x={0.46} size={[0.3, 0.3]} border={0.02} color="#c8a47a" art={textures.shapes} artSize={[0.2, 0.2]} shadow={textures.shadow} />
+      <Frame x={-0.42} size={[0.46, 0.58]} border={0.024} color="#151515" art={textures.stack} artSize={[0.36, 0.45]} shadow={textures.shadow} />
+      <Frame x={0.06} size={[0.42, 0.34]} border={0.022} color="#5b3a24" art={textures.git} artSize={[0.3, 0.234]} shadow={textures.shadow} />
+      <Frame x={0.46} size={[0.3, 0.3]} border={0.02} color="#c8a47a" art={textures.codeTag} artSize={[0.2, 0.2]} shadow={textures.shadow} />
     </group>
   );
 };
