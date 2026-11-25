@@ -5,6 +5,7 @@ import Chair from "./Chair";
 import Desk from "./Desk";
 import FloorPlant from "./FloorPlant";
 import Monitors from "./Monitors";
+import PcTower from "./PcTower";
 import Shelf from "./Shelf";
 import { floorTexture, printTexture, skyTexture } from "./surfaceTextures";
 
@@ -93,6 +94,7 @@ const Studio = () => {
       <Chair position={[0.2, 0, 0.72]} rotation-y={-0.45} />
       <Shelf position={[-1.22, 0, -0.43]} />
       <FloorPlant position={[1.04, 0, -0.33]} />
+      <PcTower position={[0.5, 0, -0.3]} />
     </group>
   );
 };

@@ -1,7 +1,10 @@
-import { useLayoutEffect, useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { RoundedBox } from "@react-three/drei";
-import * as THREE from "three";
 
+import Headphones from "./Headphones";
+import LedStrip from "./LedStrip";
+import Microphone from "./Microphone";
+import { Keyboard, Mouse } from "./Peripherals";
 import { oakTexture } from "./surfaceTextures";
 
 // Desk 160 x 75 cm, top at 75 cm, pushed against the back wall (z = -0.6)
@@ -10,63 +13,6 @@ const DESK = { w: 1.6, d: 0.75, z: -0.2 };
 const MAT_TOP = TOP + 0.003;
 
 const Steel = () => <meshStandardMaterial color="#1b1b1d" roughness={0.5} metalness={0.7} />;
-
-// Magic Keyboard-sized: 279 x 115 mm, 15 key units wide
-const U = 0.0185;
-const KEY_ROWS = [
-  { w: Array(14).fill(15 / 14), h: 0.5 },
-  { w: [...Array(13).fill(1), 2] },
-  { w: [1.5, ...Array(12).fill(1), 1.5] },
-  { w: [1.75, ...Array(11).fill(1), 2.25] },
-  { w: [2.25, ...Array(10).fill(1), 2.75] },
-  { w: [1, 1, 1, 1.25, 5, 1.25, 1, 1, 1, 1] },
-];
-
-const Keyboard = (props) => {
-  const keys = useRef();
-  const count = KEY_ROWS.reduce((n, row) => n + row.w.length, 0);
-
-  useLayoutEffect(() => {
-    const m = new THREE.Matrix4();
-    let i = 0;
-    let z = -0.051;
-    for (const row of KEY_ROWS) {
-      const depth = (row.h ?? 1) * U;
-      let x = -7.5 * U;
-      for (const w of row.w) {
-        m.compose(
-          new THREE.Vector3(x + (w * U) / 2, 0.0055, z + depth / 2),
-          new THREE.Quaternion(),
-          new THREE.Vector3(w * U - 0.0026, 0.003, depth - 0.0026)
-        );
-        keys.current.setMatrixAt(i++, m);
-        x += w * U;
-      }
-      z += depth;
-    }
-    keys.current.instanceMatrix.needsUpdate = true;
-  }, []);
-
-  return (
-    <group {...props}>
-      <RoundedBox args={[0.279, 0.006, 0.115]} radius={0.0028} smoothness={2} position-y={0.003} castShadow receiveShadow>
-        <meshStandardMaterial color="#d9dadd" roughness={0.3} metalness={0.55} />
-      </RoundedBox>
-      <instancedMesh ref={keys} args={[undefined, undefined, count]} castShadow>
-        <boxGeometry />
-        <meshStandardMaterial color="#f7f7f5" roughness={0.55} />
-      </instancedMesh>
-    </group>
-  );
-};
-
-const Mouse = (props) => (
-  // Lower half of the ellipsoid sits inside the mat, leaving the Magic Mouse dome
-  <mesh {...props} scale={[0.057, 0.043, 0.1135]} castShadow>
-    <sphereGeometry args={[0.5, 48, 24]} />
-    <meshPhysicalMaterial color="#f4f4f2" roughness={0.3} clearcoat={1} clearcoatRoughness={0.15} />
-  </mesh>
-);
 
 const Mug = (props) => (
   <group {...props}>
@@ -161,11 +107,12 @@ const Desk = () => {
         <meshStandardMaterial color="#2b2d31" roughness={1} />
       </mesh>
 
-      <Keyboard position={[-0.04, MAT_TOP, 0.01]} rotation-x={0.035} />
-      <Mouse position={[0.23, MAT_TOP, 0.02]} />
+      {/* Lifted 3.4 mm so the tilted front edge rests on the mat instead of sinking into it */}
+      <Keyboard position={[-0.09, MAT_TOP + 0.0034, 0.0]} rotation-x={0.05} />
+      <Mouse position={[0.29, MAT_TOP, 0.0]} rotation-y={0.08} />
 
       {/* Phone, face down */}
-      <RoundedBox args={[0.072, 0.008, 0.147]} radius={0.0035} position={[0.38, MAT_TOP + 0.004, -0.06]} rotation-y={-0.2} castShadow>
+      <RoundedBox args={[0.072, 0.008, 0.147]} radius={0.0035} position={[0.42, MAT_TOP + 0.004, -0.15]} rotation-y={-0.2} castShadow>
         <meshStandardMaterial color="#3b3d42" roughness={0.35} metalness={0.5} />
       </RoundedBox>
 
@@ -182,7 +129,10 @@ const Desk = () => {
       </group>
 
       <Mug position={[-0.62, TOP, -0.26]} />
-      <Plant position={[0.66, TOP, -0.43]} />
+      <Plant position={[-0.71, TOP, -0.47]} />
+      <Headphones position={[0.66, TOP, 0.07]} />
+      <Microphone position={[0.74, TOP, -0.53]} />
+      <LedStrip />
     </group>
   );
 };
