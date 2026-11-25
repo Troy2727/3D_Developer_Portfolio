@@ -11,6 +11,7 @@ import Monitors from "./Monitors";
 import { WallOutlet } from "./PowerOutlet";
 import PcTower from "./PcTower";
 import Shelf from "./Shelf";
+import TrashCan from "./TrashCan";
 import NeonSign from "./NeonSign";
 import { floorTexture, rugTexture, skyTexture } from "./surfaceTextures";
 import WallArt from "./WallArt";
@@ -120,6 +121,8 @@ const Studio = ({ focused = false, onFocusScreen }) => {
       <Shelf position={[-1.22, 0, -0.6]} />
       <FloorPlant position={[0.95, 0, -0.12]} />
       <PcTower position={[0.5, 0, -0.3]} />
+      {/* Under the desk on the left, clear of the leg, the outlet cord and the PC */}
+      <TrashCan position={[-0.45, 0, -0.3]} />
     </group>
   );
 };
