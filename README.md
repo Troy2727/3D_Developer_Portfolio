@@ -65,7 +65,7 @@ The site is a single landing page built around an interactive 3D room you can ro
 
 ## <img src="docs/icons/features.svg" width="28" height="28" align="top" alt="" /> <a name="features">Features</a>
 
-👉 **Interactive 3D hero**: a lit 3D room with floating particles, built with React Three Fiber. Drag to rotate, scroll to zoom.
+👉 **Interactive 3D hero**: a developer studio built entirely in code with React Three Fiber (no 3D model files), with curved monitors running live Claude and VS Code screens and low sun through the blinds. Drag to look around the full room, scroll or pinch to zoom, click a monitor to read its screen, and drag the chair aside.
 
 👉 **First-screen pitch**: headline, intro, call to action, and proof (MIT xPRO, FanClash, 18+ projects) all visible without scrolling.
 
@@ -101,13 +101,13 @@ src/
 ├── sections/       # Page sections in order: Hero, ShowcaseSection, FeatureCards,
 │                   # Experience, TechStack, Contact, Footer
 ├── components/     # NavBar, Button, TitleHeader, AnimatedCounter, GlowCard
-│   └── models/     # 3D scenes: hero room, contact desk, tech logos
+│   └── models/     # 3D scenes: hero studio (built in code), contact desk, tech logos
 ├── constants/      # Copy and data: nav links, counters, education, tech stack, socials
 ├── hooks/
 └── index.css       # Tailwind theme and section styles
 public/
 ├── images/         # Project cards, logos, icons
-└── models/         # Compressed .glb 3D models
+└── models/         # Compressed .glb models for the contact desk and tech logos
 ```
 
 ## <img src="docs/icons/quick-start.svg" width="28" height="28" align="top" alt="" /> <a name="quick-start">Quick Start</a>
