@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 
+import { isPhone } from "./device";
 import { reducedMotion } from "./rgb";
 import { createClaudeScreen, createCodeScreen } from "./screenTextures";
 import { makeCanvas, toTexture } from "./surfaceTextures";
@@ -158,7 +159,7 @@ const Webcam = () => (
 
 // The screens play their typing animations; phones redraw them less often, and visitors
 // who prefer reduced motion see the finished frame.
-const SCREEN_FPS = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches ? 6 : 12;
+const SCREEN_FPS = isPhone ? 6 : 12;
 const FINISHED = 20; // seconds into both loops: conversation and code complete
 
 const Monitors = ({ onSelect }) => {

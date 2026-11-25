@@ -1,6 +1,7 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
+import { isPhone } from "./device";
 import { PeaceLily, TulipBouquet } from "./Flowers";
 import { DevBoard, FilmCamera, GameController, Robot, Succulent } from "./ShelfDecor";
 import { makeCanvas, oakTexture, seeded, toTexture } from "./surfaceTextures";
@@ -146,8 +147,9 @@ const Shelf = (props) => {
       {SHELVES.map((y) => (
         <FloatingShelf key={y} y={y} oak={oak} wash={wash} />
       ))}
-      {/* One warm light for the whole column, standing in for the three LED strips */}
-      <pointLight position={[0, 1.35, 0.3]} intensity={0.5} distance={1.2} decay={2} color="#ffc98a" />
+      {/* One warm light for the whole column, standing in for the three LED strips
+          (phones make do with the strips' wall glow) */}
+      {!isPhone && <pointLight position={[0, 1.35, 0.3]} intensity={0.5} distance={1.2} decay={2} color="#ffc98a" />}
 
       <Books />
       {/* Bookend holding the books on the lowest shelf */}

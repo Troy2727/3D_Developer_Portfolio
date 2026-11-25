@@ -24,7 +24,7 @@ const StudioLights = ({ isMobile }) => (
     {/* Warm room bounce, kept low so the sun stripes stand out */}
     <hemisphereLight args={["#f3e6d6", "#5a4330", 0.6]} />
     {/* Faint glow from the two screens onto the desk */}
-    <pointLight position={[0, 1.15, -0.15]} intensity={0.35} distance={1.6} color="#c8d4ff" />
+    {!isMobile && <pointLight position={[0, 1.15, -0.15]} intensity={0.35} distance={1.6} color="#c8d4ff" />}
 
     {/* Reflections only: a soft window, ceiling and room fill, no HDR download */}
     <Environment resolution={256} frames={1} environmentIntensity={0.45}>
