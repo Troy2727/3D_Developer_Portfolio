@@ -122,3 +122,79 @@ export function printTexture() {
   g.fillText("ALEX — STUDIO 2026", 256, 545);
   return toTexture(canvas);
 }
+
+// Second print: layered mountains at dusk
+export function mountainPrintTexture() {
+  const [canvas, g] = makeCanvas(512, 400);
+  const sky = g.createLinearGradient(0, 0, 0, 400);
+  sky.addColorStop(0, "#f6d6b0");
+  sky.addColorStop(1, "#f0b58a");
+  g.fillStyle = sky;
+  g.fillRect(0, 0, 512, 400);
+  g.fillStyle = "#fff4e2";
+  g.beginPath();
+  g.arc(350, 150, 46, 0, Math.PI * 2);
+  g.fill();
+  const ridges = ["#c9826b", "#9c6257", "#6e4a4f", "#43363f"];
+  ridges.forEach((color, i) => {
+    g.fillStyle = color;
+    g.beginPath();
+    g.moveTo(0, 400);
+    for (let x = 0; x <= 512; x += 16) {
+      const y = 190 + i * 48 - Math.sin(x / (90 + i * 25) + i * 1.7) * (40 - i * 6) - Math.sin(x / 31 + i) * 6;
+      g.lineTo(x, y);
+    }
+    g.lineTo(512, 400);
+    g.fill();
+  });
+  return toTexture(canvas);
+}
+
+// Third print: Bauhaus shapes in the room's palette
+export function shapesPrintTexture() {
+  const [canvas, g] = makeCanvas(400, 400);
+  g.fillStyle = "#efe7da";
+  g.fillRect(0, 0, 400, 400);
+  g.fillStyle = "#5f7a61";
+  g.fillRect(60, 60, 140, 280);
+  g.fillStyle = "#d0784f";
+  g.beginPath();
+  g.arc(250, 160, 90, Math.PI, 0);
+  g.fill();
+  g.fillStyle = "#e8b04a";
+  g.beginPath();
+  g.arc(270, 280, 50, 0, Math.PI * 2);
+  g.fill();
+  g.strokeStyle = "#2b2a2e";
+  g.lineWidth = 6;
+  g.beginPath();
+  g.moveTo(60, 350);
+  g.lineTo(340, 350);
+  g.stroke();
+  return toTexture(canvas);
+}
+
+// Top of a fresh coffee: dark center, lighter crema toward the rim
+export function cremaTexture() {
+  const [canvas, g] = makeCanvas(128, 128);
+  const crema = g.createRadialGradient(64, 64, 4, 64, 64, 64);
+  crema.addColorStop(0, "#3a1f0f");
+  crema.addColorStop(0.55, "#5c3418");
+  crema.addColorStop(0.85, "#9a6a40");
+  crema.addColorStop(1, "#b98a5c");
+  g.fillStyle = crema;
+  g.fillRect(0, 0, 128, 128);
+  return toTexture(canvas);
+}
+
+// One soft puff of steam: white fading to transparent
+export function steamTexture() {
+  const [canvas, g] = makeCanvas(64, 64);
+  const puff = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  puff.addColorStop(0, "rgba(255,255,255,0.9)");
+  puff.addColorStop(0.5, "rgba(255,255,255,0.35)");
+  puff.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = puff;
+  g.fillRect(0, 0, 64, 64);
+  return toTexture(canvas);
+}

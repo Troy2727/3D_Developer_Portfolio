@@ -10,7 +10,8 @@ import FloorPlant from "./FloorPlant";
 import Monitors from "./Monitors";
 import PcTower from "./PcTower";
 import Shelf from "./Shelf";
-import { floorTexture, printTexture, skyTexture } from "./surfaceTextures";
+import { floorTexture, skyTexture } from "./surfaceTextures";
+import WallArt from "./WallArt";
 
 // Real-world meters. Floor at y = 0, back wall face at z = -0.6,
 // window wall face at x = 1.3 with a 1.2 x 1.4 m window opening.
@@ -32,7 +33,6 @@ const setDrawn = (material, drawn) => {
 const Studio = () => {
   const floor = useMemo(() => floorTexture(), []);
   const sky = useMemo(() => skyTexture(), []);
-  const print = useMemo(() => printTexture(), []);
   const backWall = useMemo(() => new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.95 }), []);
   const sideWall = useMemo(() => new THREE.MeshStandardMaterial({ color: WALL_COLOR, roughness: 0.95 }), []);
   const backDecor = useRef();
@@ -71,22 +71,13 @@ const Studio = () => {
       <Wall args={[0.1, 1.4, 0.35]} position={[1.35, 1.55, -0.525]} material={sideWall} />
       <Wall args={[0.1, 1.4, 0.45]} position={[1.35, 1.55, 1.075]} material={sideWall} />
 
-      {/* Things on the back wall hide with it: baseboard and framed print */}
+      {/* Things on the back wall hide with it: baseboard and the framed prints */}
       <group ref={backDecor}>
         <mesh position={[-0.2, 0.04, -0.5925]} receiveShadow>
           <boxGeometry args={[3.0, 0.08, 0.015]} />
           <meshStandardMaterial color="#f3efe8" roughness={0.7} />
         </mesh>
-        <group position={[-0.42, 1.74, -0.585]}>
-          <mesh castShadow>
-            <boxGeometry args={[0.46, 0.58, 0.025]} />
-            <meshStandardMaterial color="#1a1a1a" roughness={0.6} />
-          </mesh>
-          <mesh position-z={0.0135}>
-            <planeGeometry args={[0.4, 0.5]} />
-            <meshStandardMaterial map={print} roughness={0.85} />
-          </mesh>
-        </group>
+        <WallArt />
       </group>
 
       {/* Invisible ceiling and window-wall extension: they cast shadow only, so the

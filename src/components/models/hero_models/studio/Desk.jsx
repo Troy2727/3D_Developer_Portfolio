@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { RoundedBox } from "@react-three/drei";
 
+import Coffee from "./Coffee";
 import Headphones from "./Headphones";
 import LedStrip from "./LedStrip";
 import Microphone from "./Microphone";
@@ -13,23 +14,6 @@ const DESK = { w: 1.6, d: 0.75, z: -0.2 };
 const MAT_TOP = TOP + 0.003;
 
 const Steel = () => <meshStandardMaterial color="#1b1b1d" roughness={0.5} metalness={0.7} />;
-
-const Mug = (props) => (
-  <group {...props}>
-    <mesh position-y={0.0475} castShadow receiveShadow>
-      <cylinderGeometry args={[0.041, 0.038, 0.095, 40]} />
-      <meshStandardMaterial color="#e9e4dc" roughness={0.6} />
-    </mesh>
-    <mesh position-y={0.0953} rotation-x={-Math.PI / 2}>
-      <circleGeometry args={[0.037, 40]} />
-      <meshStandardMaterial color="#2a170c" roughness={0.15} />
-    </mesh>
-    <mesh position={[0.045, 0.05, 0]} castShadow>
-      <torusGeometry args={[0.022, 0.006, 12, 24, Math.PI]} />
-      <meshStandardMaterial color="#e9e4dc" roughness={0.6} />
-    </mesh>
-  </group>
-);
 
 // Snake plant in a concrete pot
 const Plant = (props) => {
@@ -128,7 +112,8 @@ const Desk = () => {
         </mesh>
       </group>
 
-      <Mug position={[-0.62, TOP, -0.26]} />
+      {/* In front of the left monitor's outer edge, so the steam rises clear of it */}
+      <Coffee position={[-0.68, TOP, -0.14]} />
       <Plant position={[-0.71, TOP, -0.47]} />
       <Headphones position={[0.66, TOP, 0.07]} />
       <Microphone position={[0.74, TOP, -0.53]} />

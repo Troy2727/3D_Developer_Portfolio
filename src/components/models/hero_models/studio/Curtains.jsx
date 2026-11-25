@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import * as THREE from "three";
 
-// Linen curtains on a rod, gathered on both sides of the window (opening z -0.35..0.85).
+// Velvet curtains on a rod, gathered on both sides of the window (opening z -0.35..0.85).
 // They hang just inside the window wall (x = 1.3) from the rod down to the floor.
 const X = 1.225;
 const ROD_Y = 2.37;
@@ -52,7 +52,15 @@ const Curtains = () => {
       {PANELS.map(({ z0, z1 }, i) => (
         // Plane spans local x; turning it -90° lays that along +z and faces it into the room
         <mesh key={i} geometry={panels[i]} position={[X, TOP - HEIGHT / 2, (z0 + z1) / 2]} rotation-y={-Math.PI / 2} castShadow receiveShadow>
-          <meshStandardMaterial color="#cfc2a8" roughness={1} side={THREE.DoubleSide} />
+          {/* Sage-green velvet: deep color with a soft sheen where the light grazes the folds */}
+          <meshPhysicalMaterial
+            color="#6e8f6c"
+            roughness={0.85}
+            sheen={1}
+            sheenColor="#b9d1b0"
+            sheenRoughness={0.45}
+            side={THREE.DoubleSide}
+          />
         </mesh>
       ))}
     </group>
