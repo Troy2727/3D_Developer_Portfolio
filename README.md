@@ -1,11 +1,11 @@
 <div align="center">
-  <a href="docs/hero-2026-11.png" title="Click to see full size">
-    <img src="docs/hero-2026-11.png" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D developer studio, with two curved monitors running Claude and VS Code, a bookshelf, plants, a neon sign and late-afternoon sun through the blinds" />
+  <a href="docs/hero-front.png" title="Click to see full size">
+    <img src="docs/hero-front.png" alt="Hero section of alexportfolio.net: the headline 'Full-stack engineer who ships real products.' next to an interactive 3D developer studio, with two curved monitors running Claude and VS Code, a bookshelf, plants, a neon sign and late-afternoon sun through the blinds" />
   </a>
   <p><sub>Click the screenshot to see it full size.</sub></p>
 
-  <a href="docs/hero-demo.gif" title="Click to see full size">
-    <img src="docs/hero-demo.gif" width="100%" alt="The hero in motion: the chair is dragged aside to show the desk, the camera orbits all the way round the room past the back of the desk, then zooms onto the left monitor, where Claude says Welcome back, Alex and a conversation types itself out, and onto the right monitor, where VS Code types out the studio's code" />
+  <a href="docs/hero-demo-full.gif" title="Click to see full size">
+    <img src="docs/hero-demo-full.gif" width="100%" alt="The hero in motion: the chair is dragged aside to show the desk, the camera orbits all the way round the room past the back of the desk, then zooms onto the left monitor, where Claude says Welcome back, Alex and a conversation types itself out, and onto the right monitor, where VS Code types out the studio's code" />
   </a>
   <p><sub>Drag to look around, scroll to zoom, click a monitor to read its screen. Click the animation to see it full size.</sub></p>
 
