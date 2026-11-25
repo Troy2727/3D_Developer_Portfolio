@@ -153,7 +153,7 @@ const wrap = (g, str, maxWidth, font) => {
 };
 
 const caretAt = (g, x, y, h) => {
-  g.fillStyle = "#e8e6e3";
+  g.fillStyle = THEME.pink;
   g.fillRect(x + 3, y - h + 6, 3, h);
 };
 
@@ -171,27 +171,84 @@ const CLAUDE_CODE_CHARS = CLAUDE_CODE.join("").length;
 const CLAUDE_LOOP = 28; // seconds
 const RECENTS = ["Studio hero in three.js", "FanClash live chat fix", "Contact form with EmailJS", "Go API rate limiter", "Interview prep notes", "README diagram"];
 
+// Line-drawing helpers for the screens' icons
+const path = (g, points, close = false) => {
+  g.beginPath();
+  points.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
+  if (close) g.closePath();
+  g.stroke();
+};
+const circle = (g, x, y, r) => {
+  g.beginPath();
+  g.arc(x, y, r, 0, Math.PI * 2);
+  g.stroke();
+};
+
+// The site's purple -> pink, for buttons and the avatar
+const accent = (g, x0, x1) => {
+  const gradient = g.createLinearGradient(x0, 0, x1, 0);
+  gradient.addColorStop(0, "#7B61FF");
+  gradient.addColorStop(1, THEME.pink);
+  return gradient;
+};
+
+// Small sidebar icons, drawn around (x, y)
+const SIDEBAR_ICONS = {
+  chats: (g, x, y) => {
+    g.beginPath();
+    g.roundRect(x - 13, y - 11, 26, 18, 6);
+    g.stroke();
+    path(g, [[x - 6, y + 7], [x - 9, y + 13], [x + 1, y + 7]]);
+  },
+  projects: (g, x, y) => {
+    path(g, [[x - 13, y + 10], [x - 13, y - 10], [x - 4, y - 10], [x - 1, y - 6], [x + 13, y - 6], [x + 13, y + 10]], true);
+  },
+  artifacts: (g, x, y) => {
+    for (const [dx, dy] of [[-12, -11], [2, -11], [-12, 2], [2, 2]]) g.strokeRect(x + dx, y + dy, 10, 10);
+  },
+};
+
 const claudeSidebar = (g) => {
-  g.fillStyle = "#1f1e1d";
+  g.fillStyle = THEME.sidebar;
   g.fillRect(0, 0, 420, H);
-  text(g, "Claude", 48, 88, `400 46px ${SERIF}`, "#ecebe8");
-  box(g, 36, 128, 348, 66, 14, "#2e2d2b");
-  text(g, "+   New chat", 64, 172, `600 30px ${SANS}`, "#e0896a");
-  text(g, "Recents", 48, 252, `600 24px ${SANS}`, "#8f8d88");
-  RECENTS.forEach((title, i) => {
-    const y = 278 + i * 64;
-    if (i === 0) box(g, 30, y, 360, 54, 10, "#363532");
-    text(g, title, 52, y + 37, `400 27px ${SANS}`, i === 0 ? "#f4f2ee" : "#bfbdb8");
+  g.fillStyle = THEME.border;
+  g.fillRect(419, 0, 1, H);
+  text(g, "Claude", 48, 88, `400 46px ${SERIF}`, THEME.text);
+
+  box(g, 36, 128, 348, 66, 14, "#211f2b");
+  g.fillStyle = accent(g, 52, 92);
+  g.beginPath();
+  g.arc(72, 161, 18, 0, Math.PI * 2);
+  g.fill();
+  text(g, "+", 72, 171, `700 30px ${SANS}`, "#ffffff", "center");
+  text(g, "New chat", 104, 172, `600 30px ${SANS}`, THEME.pink);
+
+  g.strokeStyle = THEME.muted;
+  g.lineWidth = 2.5;
+  g.lineCap = "round";
+  g.lineJoin = "round";
+  ["Chats", "Projects", "Artifacts"].forEach((label, i) => {
+    const y = 236 + i * 52;
+    SIDEBAR_ICONS[label.toLowerCase()](g, 64, y - 9);
+    text(g, label, 96, y, `500 27px ${SANS}`, THEME.muted);
   });
-  g.fillStyle = "#34332f";
+
+  text(g, "Recents", 48, 420, `600 24px ${SANS}`, THEME.dim);
+  RECENTS.forEach((title, i) => {
+    const y = 440 + i * 60;
+    if (i === 0) box(g, 30, y, 360, 52, 10, THEME.selection);
+    text(g, title, 52, y + 36, `400 26px ${SANS}`, i === 0 ? THEME.text : THEME.muted);
+  });
+
+  g.fillStyle = THEME.border;
   g.fillRect(24, H - 128, 372, 2);
-  g.fillStyle = "#d97757";
+  g.fillStyle = accent(g, 50, 114);
   g.beginPath();
   g.arc(82, H - 64, 32, 0, Math.PI * 2);
   g.fill();
-  text(g, "A", 82, H - 52, `700 32px ${SANS}`, "#1f1e1d", "center");
-  text(g, "Alex", 132, H - 70, `600 32px ${SANS}`, "#f4f2ee");
-  text(g, "Pro plan", 132, H - 36, `400 23px ${SANS}`, "#8f8d88");
+  text(g, "A", 82, H - 52, `700 32px ${SANS}`, "#ffffff", "center");
+  text(g, "Alex", 132, H - 70, `600 32px ${SANS}`, THEME.text);
+  text(g, "Pro plan", 132, H - 36, `400 23px ${SANS}`, THEME.muted);
 };
 
 const claudeTimeline = {
@@ -205,7 +262,7 @@ const claudeTimeline = {
     return { view: "chat", reply, code, status: s > 14, caret: busy && caret };
   },
   render: (g, state) => {
-    g.fillStyle = "#262624";
+    g.fillStyle = THEME.bg;
     g.fillRect(0, 0, W, H);
     claudeSidebar(g);
     const x0 = 640;
@@ -214,36 +271,36 @@ const claudeTimeline = {
     if (state.view === "home") {
       // Greeting, then the prompt being typed into the composer
       starburst(g, 830, 360, 34);
-      text(g, "Welcome back, Alex", 1200, 384, `400 68px ${SERIF}`, "#ecebe8", "center");
-      box(g, x0 - 20, 450, col + 40, 210, 28, "#30302e");
+      text(g, "Welcome back, Alex", 1200, 384, `400 68px ${SERIF}`, THEME.text, "center");
+      box(g, x0 - 20, 450, col + 40, 210, 28, "#24232b");
       const font = `400 32px ${SANS}`;
       if (state.typed === 0) {
-        text(g, "How can I help you today?", x0 + 14, 510, font, "#8f8d88");
+        text(g, "How can I help you today?", x0 + 14, 510, font, THEME.muted);
         if (state.caret) caretAt(g, x0 + 8, 510, 36);
       } else {
         const lines = wrap(g, PROMPT.slice(0, state.typed), col - 40, font);
-        lines.forEach((line, i) => text(g, line, x0 + 14, 510 + i * 44, font, "#f4f2ee"));
+        lines.forEach((line, i) => text(g, line, x0 + 14, 510 + i * 44, font, THEME.text));
         g.font = font;
         if (state.caret) caretAt(g, x0 + 14 + g.measureText(lines[lines.length - 1]).width, 510 + (lines.length - 1) * 44, 36);
       }
-      box(g, x0 + col - 58, 598, 54, 48, 12, state.typed ? "#d97757" : "#5a4a42");
+      box(g, x0 + col - 58, 598, 54, 48, 12, state.typed ? accent(g, x0 + col - 58, x0 + col - 4) : "#2f2d3a");
       text(g, "↑", x0 + col - 31, 634, `700 30px ${SANS}`, "#ffffff", "center");
       ["</>  Code", "✎  Write", "◎  Learn", "☕  Life stuff"].forEach((chip, i) => {
-        box(g, x0 + 120 + i * 205, 700, 185, 56, 14, "#2e2d2b");
-        text(g, chip, x0 + 212 + i * 205, 737, `500 25px ${SANS}`, "#bfbdb8", "center");
+        box(g, x0 + 120 + i * 205, 700, 185, 56, 14, "#24232b");
+        text(g, chip, x0 + 212 + i * 205, 737, `500 25px ${SANS}`, THEME.muted, "center");
       });
       return;
     }
 
     // The conversation: prompt, streamed reply, code block filling in line by line
-    text(g, "Studio hero in three.js", 1170, 64, `500 27px ${SANS}`, "#bfbdb8", "center");
-    box(g, x0 + 260, 112, col - 260, 148, 22, "#393937");
-    paragraph(g, PROMPT, x0 + 292, 166, col - 324, 42, `400 30px ${SANS}`, "#f4f2ee");
+    text(g, "Studio hero in three.js", 1170, 64, `500 27px ${SANS}`, THEME.muted, "center");
+    box(g, x0 + 260, 112, col - 260, 148, 22, "#2a2740");
+    paragraph(g, PROMPT, x0 + 292, 166, col - 324, 42, `400 30px ${SANS}`, THEME.text);
 
     starburst(g, x0 + 20, 320, 22);
     const font = `400 30px ${SANS}`;
     const lines = wrap(g, REPLY.slice(0, state.reply), col - 64, font);
-    lines.forEach((line, i) => text(g, line, x0 + 64, 332 + i * 42, font, "#e8e6e3"));
+    lines.forEach((line, i) => text(g, line, x0 + 64, 332 + i * 42, font, "#c9d6e8"));
     let y = 332 + lines.length * 42;
     if (state.reply < REPLY.length) {
       g.font = font;
@@ -252,8 +309,8 @@ const claudeTimeline = {
     }
 
     y += 8;
-    box(g, x0, y, col, 284, 16, "#1a1a18");
-    text(g, "jsx", x0 + 28, y + 40, `500 22px ${SANS}`, "#8f8d88");
+    box(g, x0, y, col, 284, 16, THEME.sidebar);
+    text(g, "jsx", x0 + 28, y + 40, `500 22px ${SANS}`, THEME.muted);
     let left = state.code;
     CLAUDE_CODE.forEach((line, i) => {
       if (left <= 0) return;
@@ -261,11 +318,11 @@ const claudeTimeline = {
       left -= line.length;
     });
     y += 284 + 52;
-    if (state.status) text(g, "Round 3   desk 9/10 · monitors 9/10 · blinds 8/10 → fixing blinds", x0, y, `500 26px ${SANS}`, "#a8a6a1");
+    if (state.status) text(g, "Round 3   desk 9/10 · monitors 9/10 · blinds 8/10 → fixing blinds", x0, y, `500 26px ${SANS}`, THEME.muted);
 
-    box(g, x0 - 20, H - 176, col + 40, 128, 28, "#30302e");
-    text(g, "Reply to Claude…", x0 + 14, H - 116, `400 30px ${SANS}`, "#8f8d88");
-    box(g, x0 + col - 58, H - 108, 54, 48, 12, "#d97757");
+    box(g, x0 - 20, H - 176, col + 40, 128, 28, "#24232b");
+    text(g, "Reply to Claude…", x0 + 14, H - 116, `400 30px ${SANS}`, THEME.muted);
+    box(g, x0 + col - 58, H - 108, 54, 48, 12, accent(g, x0 + col - 58, x0 + col - 4));
     text(g, "↑", x0 + col - 31, H - 72, `700 30px ${SANS}`, "#ffffff", "center");
   },
 };
@@ -326,18 +383,6 @@ const TREE = [
 ];
 
 // VS Code's activity bar: line icons drawn around each icon's center (cx, cy)
-const path = (g, points, close = false) => {
-  g.beginPath();
-  points.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
-  if (close) g.closePath();
-  g.stroke();
-};
-const circle = (g, x, y, r) => {
-  g.beginPath();
-  g.arc(x, y, r, 0, Math.PI * 2);
-  g.stroke();
-};
-
 const ICONS = {
   explorer: (g, x, y) => {
     path(g, [[x - 14, y - 6], [x - 2, y - 6], [x + 4, y], [x + 4, y + 18], [x - 14, y + 18]], true);
@@ -425,6 +470,69 @@ const activityBar = (g) => {
   ICONS.manage(g, 36, H - 82);
 };
 
+// Explorer rows: a chevron for folders, then a folder or file icon, then the name
+const FOLDER_COLORS = { src: THEME.blue, components: THEME.purple, hero_models: THEME.lavender, studio: THEME.pink, sections: THEME.amber };
+
+const folderIcon = (g, x, y, color, open) => {
+  g.fillStyle = color;
+  g.beginPath();
+  g.moveTo(x, y + 16);
+  g.lineTo(x, y);
+  g.lineTo(x + 9, y);
+  g.lineTo(x + 12, y + 3);
+  g.lineTo(x + 24, y + 3);
+  g.lineTo(x + 24, y + 16);
+  g.closePath();
+  g.fill();
+  if (open) {
+    g.fillStyle = "rgba(255,255,255,0.25)";
+    g.beginPath();
+    g.moveTo(x + 3, y + 7);
+    g.lineTo(x + 27, y + 7);
+    g.lineTo(x + 24, y + 16);
+    g.lineTo(x, y + 16);
+    g.closePath();
+    g.fill();
+  }
+};
+
+const reactIcon = (g, x, y) => {
+  g.strokeStyle = THEME.blue;
+  g.lineWidth = 1.8;
+  for (let i = 0; i < 3; i++) {
+    g.beginPath();
+    g.ellipse(x, y, 11, 4.5, (i * Math.PI) / 3, 0, Math.PI * 2);
+    g.stroke();
+  }
+  g.fillStyle = THEME.blue;
+  g.beginPath();
+  g.arc(x, y, 2.4, 0, Math.PI * 2);
+  g.fill();
+};
+
+const treeRow = (g, depth, name, kind, y) => {
+  const x = 96 + depth * 22;
+  const iconX = x + 20;
+  let label = name;
+  if (kind === "FOLDER") {
+    const open = name.startsWith("⌄");
+    label = name.slice(2);
+    g.strokeStyle = THEME.muted;
+    g.lineWidth = 2.5;
+    g.lineCap = "round";
+    g.lineJoin = "round";
+    if (open) path(g, [[x, y - 12], [x + 5, y - 7], [x + 10, y - 12]]);
+    else path(g, [[x + 3, y - 15], [x + 8, y - 10], [x + 3, y - 5]]);
+    folderIcon(g, iconX, y - 19, FOLDER_COLORS[label] ?? THEME.muted, open);
+  } else if (kind === "PKG") {
+    text(g, "{ }", iconX + 12, y - 1, `700 19px ${MONO}`, THEME.amber, "center");
+  } else {
+    reactIcon(g, iconX + 12, y - 9);
+  }
+  const font = depth === 0 ? `600 20px ${SANS}` : `400 23px ${SANS}`;
+  text(g, label, iconX + 34, y, font, kind === "FOLDER" ? THEME.muted : kind === "PKG" ? THEME.amber : THEME.text);
+};
+
 const codeTimeline = {
   frame: (t) => {
     const s = t % CODE_LOOP;
@@ -451,8 +559,7 @@ const codeTimeline = {
         g.fillStyle = THEME.selection;
         g.fillRect(72, y - 28, 380, 40);
       }
-      const tint = { FOLDER: THEME.muted, FILE: THEME.text, PKG: THEME.amber }[color];
-      text(g, name, 96 + depth * 22, y, `400 23px ${SANS}`, tint);
+      treeRow(g, depth, name, color, y);
     });
 
     // Tabs: a dot on Studio.jsx until it's saved
