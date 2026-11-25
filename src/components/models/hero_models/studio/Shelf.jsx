@@ -1,8 +1,8 @@
 import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 
-import Pothos from "./Pothos";
-import { DevBoard, FilmCamera, GameController, PampasVase, Robot, Succulent } from "./ShelfDecor";
+import { PeaceLily, TulipBouquet } from "./Flowers";
+import { DevBoard, FilmCamera, GameController, Robot, Succulent } from "./ShelfDecor";
 import { makeCanvas, oakTexture, seeded, toTexture } from "./surfaceTextures";
 
 // Modern shelving on the back wall: a low black sideboard with fluted oak doors, and three
@@ -167,11 +167,11 @@ const Shelf = (props) => {
       <GameController position={[0.03, top(1), 0.13]} rotation-y={-0.25} />
       <DevBoard position={[0.23, top(1), 0.12]} rotation-y={0.4} />
 
-      {/* Pot 8 cm off the wall so the vines drape just past the shelf's front edge */}
-      <Pothos position={[-0.15, top(2), 0.08]} />
-      <FilmCamera position={[0.2, top(2), 0.12]} rotation-y={-0.4} />
+      {/* The lily stays right of the </> frame above, so its leaves clear it */}
+      <FilmCamera position={[-0.2, top(2), 0.12]} rotation-y={0.4} />
+      <PeaceLily position={[0.24, top(2), 0.12]} />
 
-      <PampasVase position={[0.22, SIDEBOARD_TOP, 0.18]} />
+      <TulipBouquet position={[0.2, SIDEBOARD_TOP, 0.18]} />
     </group>
   );
 };

@@ -115,28 +115,6 @@ export const Succulent = (props) => (
   </group>
 );
 
-// Ceramic vase with dried pampas stems
-export const PampasVase = (props) => (
-  <group {...props}>
-    <mesh position-y={0.11} castShadow receiveShadow>
-      <cylinderGeometry args={[0.035, 0.055, 0.22, 32]} />
-      <Matte color="#d9cfc0" roughness={0.85} />
-    </mesh>
-    {[-0.35, -0.1, 0.15, 0.38].map((tilt, i) => (
-      <group key={i} position-y={0.2} rotation={[0.08 * (i - 1.5), i * 1.3, tilt]}>
-        <mesh position-y={0.11}>
-          <cylinderGeometry args={[0.0018, 0.0018, 0.22, 6]} />
-          <Matte color="#b49a74" />
-        </mesh>
-        <mesh position-y={0.235} scale={[0.022, 0.06, 0.022]} castShadow>
-          <sphereGeometry args={[1, 12, 10]} />
-          <Matte color="#e7d8bd" roughness={1} />
-        </mesh>
-      </group>
-    ))}
-  </group>
-);
-
 // Compact film camera
 export const FilmCamera = (props) => (
   <group {...props}>
