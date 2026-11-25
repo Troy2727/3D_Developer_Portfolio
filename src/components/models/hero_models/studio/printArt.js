@@ -4,19 +4,26 @@ import { makeCanvas, toTexture } from "./surfaceTextures";
 const SANS = '"Segoe UI", system-ui, -apple-system, sans-serif';
 const MONO = 'Consolas, Menlo, "Courier New", monospace';
 
+// Drawn at 2x so the text stays sharp on the wall; coordinates stay in 1x units
+const hiRes = (w, h) => {
+  const [canvas, g] = makeCanvas(w * 2, h * 2);
+  g.scale(2, 2);
+  return [canvas, g];
+};
+
 // "FULL STACK": the layers of an app as an isometric stack, top to bottom
 export function stackPrintTexture() {
-  const [canvas, g] = makeCanvas(512, 640);
+  const [canvas, g] = hiRes(512, 640);
   g.fillStyle = "#f1ebe1";
   g.fillRect(0, 0, 512, 640);
 
   g.fillStyle = "#24303a";
   g.textAlign = "center";
-  g.font = `700 54px ${SANS}`;
-  g.fillText("FULL STACK", 256, 86);
-  g.font = `400 20px ${SANS}`;
-  g.fillStyle = "#6b7480";
-  g.fillText("from the pixel to the database", 256, 118);
+  g.font = `800 62px ${SANS}`;
+  g.fillText("FULL STACK", 256, 88);
+  g.font = `500 23px ${SANS}`;
+  g.fillStyle = "#4d5560";
+  g.fillText("from the pixel to the database", 256, 122);
 
   const layers = [
     ["UI", "React · TypeScript", "#4fb3bf"],
@@ -25,8 +32,8 @@ export function stackPrintTexture() {
     ["CLOUD", "Docker · Vercel", "#d0623f"],
   ];
   // Each layer is an isometric slab: top face, front face, side face
-  const cx = 180;
-  const slab = { w: 120, d: 60, h: 34 };
+  const cx = 140;
+  const slab = { w: 100, d: 54, h: 32 };
   layers.forEach(([name, tech, color], i) => {
     const y = 190 + i * 96;
     const top = [[cx, y - slab.d / 2], [cx + slab.w, y], [cx, y + slab.d / 2], [cx - slab.w, y]];
@@ -51,39 +58,39 @@ export function stackPrintTexture() {
     g.lineWidth = 2;
     g.beginPath();
     g.moveTo(cx + slab.w + 8, y + 6);
-    g.lineTo(cx + slab.w + 34, y + 6);
+    g.lineTo(cx + slab.w + 26, y + 6);
     g.stroke();
     g.textAlign = "left";
     g.fillStyle = "#24303a";
-    g.font = `700 26px ${SANS}`;
-    g.fillText(name, cx + slab.w + 42, y + 4);
-    g.fillStyle = "#6b7480";
-    g.font = `400 18px ${SANS}`;
-    g.fillText(tech, cx + slab.w + 42, y + 28);
+    g.font = `800 34px ${SANS}`;
+    g.fillText(name, cx + slab.w + 34, y + 6);
+    g.fillStyle = "#3d4550";
+    g.font = `600 22px ${SANS}`;
+    g.fillText(tech, cx + slab.w + 34, y + 36);
   });
 
   g.textAlign = "center";
   g.fillStyle = "#24303a";
   g.fillRect(70, 572, 372, 3);
-  g.font = `600 20px ${SANS}`;
-  g.fillText("ALEX · FRONT TO BACK", 256, 608);
+  g.font = `700 24px ${SANS}`;
+  g.fillText("ALEX · FRONT TO BACK", 256, 610);
   return toTexture(canvas);
 }
 
 // `git log --graph`: a main line with a feature branch and a fix merging back
 export function gitGraphPrintTexture() {
-  const [canvas, g] = makeCanvas(512, 400);
+  const [canvas, g] = hiRes(512, 400);
   g.fillStyle = "#1d2127";
   g.fillRect(0, 0, 512, 400);
   g.fillStyle = "#7d8590";
-  g.font = `400 18px ${MONO}`;
-  g.fillText("$ git log --graph --oneline", 28, 40);
+  g.font = `600 22px ${MONO}`;
+  g.fillText("$ git log --graph", 28, 42);
 
   const lanes = { main: 150, feature: 230, fix: 310 };
   const colors = { main: "#58a6ff", feature: "#3fb950", fix: "#f0883e" };
   const x0 = 50;
   const x1 = 470;
-  g.lineWidth = 6;
+  g.lineWidth = 8;
   g.lineCap = "round";
   const line = (color, pts) => {
     g.strokeStyle = color;
@@ -113,20 +120,20 @@ export function gitGraphPrintTexture() {
   g.arc(370, lanes.main, 11, 0, Math.PI * 2);
   g.fill();
 
-  g.font = `600 18px ${MONO}`;
-  [["main", "main"], ["feature/studio", "feature"], ["fix/contact-form", "fix"]].forEach(([label, lane]) => {
+  g.font = `700 24px ${MONO}`;
+  [["main", "main"], ["feature", "feature"], ["fix/contact", "fix"]].forEach(([label, lane]) => {
     g.fillStyle = colors[lane];
     g.fillText(label, 28, lanes[lane] + (lane === "main" ? -26 : 40));
   });
   g.fillStyle = "#c9d1d9";
-  g.font = `400 16px ${MONO}`;
-  g.fillText("Merge feature/studio → main  ✓ deployed", 28, 388);
+  g.font = `600 21px ${MONO}`;
+  g.fillText("✓ merged feature → main", 28, 388);
   return toTexture(canvas);
 }
 
 // A bold code tag
 export function codeTagPrintTexture() {
-  const [canvas, g] = makeCanvas(400, 400);
+  const [canvas, g] = hiRes(400, 400);
   g.fillStyle = "#24303a";
   g.fillRect(0, 0, 400, 400);
   g.textAlign = "center";
@@ -134,10 +141,10 @@ export function codeTagPrintTexture() {
   g.font = `700 150px ${MONO}`;
   g.fillText("</>", 200, 230);
   g.fillStyle = "#f1ebe1";
-  g.font = `700 34px ${SANS}`;
-  g.fillText("SHIP IT", 200, 320);
+  g.font = `800 40px ${SANS}`;
+  g.fillText("SHIP IT", 200, 318);
   g.fillStyle = "#7d8590";
-  g.font = `400 16px ${MONO}`;
-  g.fillText("build · test · deploy", 200, 352);
+  g.font = `600 22px ${MONO}`;
+  g.fillText("build · test · deploy", 200, 356);
   return toTexture(canvas);
 }
