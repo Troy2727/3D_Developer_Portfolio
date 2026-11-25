@@ -57,12 +57,13 @@ const HeroExperience = () => {
         makeDefault
         target={TARGET}
         enablePan={false}
-        enableZoom={false} // the wheel scrolls the page; click the screens to zoom in
+        enableZoom={true}
         minDistance={3.5}
         maxDistance={9}
         minPolarAngle={0.55}
         maxPolarAngle={1.48}
         rotateSpeed={0.9}
+        zoomSpeed={0.8}
         enableDamping={true}
         dampingFactor={0.05}
         touchAction="none"
@@ -85,7 +86,7 @@ const HeroExperience = () => {
       </button>
     ) : (
       <p className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap rounded-full bg-black/40 px-3 py-1 text-xs text-white/70">
-        {isTouch ? "Swipe sideways to look around · tap the screens" : "Drag to look around · click the screens to zoom in"}
+        {isTouch ? "Swipe sideways to look around · tap the screens" : "Drag to look around · scroll to zoom · click a screen"}
       </p>
     )}
     </>
