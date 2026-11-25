@@ -171,7 +171,7 @@ const Shelf = (props) => {
       <FilmCamera position={[-0.2, top(2), 0.12]} rotation-y={0.4} />
       <PeaceLily position={[0.24, top(2), 0.12]} />
 
-      <TulipBouquet position={[0.2, SIDEBOARD_TOP, 0.18]} />
+      <TulipBouquet position={[0.2, SIDEBOARD_TOP, 0.19]} />
     </group>
   );
 };
