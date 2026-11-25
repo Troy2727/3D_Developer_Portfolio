@@ -1,15 +1,36 @@
 import { useMemo } from "react";
 import { RoundedBox } from "@react-three/drei";
+import * as THREE from "three";
 
 import { claudeScreenTexture, codeScreenTexture } from "./screenTextures";
 import { makeCanvas, toTexture } from "./surfaceTextures";
 
-// HP 27" (16:9): 597 x 336 mm panel, thin bezels on three sides, a chin with the logo
+// HP 27" curved (16:9): 597 x 336 mm panel, thin bezels on three sides, a chin with the logo
 const PANEL = [0.597, 0.336];
 const BODY = [0.613, 0.372, 0.016];
 const PANEL_Y = 0.012; // panel sits above center because of the chin
 const DESK_TOP = 0.75;
 const CENTER_Y = 1.036; // body center: 10 cm of stand under the chin
+
+// Curved 1000R panel: every point wraps around a vertical axis 1 m in front of the
+// screen, so the edges come ~4.5 cm toward you. Body, screen and rear housing all bend.
+const CURVE_R = 1.0;
+const bend = (geometry) => {
+  const p = geometry.attributes.position;
+  for (let i = 0; i < p.count; i++) {
+    const a = p.getX(i) / CURVE_R;
+    const r = CURVE_R - p.getZ(i);
+    p.setX(i, Math.sin(a) * r);
+    p.setZ(i, CURVE_R - Math.cos(a) * r);
+  }
+  geometry.computeVertexNormals();
+  return geometry;
+};
+const curvedBox = (w, h, d, y = 0, z = 0) => bend(new THREE.BoxGeometry(w, h, d, 48, 1, 1).translate(0, y, z));
+
+const BODY_GEOMETRY = curvedBox(...BODY);
+const SCREEN_GEOMETRY = bend(new THREE.PlaneGeometry(...PANEL, 48, 1).translate(0, PANEL_Y, BODY[2] / 2 + 0.0006));
+const HOUSING_GEOMETRY = curvedBox(0.32, 0.2, 0.03, -0.04, -0.022);
 
 const hpLogoTexture = () => {
   const [canvas, g] = makeCanvas(128, 128);
@@ -31,13 +52,12 @@ const Plastic = ({ color = "#16171a" }) => (
 
 const Monitor = ({ screen, logo, children, ...props }) => (
   <group {...props}>
-    <RoundedBox args={BODY} radius={0.004} smoothness={3} castShadow receiveShadow>
+    <mesh geometry={BODY_GEOMETRY} castShadow receiveShadow>
       <Plastic />
-    </RoundedBox>
+    </mesh>
 
     {/* Screen is unlit so it glows like a real panel */}
-    <mesh position={[0, PANEL_Y, BODY[2] / 2 + 0.0006]}>
-      <planeGeometry args={PANEL} />
+    <mesh geometry={SCREEN_GEOMETRY}>
       <meshBasicMaterial map={screen} toneMapped={false} />
     </mesh>
 
@@ -47,9 +67,9 @@ const Monitor = ({ screen, logo, children, ...props }) => (
     </mesh>
 
     {/* Rear housing, neck and base */}
-    <RoundedBox args={[0.32, 0.2, 0.03]} radius={0.01} position={[0, -0.04, -0.022]} castShadow>
+    <mesh geometry={HOUSING_GEOMETRY} castShadow>
       <Plastic color="#1d1e22" />
-    </RoundedBox>
+    </mesh>
     <mesh position={[0, -0.17, -0.05]} rotation-x={-0.08} castShadow>
       <boxGeometry args={[0.05, 0.25, 0.018]} />
       <Plastic color="#2a2c31" />

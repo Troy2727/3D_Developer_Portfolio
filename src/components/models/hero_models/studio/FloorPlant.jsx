@@ -13,8 +13,10 @@ const FloorPlant = (props) => {
     const r = seeded(17);
     return Array.from({ length: LEAF_COUNT }, (_, i) => {
       const y = 0.55 + (i / LEAF_COUNT) * 0.8 + r() * 0.06;
-      const a = i * 2.4 + r() * 0.6;
-      const reach = 0.06 + r() * 0.2 * (1 - (y - 0.55) / 1.2);
+      // Leaves turn toward the window (+x), like a real plant growing to the light,
+      // which also keeps them clear of the desk beside it
+      const a = -1.9 + ((i * 2.4 + r() * 0.6) % 3.8);
+      const reach = 0.04 + r() * 0.12 * (1 - (y - 0.55) / 1.2);
       return { pos: [Math.cos(a) * reach, y, Math.sin(a) * reach], a, tilt: 0.5 + r() * 0.6, s: 0.8 + r() * 0.5 };
     });
   }, []);
@@ -24,7 +26,7 @@ const FloorPlant = (props) => {
     branches.forEach((b, i) => {
       // Leaves point outward and upward from the stem
       const dir = new THREE.Vector3(Math.cos(b.a), b.tilt, Math.sin(b.a));
-      leaves.current.setMatrixAt(i, leafMatrix(new THREE.Vector3(...b.pos), dir, b.a, 0.2 * b.s));
+      leaves.current.setMatrixAt(i, leafMatrix(new THREE.Vector3(...b.pos), dir, b.a, 0.15 * b.s));
       leaves.current.setColorAt(i, color.set(i % 3 ? "#35602f" : "#4a7a3c"));
     });
     leaves.current.instanceMatrix.needsUpdate = true;

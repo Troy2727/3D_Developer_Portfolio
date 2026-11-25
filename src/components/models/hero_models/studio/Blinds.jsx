@@ -33,7 +33,7 @@ const Blinds = () => {
         [[0.1, 1.4, 0.04], [1.35, 1.55, WINDOW.z0 + 0.02]],
         [[0.1, 1.4, 0.04], [1.35, 1.55, WINDOW.z1 - 0.02]],
         [[0.1, 1.4, 0.03], [1.35, 1.55, Z]],
-        [[0.2, 0.03, 1.28], [1.31, WINDOW.y0 - 0.005, Z]],
+        [[0.2, 0.03, 1.2], [1.31, WINDOW.y0 - 0.005, Z]], // sill, no wider than the opening so it clears the curtains
       ].map(([args, position], i) => (
         <mesh key={i} position={position} castShadow receiveShadow>
           <boxGeometry args={args} />

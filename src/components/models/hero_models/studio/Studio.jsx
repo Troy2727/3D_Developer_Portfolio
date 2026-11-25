@@ -4,6 +4,7 @@ import * as THREE from "three";
 
 import Blinds from "./Blinds";
 import Chair from "./Chair";
+import Curtains from "./Curtains";
 import Desk from "./Desk";
 import FloorPlant from "./FloorPlant";
 import Monitors from "./Monitors";
@@ -99,7 +100,7 @@ const Studio = () => {
         <meshBasicMaterial colorWrite={false} depthWrite={false} />
       </mesh>
 
-      {/* Things on the window wall hide with it: baseboard and the view outside.
+      {/* Things on the window wall hide with it: baseboard, the view outside and the curtains.
           The blinds stay, since they cast the light stripes. */}
       <group ref={sideDecor}>
         <mesh position={[1.2925, 0.04, 0.35]} receiveShadow>
@@ -111,14 +112,15 @@ const Studio = () => {
           <planeGeometry args={[1.24, 1.44]} />
           <meshBasicMaterial map={sky} toneMapped={false} />
         </mesh>
+        <Curtains />
       </group>
       <Blinds />
 
       <Desk />
       <Monitors />
-      <Chair position={[0.2, 0, 0.72]} rotation={-0.45} />
+      <Chair position={[0.2, 0, 0.72]} />
       <Shelf position={[-1.22, 0, -0.43]} />
-      <FloorPlant position={[1.04, 0, -0.33]} />
+      <FloorPlant position={[0.95, 0, -0.12]} />
       <PcTower position={[0.5, 0, -0.3]} />
     </group>
   );
