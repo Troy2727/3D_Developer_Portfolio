@@ -24,11 +24,14 @@ const FilmShift = ({ isWide }) => {
 const HeroExperience = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" }); // below Tailwind's md breakpoint
   const isWide = useMediaQuery({ query: "(min-width: 1280px)" }); // Tailwind's xl, where text and room share the row
+  // Phones show the room in a nearly square box, so start the camera farther back
+  const pull = isMobile ? 1.18 : 1;
 
   return (
     <Canvas
+      className="hero-canvas" // touch screens: vertical swipes scroll the page (index.css)
       shadows
-      camera={{ position: [TARGET[0] - 4.0, TARGET[1] + 1.65, TARGET[2] + 5.0], fov: 35 }}
+      camera={{ position: [TARGET[0] - 4.0 * pull, TARGET[1] + 1.65 * pull, TARGET[2] + 5.0 * pull], fov: 35 }}
       gl={{ powerPreference: 'high-performance', antialias: !isMobile }} // Disable antialiasing on mobile for better performance
       dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling
@@ -40,7 +43,7 @@ const HeroExperience = () => {
         enablePan={false}
         enableZoom={true}
         minDistance={3.5}
-        maxDistance={8}
+        maxDistance={9}
         minPolarAngle={0.55}
         maxPolarAngle={1.48}
         rotateSpeed={0.9}
