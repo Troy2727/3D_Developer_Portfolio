@@ -4,6 +4,9 @@
   </a>
   <p><sub>Click the screenshot to see it full size.</sub></p>
 
+  <img src="docs/hero-demo.gif" width="520" alt="The 3D studio in motion: the chair is dragged aside to show the desk, the camera orbits all the way round the room past the back of the desk, then zooms onto the left monitor, where Claude says Welcome back, Alex and a conversation types itself out, and onto the right monitor, where VS Code types out the studio's code" />
+  <p><sub>Drag to look around, scroll to zoom, click a monitor to read its screen.</sub></p>
+
   <div>
     <img src="https://img.shields.io/badge/-React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
     <img src="https://img.shields.io/badge/-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
