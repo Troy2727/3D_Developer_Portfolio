@@ -256,12 +256,18 @@ const claudeSidebar = (g) => {
   text(g, "Pro plan", 132, H - 36, `400 23px ${SANS}`, THEME.muted);
 };
 
+// The empty message box ("What can I do for you, Alex Mieses?") stays up this long before
+// the prompt starts typing; everything after it shifts by the extra time
+const HOME_HOLD = 4;
+const SHIFT = HOME_HOLD - 1.5;
+
 const claudeTimeline = {
-  finished: AT.end - 1, // what reduced motion shows: the whole conversation
+  finished: AT.end + SHIFT - 1, // what reduced motion shows: the whole conversation
   frame: (t) => {
-    const s = t % CLAUDE_LOOP;
+    const loop = t % (CLAUDE_LOOP + SHIFT);
     const caret = Math.floor(t * 2) % 2 === 0;
-    if (s < 6) return { view: "home", typed: clampInt((s - 1.5) * 28, 0, PROMPT.length), caret };
+    if (loop < 6 + SHIFT) return { view: "home", typed: clampInt((loop - HOME_HOLD) * 28, 0, PROMPT.length), caret };
+    const s = loop - SHIFT;
     const reply = clampInt((s - 6.5) * 55, 0, REPLY.length);
     const code = clampInt((s - 9.5) * 45, 0, CLAUDE_CODE_CHARS);
     const followUp = s < AT.send ? clampInt((s - AT.followUp) * 18, 0, FOLLOW_UP.length) : 0;
@@ -287,7 +293,7 @@ const claudeTimeline = {
       box(g, x0 - 20, 450, col + 40, 210, 28, "#24232b");
       const font = `400 32px ${SANS}`;
       if (state.typed === 0) {
-        text(g, "How can I help you today?", x0 + 14, 510, font, THEME.muted);
+        text(g, "What can I do for you, Alex Mieses?", x0 + 14, 510, font, THEME.muted);
         if (state.caret) caretAt(g, x0 + 8, 510, 36);
       } else {
         const lines = wrap(g, PROMPT.slice(0, state.typed), col - 40, font);
@@ -370,7 +376,7 @@ const claudeTimeline = {
       g.font = font;
       if (state.caret) caretAt(g, x0 + 14 + g.measureText(typed).width, H - 116, 36);
     } else {
-      text(g, "Reply to Claude…", x0 + 14, H - 116, font, THEME.muted);
+      text(g, "What can I do for you, Alex Mieses?", x0 + 14, H - 116, font, THEME.muted);
     }
     box(g, x0 + col - 58, H - 108, 54, 48, 12, state.followUp > 0 || !state.sent ? accent(g, x0 + col - 58, x0 + col - 4) : "#2f2d3a");
     text(g, "↑", x0 + col - 31, H - 72, `700 30px ${SANS}`, "#ffffff", "center");
