@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Venetian blinds inside the window opening of the right wall (x = 1.3).
@@ -10,10 +11,20 @@ const LENGTH = WINDOW.z1 - WINDOW.z0 - 0.03;
 const Z = (WINDOW.z0 + WINDOW.z1) / 2;
 const COUNT = Math.floor((WINDOW.y1 - WINDOW.y0 - 0.1) / SLAT.gap);
 
-const White = () => <meshStandardMaterial color="#f1ede6" roughness={0.6} />;
-
+// Like the window wall (Studio.jsx), the frame and blinds stop drawing once the camera is
+// outside that wall, so they don't block the view in; they still cast the sun stripes.
 const Blinds = () => {
   const slats = useRef();
+  const white = useMemo(() => new THREE.MeshStandardMaterial({ color: "#f1ede6", roughness: 0.6 }), []);
+  const cord = useMemo(() => new THREE.MeshStandardMaterial({ color: "#e6e0d6", roughness: 0.9 }), []);
+
+  useFrame(({ camera }) => {
+    const drawn = camera.position.x <= 1.3;
+    for (const material of [white, cord]) {
+      material.colorWrite = drawn;
+      material.depthWrite = drawn;
+    }
+  });
 
   useLayoutEffect(() => {
     const m = new THREE.Matrix4();
@@ -35,29 +46,24 @@ const Blinds = () => {
         [[0.1, 1.4, 0.03], [1.35, 1.55, Z]],
         [[0.2, 0.03, 1.2], [1.31, WINDOW.y0 - 0.005, Z]], // sill, no wider than the opening so it clears the curtains
       ].map(([args, position], i) => (
-        <mesh key={i} position={position} castShadow receiveShadow>
+        <mesh key={i} position={position} material={white} castShadow receiveShadow>
           <boxGeometry args={args} />
-          <White />
         </mesh>
       ))}
 
-      <mesh position={[X, WINDOW.y1 - 0.03, Z]} castShadow>
+      <mesh position={[X, WINDOW.y1 - 0.03, Z]} material={white} castShadow>
         <boxGeometry args={[0.05, 0.045, LENGTH + 0.02]} />
-        <White />
       </mesh>
-      <instancedMesh ref={slats} args={[undefined, undefined, COUNT]} castShadow receiveShadow>
+      <instancedMesh ref={slats} args={[undefined, white, COUNT]} castShadow receiveShadow>
         <boxGeometry args={[SLAT.depth, 0.0012, LENGTH]} />
-        <White />
       </instancedMesh>
-      <mesh position={[X, WINDOW.y1 - 0.08 - COUNT * SLAT.gap, Z]} castShadow>
+      <mesh position={[X, WINDOW.y1 - 0.08 - COUNT * SLAT.gap, Z]} material={white} castShadow>
         <boxGeometry args={[0.03, 0.012, LENGTH]} />
-        <White />
       </mesh>
       {/* Ladder cords */}
       {[Z - 0.4, Z + 0.4].map((z) => (
-        <mesh key={z} position={[X, (WINDOW.y1 + WINDOW.y0) / 2, z]}>
+        <mesh key={z} position={[X, (WINDOW.y1 + WINDOW.y0) / 2, z]} material={cord}>
           <boxGeometry args={[0.028, WINDOW.y1 - WINDOW.y0 - 0.06, 0.002]} />
-          <meshStandardMaterial color="#e6e0d6" roughness={0.9} />
         </mesh>
       ))}
     </group>
