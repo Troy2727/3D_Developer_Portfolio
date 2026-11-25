@@ -5,7 +5,8 @@ import Coffee from "./Coffee";
 import Headphones from "./Headphones";
 import LedStrip from "./LedStrip";
 import Microphone from "./Microphone";
-import MugWarmer, { WARMER_TOP } from "./MugWarmer";
+import MugWarmer, { CORD_EXIT_X, CORD_EXIT_Y, CORD_EXIT_Z, WARMER_TOP } from "./MugWarmer";
+import { PluggedCord } from "./PowerOutlet";
 import { Keyboard, Mouse } from "./Peripherals";
 import { oakTexture } from "./surfaceTextures";
 
@@ -13,6 +14,7 @@ import { oakTexture } from "./surfaceTextures";
 const TOP = 0.75;
 const DESK = { w: 1.6, d: 0.75, z: -0.2 };
 const MAT_TOP = TOP + 0.003;
+const WARMER_AT = [-0.7, TOP, -0.18];
 
 const Steel = () => <meshStandardMaterial color="#1b1b1d" roughness={0.5} metalness={0.7} />;
 
@@ -115,10 +117,11 @@ const Desk = () => {
 
       {/* Hot coffee on its warmer, in front of the left monitor's outer edge so the
           steam rises clear of it and the warmer clears the notebook */}
-      <group position={[-0.7, TOP, -0.18]}>
+      <group position={WARMER_AT}>
         <MugWarmer />
         <Coffee position-y={WARMER_TOP} />
       </group>
+      <PluggedCord from={[WARMER_AT[0] + CORD_EXIT_X, WARMER_AT[1] + CORD_EXIT_Y, WARMER_AT[2] + CORD_EXIT_Z]} />
       <Plant position={[-0.71, TOP, -0.47]} />
       <Headphones position={[0.66, TOP, 0.07]} />
       <Microphone position={[0.74, TOP, -0.53]} />

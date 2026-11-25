@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { RoundedBox } from "@react-three/drei";
-import * as THREE from "three";
 
 import { makeCanvas, toTexture } from "./surfaceTextures";
 
@@ -9,6 +8,10 @@ import { makeCanvas, toTexture } from "./surfaceTextures";
 // the plate is centered on the origin, the controls sit in front of it (+z).
 export const WARMER_TOP = 0.023;
 const BASE = { w: 0.112, h: 0.02, d: 0.15, z: 0.022 };
+// Where the power cord leaves the back of the base (see PowerOutlet.jsx)
+export const CORD_EXIT_X = -0.02;
+export const CORD_EXIT_Y = 0.006;
+export const CORD_EXIT_Z = BASE.z - BASE.d / 2;
 
 const displayTexture = () => {
   const [canvas, g] = makeCanvas(160, 64);
@@ -26,24 +29,6 @@ const displayTexture = () => {
 
 const MugWarmer = (props) => {
   const display = useMemo(() => displayTexture(), []);
-  // Power cord: out the back, along to the desk's left edge, then down over it
-  const cord = useMemo(
-    () =>
-      new THREE.TubeGeometry(
-        new THREE.CatmullRomCurve3([
-          new THREE.Vector3(-0.02, 0.006, BASE.z - BASE.d / 2),
-          new THREE.Vector3(-0.06, 0.003, -0.07),
-          new THREE.Vector3(-0.098, 0.002, -0.05),
-          new THREE.Vector3(-0.106, -0.03, -0.04),
-          new THREE.Vector3(-0.107, -0.3, -0.03),
-        ]),
-        40,
-        0.0022,
-        6
-      ),
-    []
-  );
-
   return (
     <group {...props}>
       <RoundedBox args={[BASE.w, BASE.h, BASE.d]} radius={0.008} smoothness={3} position={[0, BASE.h / 2, BASE.z]} castShadow receiveShadow>
@@ -75,10 +60,6 @@ const MugWarmer = (props) => {
           <meshBasicMaterial color={color} toneMapped={false} />
         </mesh>
       ))}
-
-      <mesh geometry={cord}>
-        <meshStandardMaterial color="#0d0d0e" roughness={0.7} />
-      </mesh>
     </group>
   );
 };

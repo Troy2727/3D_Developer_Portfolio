@@ -8,6 +8,7 @@ import Curtains from "./Curtains";
 import Desk from "./Desk";
 import FloorPlant from "./FloorPlant";
 import Monitors from "./Monitors";
+import { WallOutlet } from "./PowerOutlet";
 import PcTower from "./PcTower";
 import Shelf from "./Shelf";
 import { floorTexture, skyTexture } from "./surfaceTextures";
@@ -71,13 +72,14 @@ const Studio = () => {
       <Wall args={[0.1, 1.4, 0.35]} position={[1.35, 1.55, -0.525]} material={sideWall} />
       <Wall args={[0.1, 1.4, 0.45]} position={[1.35, 1.55, 1.075]} material={sideWall} />
 
-      {/* Things on the back wall hide with it: baseboard and the framed prints */}
+      {/* Things on the back wall hide with it: baseboard, the framed prints and the outlet */}
       <group ref={backDecor}>
         <mesh position={[-0.2, 0.04, -0.5925]} receiveShadow>
           <boxGeometry args={[3.0, 0.08, 0.015]} />
           <meshStandardMaterial color="#f3efe8" roughness={0.7} />
         </mesh>
         <WallArt />
+        <WallOutlet />
       </group>
 
       {/* Invisible ceiling and window-wall extension: they cast shadow only, so the
