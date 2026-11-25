@@ -5,8 +5,10 @@ import { useMediaQuery } from "react-responsive";
 
 import AnimatedCounter from "../components/AnimatedCounter";
 import Button from "../components/Button";
+import HeroPoster from "../components/models/hero_models/HeroPoster";
 
-// Loaded after first paint so the headline doesn't wait on the 3D library
+// Loaded after first paint so the headline doesn't wait on the 3D library; a still of the room
+// (HeroPoster) holds its place until it arrives
 const HeroExperience = lazy(() => import("../components/models/hero_models/HeroExperience"));
 
 const Hero = () => {
@@ -114,14 +116,14 @@ const Hero = () => {
         {/* RIGHT: 3D Model or Visual - only one canvas is mounted per breakpoint */}
         {isMobile ? (
           <div className="w-full h-[45vh] mt-6 relative">
-            <Suspense fallback={null}>
+            <Suspense fallback={<HeroPoster />}>
               <HeroExperience />
             </Suspense>
           </div>
         ) : (
           <figure className="xl:w-[55%] w-full flex items-center justify-center">
             <div className="hero-3d-layout">
-              <Suspense fallback={null}>
+              <Suspense fallback={<HeroPoster />}>
                 <HeroExperience />
               </Suspense>
             </div>
