@@ -120,7 +120,8 @@ const starburst = (g, cx, cy, r) => {
 const SCALE = 2 / 3;
 const clampInt = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.floor(v)));
 
-const createScreen = ({ frame, render }, fps) => {
+const createScreen = (timeline, fps) => {
+  const { frame, render } = timeline;
   const [canvas, g] = makeCanvas(W * SCALE, H * SCALE);
   const texture = toTexture(canvas);
   let lastKey = "";
@@ -136,7 +137,7 @@ const createScreen = ({ frame, render }, fps) => {
     render(g, state);
     texture.needsUpdate = true;
   };
-  return { texture, update };
+  return { texture, update, finished: timeline.finished };
 };
 
 // Word-wrap into lines (for text that needs a caret at its end)
@@ -168,7 +169,11 @@ const CLAUDE_CODE = [
   '<Monitors left="claude" right="vscode" />',
 ];
 const CLAUDE_CODE_CHARS = CLAUDE_CODE.join("").length;
-const CLAUDE_LOOP = 28; // seconds
+const FOLLOW_UP = "Love it. Now add a neon sign that says hello, world.";
+const REPLY_2 = "Done. Pink script neon on a clear acrylic panel, hung above the sun stripes so it stays readable, with a soft glow on the wall behind it.";
+// Seconds into the loop when each step happens
+const AT = { followUp: 15.5, send: 19.2, reply2: 19.9, end: 34 };
+const CLAUDE_LOOP = AT.end;
 const RECENTS = ["Studio hero in three.js", "FanClash live chat fix", "Contact form with EmailJS", "Go API rate limiter", "Interview prep notes", "README diagram"];
 
 // Line-drawing helpers for the screens' icons
@@ -252,14 +257,21 @@ const claudeSidebar = (g) => {
 };
 
 const claudeTimeline = {
+  finished: AT.end - 1, // what reduced motion shows: the whole conversation
   frame: (t) => {
     const s = t % CLAUDE_LOOP;
     const caret = Math.floor(t * 2) % 2 === 0;
     if (s < 6) return { view: "home", typed: clampInt((s - 1.5) * 28, 0, PROMPT.length), caret };
     const reply = clampInt((s - 6.5) * 55, 0, REPLY.length);
     const code = clampInt((s - 9.5) * 45, 0, CLAUDE_CODE_CHARS);
-    const busy = reply < REPLY.length || code < CLAUDE_CODE_CHARS;
-    return { view: "chat", reply, code, status: s > 14, caret: busy && caret };
+    const followUp = s < AT.send ? clampInt((s - AT.followUp) * 18, 0, FOLLOW_UP.length) : 0;
+    const sent = s >= AT.send;
+    const reply2 = clampInt((s - AT.reply2) * 55, 0, REPLY_2.length);
+    // Scroll eases in over half a second once the follow-up is sent
+    const scroll = sent ? Math.round(Math.min(1, (s - AT.send) / 0.5) * 20) / 20 : 0;
+    const streaming = reply < REPLY.length || code < CLAUDE_CODE_CHARS || (sent && reply2 < REPLY_2.length);
+    const typing = !sent && followUp > 0;
+    return { view: "chat", reply, code, status: s > 14, followUp, sent, reply2, scroll, caret: (streaming || typing) && caret, typing };
   },
   render: (g, state) => {
     g.fillStyle = THEME.bg;
@@ -292,37 +304,75 @@ const claudeTimeline = {
       return;
     }
 
-    // The conversation: prompt, streamed reply, code block filling in line by line
+    // The conversation: prompt, streamed reply, code block filling in line by line,
+    // then a follow-up from Alex and a second streamed reply. The thread scrolls
+    // inside the area above the composer.
     text(g, "Studio hero in three.js", 1170, 64, `500 27px ${SANS}`, THEME.muted, "center");
-    box(g, x0 + 260, 112, col - 260, 148, 22, "#2a2740");
-    paragraph(g, PROMPT, x0 + 292, 166, col - 324, 42, `400 30px ${SANS}`, THEME.text);
-
-    starburst(g, x0 + 20, 320, 22);
     const font = `400 30px ${SANS}`;
-    const lines = wrap(g, REPLY.slice(0, state.reply), col - 64, font);
-    lines.forEach((line, i) => text(g, line, x0 + 64, 332 + i * 42, font, "#c9d6e8"));
-    let y = 332 + lines.length * 42;
+    const composerTop = H - 176;
+
+    // Lay the thread out first, so the scroll can bring its end into view
+    const replyLines = wrap(g, REPLY.slice(0, state.reply), col - 64, font);
+    const codeTop = 332 + replyLines.length * 42 + 8;
+    const statusY = codeTop + 284 + 52;
+    g.font = font;
+    const bubbleW = Math.min(col - 260, g.measureText(FOLLOW_UP).width + 64);
+    const bubble2Top = statusY + 44;
+    const reply2Lines = wrap(g, REPLY_2.slice(0, state.reply2), col - 64, font);
+    const reply2Top = bubble2Top + 72 + 56;
+    const fullEnd = reply2Top + wrap(g, REPLY_2, col - 64, font).length * 42;
+    const scroll = Math.max(0, fullEnd - (composerTop - 30)) * state.scroll;
+
+    g.save();
+    g.beginPath();
+    g.rect(420, 90, W - 420, composerTop - 100);
+    g.clip();
+    g.translate(0, -scroll);
+
+    box(g, x0 + 260, 112, col - 260, 148, 22, "#2a2740");
+    paragraph(g, PROMPT, x0 + 292, 166, col - 324, 42, font, THEME.text);
+    starburst(g, x0 + 20, 320, 22);
+    replyLines.forEach((line, i) => text(g, line, x0 + 64, 332 + i * 42, font, "#c9d6e8"));
     if (state.reply < REPLY.length) {
       g.font = font;
-      if (state.caret) caretAt(g, x0 + 64 + g.measureText(lines[lines.length - 1]).width, 332 + (lines.length - 1) * 42, 34);
-      return;
+      if (state.caret) caretAt(g, x0 + 64 + g.measureText(replyLines[replyLines.length - 1]).width, 332 + (replyLines.length - 1) * 42, 34);
+    } else {
+      box(g, x0, codeTop, col, 284, 16, THEME.sidebar);
+      text(g, "jsx", x0 + 28, codeTop + 40, `500 22px ${SANS}`, THEME.muted);
+      let left = state.code;
+      CLAUDE_CODE.forEach((line, i) => {
+        if (left <= 0) return;
+        codeLine(g, line.slice(0, left), x0 + 28, codeTop + 96 + i * 44);
+        left -= line.length;
+      });
+      if (state.status) text(g, "Round 3   desk 9/10 · monitors 9/10 · blinds 8/10 → fixing blinds", x0, statusY, `500 26px ${SANS}`, THEME.muted);
     }
 
-    y += 8;
-    box(g, x0, y, col, 284, 16, THEME.sidebar);
-    text(g, "jsx", x0 + 28, y + 40, `500 22px ${SANS}`, THEME.muted);
-    let left = state.code;
-    CLAUDE_CODE.forEach((line, i) => {
-      if (left <= 0) return;
-      codeLine(g, line.slice(0, left), x0 + 28, y + 96 + i * 44);
-      left -= line.length;
-    });
-    y += 284 + 52;
-    if (state.status) text(g, "Round 3   desk 9/10 · monitors 9/10 · blinds 8/10 → fixing blinds", x0, y, `500 26px ${SANS}`, THEME.muted);
+    if (state.sent) {
+      box(g, x0 + col - bubbleW, bubble2Top, bubbleW, 72, 22, "#2a2740");
+      text(g, FOLLOW_UP, x0 + col - bubbleW + 32, bubble2Top + 47, font, THEME.text);
+      if (state.reply2 > 0) {
+        starburst(g, x0 + 20, reply2Top - 12, 22);
+        reply2Lines.forEach((line, i) => text(g, line, x0 + 64, reply2Top + i * 42, font, "#c9d6e8"));
+        g.font = font;
+        if (state.reply2 < REPLY_2.length && state.caret) {
+          caretAt(g, x0 + 64 + g.measureText(reply2Lines[reply2Lines.length - 1]).width, reply2Top + (reply2Lines.length - 1) * 42, 34);
+        }
+      }
+    }
+    g.restore();
 
-    box(g, x0 - 20, H - 176, col + 40, 128, 28, "#24232b");
-    text(g, "Reply to Claude…", x0 + 14, H - 116, `400 30px ${SANS}`, THEME.muted);
-    box(g, x0 + col - 58, H - 108, 54, 48, 12, accent(g, x0 + col - 58, x0 + col - 4));
+    // Composer: the follow-up is typed here before it's sent
+    box(g, x0 - 20, composerTop, col + 40, 128, 28, "#24232b");
+    if (state.followUp > 0) {
+      const typed = FOLLOW_UP.slice(0, state.followUp);
+      text(g, typed, x0 + 14, H - 116, font, THEME.text);
+      g.font = font;
+      if (state.caret) caretAt(g, x0 + 14 + g.measureText(typed).width, H - 116, 36);
+    } else {
+      text(g, "Reply to Claude…", x0 + 14, H - 116, font, THEME.muted);
+    }
+    box(g, x0 + col - 58, H - 108, 54, 48, 12, state.followUp > 0 || !state.sent ? accent(g, x0 + col - 58, x0 + col - 4) : "#2f2d3a");
     text(g, "↑", x0 + col - 31, H - 72, `700 30px ${SANS}`, "#ffffff", "center");
   },
 };
@@ -534,6 +584,7 @@ const treeRow = (g, depth, name, kind, y) => {
 };
 
 const codeTimeline = {
+  finished: TYPED_AT + 5, // code typed, saved, dev server ready
   frame: (t) => {
     const s = t % CODE_LOOP;
     return {

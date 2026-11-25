@@ -160,7 +160,6 @@ const Webcam = () => (
 // The screens play their typing animations; phones redraw them less often, and visitors
 // who prefer reduced motion see the finished frame.
 const SCREEN_FPS = isPhone ? 6 : 12;
-const FINISHED = 20; // seconds into both loops: conversation and code complete
 
 const Monitors = ({ onSelect }) => {
   const claude = useMemo(() => createClaudeScreen(SCREEN_FPS), []);
@@ -173,9 +172,8 @@ const Monitors = ({ onSelect }) => {
   };
 
   useFrame(({ clock }) => {
-    const t = reducedMotion ? FINISHED : clock.elapsedTime;
-    claude.update(t);
-    code.update(t);
+    claude.update(reducedMotion ? claude.finished : clock.elapsedTime);
+    code.update(reducedMotion ? code.finished : clock.elapsedTime);
   });
 
   return (
