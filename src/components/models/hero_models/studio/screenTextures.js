@@ -303,6 +303,106 @@ const TREE = [
   [1, "package.json", "#cbcb41"],
 ];
 
+// VS Code's activity bar: line icons drawn around each icon's center (cx, cy)
+const path = (g, points, close = false) => {
+  g.beginPath();
+  points.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)));
+  if (close) g.closePath();
+  g.stroke();
+};
+const circle = (g, x, y, r) => {
+  g.beginPath();
+  g.arc(x, y, r, 0, Math.PI * 2);
+  g.stroke();
+};
+
+const ICONS = {
+  explorer: (g, x, y) => {
+    path(g, [[x - 14, y - 6], [x - 2, y - 6], [x + 4, y], [x + 4, y + 18], [x - 14, y + 18]], true);
+    path(g, [[x - 2, y - 6], [x - 2, y], [x + 4, y]]);
+    path(g, [[x - 8, y - 6], [x - 8, y - 14], [x + 6, y - 14], [x + 12, y - 8], [x + 12, y + 10], [x + 4, y + 10]]);
+  },
+  search: (g, x, y) => {
+    circle(g, x - 3, y - 3, 10);
+    path(g, [[x + 4, y + 4], [x + 13, y + 13]]);
+  },
+  sourceControl: (g, x, y) => {
+    circle(g, x - 8, y - 12, 4.5);
+    circle(g, x - 8, y + 13, 4.5);
+    circle(g, x + 9, y - 5, 4.5);
+    path(g, [[x - 8, y - 7.5], [x - 8, y + 8.5]]);
+    g.beginPath();
+    g.moveTo(x + 9, y - 0.5);
+    g.quadraticCurveTo(x + 9, y + 7, x - 8, y + 8);
+    g.stroke();
+  },
+  runDebug: (g, x, y) => {
+    path(g, [[x - 12, y - 13], [x - 12, y + 11], [x + 6, y - 1]], true);
+    circle(g, x + 9, y + 10, 5);
+    path(g, [[x + 3, y + 7], [x + 1, y + 5]]);
+    path(g, [[x + 15, y + 7], [x + 17, y + 5]]);
+  },
+  extensions: (g, x, y) => {
+    g.strokeRect(x - 14, y - 2, 10, 10);
+    g.strokeRect(x - 4, y - 2, 10, 10);
+    g.strokeRect(x - 14, y + 8, 10, 10);
+    g.save();
+    g.translate(x + 8, y - 9);
+    g.rotate(Math.PI / 4);
+    g.strokeRect(-5, -5, 10, 10);
+    g.restore();
+  },
+  testing: (g, x, y) => {
+    path(g, [[x - 5, y - 14], [x - 5, y - 2], [x - 13, y + 14], [x + 13, y + 14], [x + 5, y - 2], [x + 5, y - 14]]);
+    path(g, [[x - 9, y - 14], [x + 9, y - 14]]);
+    path(g, [[x - 8, y + 6], [x + 8, y + 6]]);
+  },
+  remote: (g, x, y) => {
+    g.strokeRect(x - 14, y - 12, 28, 20);
+    path(g, [[x, y + 8], [x, y + 13]]);
+    path(g, [[x - 8, y + 14], [x + 8, y + 14]]);
+  },
+  accounts: (g, x, y) => {
+    circle(g, x, y - 6, 7);
+    g.beginPath();
+    g.arc(x, y + 17, 14, Math.PI * 1.15, Math.PI * 1.85);
+    g.stroke();
+  },
+  manage: (g, x, y) => {
+    circle(g, x, y, 6);
+    circle(g, x, y, 11);
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2;
+      path(g, [[x + Math.cos(a) * 11, y + Math.sin(a) * 11], [x + Math.cos(a) * 15, y + Math.sin(a) * 15]]);
+    }
+  },
+};
+const TOP_ICONS = ["explorer", "search", "sourceControl", "runDebug", "extensions", "testing", "remote"];
+
+const activityBar = (g) => {
+  g.fillStyle = "#333333";
+  g.fillRect(0, 0, 72, H);
+  g.lineWidth = 3;
+  g.lineCap = "round";
+  g.lineJoin = "round";
+  TOP_ICONS.forEach((name, i) => {
+    const y = 44 + i * 76;
+    g.strokeStyle = i === 0 ? "#ffffff" : "#858585";
+    ICONS[name](g, 36, y);
+  });
+  // Explorer is the open view; Source Control has three changed files
+  g.fillStyle = "#ffffff";
+  g.fillRect(0, 44 - 26, 4, 52);
+  g.fillStyle = "#0078d4";
+  g.beginPath();
+  g.arc(48, 44 + 2 * 76 + 12, 10, 0, Math.PI * 2);
+  g.fill();
+  text(g, "3", 48, 44 + 2 * 76 + 17, `700 14px ${SANS}`, "#ffffff", "center");
+  g.strokeStyle = "#858585";
+  ICONS.accounts(g, 36, H - 136);
+  ICONS.manage(g, 36, H - 82);
+};
+
 const codeTimeline = {
   frame: (t) => {
     const s = t % CODE_LOOP;
@@ -319,13 +419,7 @@ const codeTimeline = {
     g.fillRect(0, 0, W, H);
 
     // Activity bar and explorer
-    g.fillStyle = "#333333";
-    g.fillRect(0, 0, 72, H);
-    [40, 120, 200, 280].forEach((y, i) => {
-      g.strokeStyle = i === 0 ? "#ffffff" : "#858585";
-      g.lineWidth = 3;
-      g.strokeRect(22, y - 14, 28, 30);
-    });
+    activityBar(g);
     g.fillStyle = "#252526";
     g.fillRect(72, 0, 380, H);
     text(g, "EXPLORER", 100, 44, `600 21px ${SANS}`, "#bbbbbb");
