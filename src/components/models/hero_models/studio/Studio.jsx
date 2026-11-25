@@ -1,0 +1,100 @@
+import { useMemo } from "react";
+
+import Blinds from "./Blinds";
+import Chair from "./Chair";
+import Desk from "./Desk";
+import FloorPlant from "./FloorPlant";
+import Monitors from "./Monitors";
+import Shelf from "./Shelf";
+import { floorTexture, printTexture, skyTexture } from "./surfaceTextures";
+
+// Real-world meters. Floor at y = 0, back wall face at z = -0.6,
+// window wall face at x = 1.3 with a 1.2 x 1.4 m window opening.
+const WALL_COLOR = "#e7dfd3";
+
+const Wall = ({ args, position }) => (
+  <mesh position={position} castShadow receiveShadow>
+    <boxGeometry args={args} />
+    <meshStandardMaterial color={WALL_COLOR} roughness={0.95} />
+  </mesh>
+);
+
+const Studio = () => {
+  const floor = useMemo(() => floorTexture(), []);
+  const sky = useMemo(() => skyTexture(), []);
+  const print = useMemo(() => printTexture(), []);
+
+  return (
+    <group>
+      {/* Floor: plank surface on a dark slab, so the cut edge reads as a diorama */}
+      <mesh position={[-0.2, -0.05, 0.3]} receiveShadow>
+        <boxGeometry args={[3.0, 0.1, 2.0]} />
+        <meshStandardMaterial color="#1c1916" roughness={0.9} />
+      </mesh>
+      <mesh position={[-0.2, 0.0005, 0.3]} rotation-x={-Math.PI / 2} receiveShadow>
+        <planeGeometry args={[3.0, 2.0]} />
+        <meshStandardMaterial map={floor} roughness={0.55} />
+      </mesh>
+      <mesh position={[0.15, 0.004, 0.55]} rotation-x={-Math.PI / 2} receiveShadow>
+        <planeGeometry args={[1.7, 1.2]} />
+        <meshStandardMaterial color="#5d5750" roughness={1} />
+      </mesh>
+
+      {/* Back wall */}
+      <Wall args={[3.1, 2.6, 0.1]} position={[-0.15, 1.3, -0.65]} />
+      {/* Window wall, built around the opening (z -0.35..0.85, y 0.85..2.25) */}
+      <Wall args={[0.1, 0.85, 2.0]} position={[1.35, 0.425, 0.3]} />
+      <Wall args={[0.1, 0.35, 2.0]} position={[1.35, 2.425, 0.3]} />
+      <Wall args={[0.1, 1.4, 0.35]} position={[1.35, 1.55, -0.525]} />
+      <Wall args={[0.1, 1.4, 0.45]} position={[1.35, 1.55, 1.075]} />
+
+      {/* Baseboards */}
+      <mesh position={[-0.2, 0.04, -0.5925]} receiveShadow>
+        <boxGeometry args={[3.0, 0.08, 0.015]} />
+        <meshStandardMaterial color="#f3efe8" roughness={0.7} />
+      </mesh>
+      <mesh position={[1.2925, 0.04, 0.35]} receiveShadow>
+        <boxGeometry args={[0.015, 0.08, 1.9]} />
+        <meshStandardMaterial color="#f3efe8" roughness={0.7} />
+      </mesh>
+
+      {/* Invisible ceiling and window-wall extension: they cast shadow only, so the
+          sun enters through the window and not over the open sides of the diorama */}
+      <mesh position={[-0.2, 2.65, 0.3]} castShadow>
+        <boxGeometry args={[3.2, 0.1, 2.2]} />
+        <meshBasicMaterial colorWrite={false} depthWrite={false} />
+      </mesh>
+      <mesh position={[1.35, 1.3, 2.5]} castShadow>
+        <boxGeometry args={[0.1, 2.6, 2.4]} />
+        <meshBasicMaterial colorWrite={false} depthWrite={false} />
+      </mesh>
+
+      {/* View outside the window */}
+      <mesh position={[2.0, 1.5, 0.25]} rotation-y={-Math.PI / 2}>
+        <planeGeometry args={[3.2, 2.6]} />
+        <meshBasicMaterial map={sky} toneMapped={false} />
+      </mesh>
+      <Blinds />
+
+      {/* Framed print */}
+      <group position={[-0.42, 1.74, -0.585]}>
+        <mesh castShadow>
+          <boxGeometry args={[0.46, 0.58, 0.025]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.6} />
+        </mesh>
+        <mesh position-z={0.0135}>
+          <planeGeometry args={[0.4, 0.5]} />
+          <meshStandardMaterial map={print} roughness={0.85} />
+        </mesh>
+      </group>
+
+      <Desk />
+      <Monitors />
+      <Chair position={[0.2, 0, 0.72]} rotation-y={-0.45} />
+      <Shelf position={[-1.22, 0, -0.43]} />
+      <FloorPlant position={[1.04, 0, -0.33]} />
+    </group>
+  );
+};
+
+export default Studio;
