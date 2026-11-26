@@ -69,7 +69,7 @@ const HeroExperience = () => {
       role="img"
       aria-label="3D model of Alex's developer studio: an oak desk with two curved monitors showing Claude and VS Code, an RGB keyboard, a bookshelf with plants, a neon sign reading hello, world, and late-afternoon sun through the blinds."
       shadows
-      camera={{ position: [target[0] - 4.0 * pull, target[1] + 1.65 * pull, target[2] + 5.0 * pull], fov: 35 }}
+      camera={{ position: [target[0], target[1] + 1.65 * pull, target[2] + 6.4 * pull], fov: 35 }} // starts straight in front of the desk
       gl={{ powerPreference: 'high-performance', antialias: !isMobile }} // Disable antialiasing on mobile for better performance
       dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling

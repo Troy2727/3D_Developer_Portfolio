@@ -117,7 +117,7 @@ const Studio = ({ focused = false, onFocusScreen }) => {
 
       <Desk />
       <Monitors onSelect={onFocusScreen} />
-      <Chair position={[0.2, 0, 0.72]} visible={!focused} />
+      <Chair position={[0.6, 0, 0.85]} visible={!focused} />
       <Shelf position={[-1.22, 0, -0.6]} />
       <FloorPlant position={[0.95, 0, -0.12]} />
       <PcTower position={[0.5, 0, -0.3]} />
