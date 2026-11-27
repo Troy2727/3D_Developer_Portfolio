@@ -41,6 +41,35 @@ const FirstFrames = ({ onReady }) => {
   return null;
 };
 
+// OrbitControls eases out by a fixed share per frame, so on a phone drawing 20 fps the room
+// lagged behind the finger and kept sliding for seconds. Scaling the share by frame time
+// gives the same glide at any frame rate (`damping` is the share per 1/60 s). Runs before
+// drei's controls.update(), which uses priority -1.
+const FrameRateDamping = ({ damping }) => {
+  const controls = useThree((state) => state.controls);
+  useFrame((_, delta) => {
+    if (controls) controls.dampingFactor = 1 - Math.pow(1 - damping, Math.min(delta, 0.1) * 60);
+  }, -2);
+  return null;
+};
+
+// The canvas lets vertical swipes scroll the page (touch-action: pan-y in index.css), so a
+// pinch whose first finger drifted up or down was taken over by the page scroll. Two or more
+// fingers on the room always mean pinch-to-zoom.
+const PinchGuard = () => {
+  const element = useThree((state) => state.gl.domElement);
+  useEffect(() => {
+    const keep = (e) => e.touches.length > 1 && e.preventDefault();
+    element.addEventListener("touchstart", keep, { passive: false });
+    element.addEventListener("touchmove", keep, { passive: false });
+    return () => {
+      element.removeEventListener("touchstart", keep);
+      element.removeEventListener("touchmove", keep);
+    };
+  }, [element]);
+  return null;
+};
+
 const HeroExperience = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" }); // below Tailwind's md breakpoint
   const isWide = useMediaQuery({ query: "(min-width: 1280px)" }); // Tailwind's xl, where text and room share the row
@@ -78,6 +107,9 @@ const HeroExperience = () => {
       <FilmShift isWide={isWide} />
       {!drawn && <FirstFrames onReady={() => setDrawn(true)} />}
       <CameraFocus focus={focus} isWide={isWide} />
+      {/* Touch: a shorter glide (about 0.75 s) so the room stops soon after the finger lifts */}
+      <FrameRateDamping damping={isTouch ? 0.1 : 0.05} />
+      {isTouch && <PinchGuard />}
       <OrbitControls
         makeDefault
         target={target}
@@ -88,9 +120,8 @@ const HeroExperience = () => {
         minPolarAngle={0.55}
         maxPolarAngle={1.48}
         rotateSpeed={0.9}
-        zoomSpeed={0.8}
-        enableDamping={true}
-        dampingFactor={0.05}
+        zoomSpeed={isTouch ? 1 : 0.8} // pinch follows the fingers 1:1; small screens leave little room to spread them
+        enableDamping={true} // dampingFactor is set each frame by FrameRateDamping
         touchAction="none"
       />
 
