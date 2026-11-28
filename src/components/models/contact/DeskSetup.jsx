@@ -57,9 +57,11 @@ const DeskSetup = ({ onSelect }) => {
   const code = useMemo(() => createCodeScreen(FPS.code, reducedMotion), []);
   const game = useMemo(() => createGameScreen(FPS.game, reducedMotion), []);
 
-  useFrame(({ clock }) => {
-    code.update(clock.elapsedTime);
-    game.update(clock.elapsedTime);
+  // Wall-clock time: the scene clock restarts at 0 when the canvas pauses off-screen
+  useFrame(() => {
+    const t = performance.now() / 1000;
+    code.update(t);
+    game.update(t);
   });
 
   const select = (screen) => (e) => {

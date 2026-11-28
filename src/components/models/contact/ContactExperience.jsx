@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { useMediaQuery } from "react-responsive";
 import { Environment, Lightformer, OrbitControls } from "@react-three/drei";
 
@@ -20,6 +20,19 @@ const CHAIR_BOUNDS = { x: [-1.3, 1.3], z: [0.75, 1.5] }; // in front of the desk
 const PILL =
   "rounded-full border border-white/20 backdrop-blur transition-colors hover:bg-black/80 outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black";
 
+// Reports whether the canvas is in view, so the Canvas can stop drawing while it's scrolled
+// away (the screens, board and RGB all animate every frame). It drives the Canvas's
+// frameloop prop: setting the store directly gets undone on the Canvas's next render.
+const WatchOnScreen = ({ onChange }) => {
+  const element = useThree((state) => state.gl.domElement);
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => onChange(entry.isIntersecting));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [element, onChange]);
+  return null;
+};
+
 const ContactExperience = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const isTouch = useMediaQuery({ query: "(pointer: coarse)" });
@@ -28,6 +41,9 @@ const ContactExperience = () => {
   const [focus, setFocus] = useState(null);
   const leave = () => setFocus(null);
   const toggleFocus = (screen) => setFocus((current) => (current === screen ? null : screen));
+  // The how-to hint goes away once the visitor has dragged or zoomed
+  const [explored, setExplored] = useState(false);
+  const [onScreen, setOnScreen] = useState(true);
 
   useEffect(() => {
     if (!focus) return;
@@ -45,6 +61,7 @@ const ContactExperience = () => {
       dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling
       onPointerMissed={leave}
+      frameloop={onScreen ? "always" : "never"}
     >
       <ambientLight intensity={0.35} color="#cfd8ff" />
       <directionalLight
@@ -67,6 +84,7 @@ const ContactExperience = () => {
         <Lightformer form="rect" intensity={1.5} color="#93c5fd" position={[-4, 2, 2]} rotation-y={Math.PI / 2} scale={[4, 2, 1]} />
       </Environment>
 
+      <WatchOnScreen onChange={setOnScreen} />
       <CameraFocus focus={focus} isWide={false} screens={ALL_SCREENS} fit={SCREEN_FIT} />
       {/* Configure OrbitControls with passive event listeners */}
       <OrbitControls
@@ -84,6 +102,7 @@ const ContactExperience = () => {
         enableDamping={true} // Enable damping for smoother controls
         dampingFactor={0.05} // Lower damping for more fluid movement
         touchAction="none"
+        onStart={() => setExplored(true)}
       />
 
       <mesh position-y={-0.02} receiveShadow>
@@ -92,7 +111,7 @@ const ContactExperience = () => {
       </mesh>
 
       <DeskSetup onSelect={toggleFocus} />
-      <WallBoard onSelect={toggleFocus} />
+      <WallBoard onSelect={toggleFocus} focused={focus === 3} />
       {/* Drag it across the floor like the hero room's chair: it stays in front of the desk,
           on the stage, and turns to face the keyboard. Steps aside while zoomed in. */}
       <Chair position={[-0.35, 0, 1.0]} face={CHAIR_FACE} bounds={CHAIR_BOUNDS} visible={focus === null}>
@@ -122,9 +141,11 @@ const ContactExperience = () => {
             View board<span className="hidden sm:inline"> · how I build</span>
           </button>
         </div>
-        <p className="whitespace-nowrap rounded-full bg-black/40 px-3 py-1 text-xs text-white/70">
-          {isTouch ? "Swipe to look around · pinch to zoom · tap a screen" : "Drag to look around · scroll to zoom · click a screen"}
-        </p>
+        {!explored && (
+          <p className="whitespace-nowrap rounded-full bg-black/40 px-3 py-1 text-xs text-white/70">
+            {isTouch ? "Swipe to look around · pinch to zoom · tap a screen" : "Drag to look around · scroll to zoom · click a screen"}
+          </p>
+        )}
       </div>
     )}
     </>

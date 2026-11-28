@@ -2,7 +2,9 @@ import { makeCanvas, toTexture } from "../hero_models/studio/surfaceTextures";
 
 // "How I build": six small system diagrams with packets flowing along the arrows, in the
 // style of an animated architecture infographic. Laid out in 2100 x 900 units (21:9),
-// drawn at 80%. update(t) redraws at most `fps` times a second.
+// drawn at 80%. update(t) redraws at most `fps` times a second. Animations run at 60% speed
+// so the board stays calm in the background.
+const PACE = 0.6;
 const W = 2100;
 const H = 900;
 const SCALE = 0.8;
@@ -110,7 +112,7 @@ const restApi = (g, t) => {
   stream(g, [[402, 165], [494, 165]], t + 0.2, C.cyan, 2, 0.8);
   stream(g, [[494, 198], [402, 198]], t + 0.4, C.green, 2, 0.8);
   stream(g, [[262, 198], [170, 198]], t + 0.6, C.green, 2, 0.8);
-  return "Request in, JSON out, one round trip";
+  return "Typed handlers in front of a SQL database";
 };
 
 const fanOut = (g, t) => {
@@ -123,7 +125,7 @@ const fanOut = (g, t) => {
   const f = (t * 0.5) % 1;
   if (f < 0.45) packet(g, along([[160, 185], [232, 185]], f / 0.45), C.pink);
   else viewers.forEach((y) => packet(g, along([[402, 185], [450, y + 28], [494, y + 28]], (f - 0.45) / 0.55), C.pink));
-  return "One message, every viewer, live";
+  return "One message in, every viewer gets it";
 };
 
 const rateLimiter = (g, t) => {
@@ -148,7 +150,7 @@ const rateLimiter = (g, t) => {
       label(g, "429", 262, 150, 22, C.red, 700, "center", MONO);
     } else packet(g, along([[412, 180], [514, 180]], (f - 0.4) / 0.6), C.green);
   }
-  return "100 req/s, bursts of 20, the rest get 429";
+  return "Over the limit? The request gets a 429";
 };
 
 const eventStream = (g, t) => {
@@ -195,7 +197,7 @@ const ciCd = (g, t) => {
   } else {
     label(g, "● live", 332, 280, 26, C.green, 700);
   }
-  return "Push to main, live in about a minute";
+  return "Every push tested, built and deployed";
 };
 
 const metrics = (g, t) => {
@@ -222,9 +224,8 @@ const metrics = (g, t) => {
   g.fillStyle = alert ? "rgba(248,113,113,0.2)" : "rgba(74,222,128,0.15)";
   g.fill();
   label(g, alert ? "ALERT" : "OK", 589, 160, 24, alert ? C.red : C.green, 700);
-  label(g, "p99", 589, 215, 20, C.muted, 400);
-  label(g, `${Math.round(30 + last / 6)} ms`, 589, 245, 24, C.text, 600, "center", MONO);
-  return "Live telemetry with instant alerts";
+  label(g, "latency", 589, 215, 20, C.muted, 400);
+  return "Dashboards that alert before users notice";
 };
 
 const TILES = [
@@ -241,13 +242,7 @@ const draw = (g, t) => {
   g.fillStyle = C.bg;
   g.fillRect(0, 0, W, H);
   label(g, "How I build", 36, 60, 40, C.text, 700, "left");
-  label(g, "systems I ship, running live", 290, 60, 26, C.muted, 400, "left");
-  const pulse = 0.5 + 0.5 * Math.sin(t * 4);
-  g.fillStyle = `rgba(74,222,128,${0.4 + 0.6 * pulse})`;
-  g.beginPath();
-  g.arc(W - 120, 50, 10, 0, Math.PI * 2);
-  g.fill();
-  label(g, "live", W - 100, 60, 26, C.green, 600, "left");
+  label(g, "patterns behind the systems I ship", 290, 60, 26, C.muted, 400, "left");
 
   TILES.forEach(([title, accent, tile], i) => {
     const x = TILE.x0 + (i % 3) * (TILE.w + TILE.gap);
@@ -279,7 +274,7 @@ export const createBoardScreen = (fps, still = false) => {
       if (frame === shown) return;
       shown = frame;
       g.setTransform(SCALE, 0, 0, SCALE, 0, 0);
-      draw(g, still ? 3 : frame / fps);
+      draw(g, still ? 3 : (frame / fps) * PACE);
       texture.needsUpdate = true;
     },
   };

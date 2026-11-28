@@ -44,17 +44,26 @@ const haloTexture = () => {
   return toTexture(canvas);
 };
 
-const FPS = isPhone ? 10 : 24;
+const FPS = isPhone ? 8 : 15;
+// The board sits dimmed in the background and brightens when you zoom in on it
+const DIM = 0.6;
+const DIM_COLOR = [DIM, DIM, DIM]; // one array, so re-renders never reset the fade
 
-// onSelect(3): the board was clicked
-const WallBoard = ({ onSelect }) => {
+// onSelect(3): the board was clicked. focused: the camera is zoomed in on it.
+const WallBoard = ({ onSelect, focused = false }) => {
   const group = useRef();
+  const screen = useRef();
+  const glow = useRef();
   const slats = useMemo(() => slatTexture(), []);
   const halo = useMemo(() => haloTexture(), []);
   const board = useMemo(() => createBoardScreen(FPS, reducedMotion), []);
 
-  useFrame(({ camera, clock }) => {
-    board.update(clock.elapsedTime);
+  useFrame(({ camera }, delta) => {
+    board.update(performance.now() / 1000); // wall-clock: the scene clock restarts after a pause
+    const k = 1 - Math.exp(-delta * 5);
+    const level = screen.current.color.r + ((focused ? 1 : DIM) - screen.current.color.r) * k;
+    screen.current.color.setScalar(level);
+    glow.current.opacity = level;
     // Cutaway: orbiting behind the wall hides it, so the desk stays in view
     group.current.visible = camera.position.z > WALL.face;
   });
@@ -68,7 +77,7 @@ const WallBoard = ({ onSelect }) => {
 
       <mesh position={[0, BOARD.y, WALL.face + 0.001]}>
         <planeGeometry args={[BOARD.w * 1.45, BOARD.h * 1.7]} />
-        <meshBasicMaterial map={halo} transparent depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
+        <meshBasicMaterial ref={glow} map={halo} transparent opacity={DIM} depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false} />
       </mesh>
 
       <group
@@ -84,7 +93,7 @@ const WallBoard = ({ onSelect }) => {
         {/* Unlit so it glows like a real panel */}
         <mesh position-z={0.0305}>
           <planeGeometry args={[BOARD.w, BOARD.h]} />
-          <meshBasicMaterial map={board.texture} toneMapped={false} />
+          <meshBasicMaterial ref={screen} map={board.texture} color={DIM_COLOR} toneMapped={false} />
         </mesh>
       </group>
     </group>
