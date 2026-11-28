@@ -11,18 +11,20 @@ const FACE = { x: -0.05, z: -0.1 };
 const BOUNDS = { x: [-1.2, 0.6], z: [0.48, 1.0] }; // clear of the shelf, desk and fig
 const clamp = (v, [lo, hi]) => Math.min(hi, Math.max(lo, v));
 
-const Chair = ({ position, visible = true }) => {
+// face, bounds and the model (children) default to the hero studio's; the Contact
+// setup passes its own.
+const Chair = ({ position, visible = true, face = FACE, bounds = BOUNDS, children }) => {
   const chair = useRef();
   const grab = useRef(null);
   const hit = useMemo(() => new THREE.Vector3(), []);
   const get = useThree((state) => state.get);
 
   const place = (x, z) => {
-    x = clamp(x, BOUNDS.x);
-    z = clamp(z, BOUNDS.z);
+    x = clamp(x, bounds.x);
+    z = clamp(z, bounds.z);
     chair.current.position.set(x, 0, z);
     // The seat faces -z at rotation 0; turn it toward the keyboard
-    chair.current.rotation.y = Math.atan2(x - FACE.x, z - FACE.z);
+    chair.current.rotation.y = Math.atan2(x - face.x, z - face.z);
   };
 
   useLayoutEffect(() => {
@@ -61,7 +63,7 @@ const Chair = ({ position, visible = true }) => {
       onPointerOver={() => (document.body.style.cursor = "grab")}
       onPointerOut={() => !grab.current && (document.body.style.cursor = "")}
     >
-      <ChairModel />
+      {children ?? <ChairModel />}
     </group>
   );
 };

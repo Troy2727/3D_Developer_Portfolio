@@ -4,11 +4,14 @@ import { useMediaQuery } from "react-responsive";
 import { Environment, Lightformer, OrbitControls } from "@react-three/drei";
 
 import CameraFocus from "../hero_models/CameraFocus";
+import Chair from "../hero_models/studio/Chair";
 import DeskSetup, { SCREEN_FIT, SCREENS } from "./DeskSetup";
 import GamingChair from "./GamingChair";
 
 // Code-built setup in real-world meters (floor at y = 0) on a round dark stage
 const TARGET = [0, 0.8, 0];
+const CHAIR_FACE = { x: -0.12, z: 0.17 }; // the keyboard
+const CHAIR_BOUNDS = { x: [-1.3, 1.3], z: [0.75, 1.5] }; // in front of the desk, on the stage
 
 // Same look as the hero room's buttons over the 3D, with a visible ring for keyboard focus
 const PILL =
@@ -84,8 +87,11 @@ const ContactExperience = () => {
       </mesh>
 
       <DeskSetup onSelect={(screen) => setFocus((current) => (current === screen ? null : screen))} />
-      {/* Pulled out from the desk and swiveled toward you; steps aside while zoomed in */}
-      <GamingChair position={[-0.6, 0, 0.8]} rotation-y={-1.95} visible={focus === null} />
+      {/* Drag it across the floor like the hero room's chair: it stays in front of the desk,
+          on the stage, and turns to face the keyboard. Steps aside while zoomed in. */}
+      <Chair position={[-0.35, 0, 1.0]} face={CHAIR_FACE} bounds={CHAIR_BOUNDS} visible={focus === null}>
+        <GamingChair />
+      </Chair>
     </Canvas>
 
     {focus ? (

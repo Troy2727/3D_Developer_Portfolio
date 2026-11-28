@@ -14,7 +14,7 @@ const box = (g, x, y, w, h, r, fill) => {
   g.fill();
 };
 
-const text = (g, str, x, y, font, color, align = "left") => {
+export const text = (g, str, x, y, font, color, align = "left") => {
   g.font = font;
   g.fillStyle = color;
   g.textAlign = align;
@@ -43,7 +43,7 @@ const paragraph = (g, str, x, y, maxWidth, lineHeight, font, color) => {
 
 // "Alex Studio" theme for both screens' code, built from the site's palette: its charcoals,
 // its #d9ecff text, and the blue -> purple -> pink gradient behind "real products."
-const THEME = {
+export const THEME = {
   bg: "#1c1c21",
   sidebar: "#16161a",
   activityBar: "#0e0e10",
@@ -79,7 +79,7 @@ const RULES = [
   [/^./, "#b9c6d8"],
 ];
 
-const codeLine = (g, line, x, y) => {
+export const codeLine = (g, line, x, y) => {
   g.font = `400 27px ${MONO}`;
   let rest = line;
   while (rest.length) {
@@ -120,9 +120,10 @@ const starburst = (g, cx, cy, r) => {
 const SCALE = 2 / 3;
 const clampInt = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.floor(v)));
 
-const createScreen = (timeline, fps) => {
+// w x h: the layout size; the Contact setup's 21:9 screens pass their own
+export const createScreen = (timeline, fps, w = W, h = H) => {
   const { frame, render } = timeline;
-  const [canvas, g] = makeCanvas(W * SCALE, H * SCALE);
+  const [canvas, g] = makeCanvas(w * SCALE, h * SCALE);
   const texture = toTexture(canvas);
   let lastKey = "";
   let lastDraw = -Infinity;
@@ -502,7 +503,7 @@ const ICONS = {
 };
 const TOP_ICONS = ["explorer", "search", "sourceControl", "runDebug", "extensions", "testing", "remote"];
 
-const activityBar = (g) => {
+export const activityBar = (g) => {
   g.fillStyle = THEME.activityBar;
   g.fillRect(0, 0, 72, H);
   g.lineWidth = 3;
@@ -566,7 +567,8 @@ const reactIcon = (g, x, y) => {
   g.fill();
 };
 
-const treeRow = (g, depth, name, kind, y) => {
+// folderColor overrides FOLDER_COLORS, for folders this tree doesn't know
+export const treeRow = (g, depth, name, kind, y, folderColor) => {
   const x = 96 + depth * 22;
   const iconX = x + 20;
   let label = name;
@@ -579,7 +581,7 @@ const treeRow = (g, depth, name, kind, y) => {
     g.lineJoin = "round";
     if (open) path(g, [[x, y - 12], [x + 5, y - 7], [x + 10, y - 12]]);
     else path(g, [[x + 3, y - 15], [x + 8, y - 10], [x + 3, y - 5]]);
-    folderIcon(g, iconX, y - 19, FOLDER_COLORS[label] ?? THEME.muted, open);
+    folderIcon(g, iconX, y - 19, folderColor ?? FOLDER_COLORS[label] ?? THEME.muted, open);
   } else if (kind === "PKG") {
     text(g, "{ }", iconX + 12, y - 1, `700 19px ${MONO}`, THEME.amber, "center");
   } else {

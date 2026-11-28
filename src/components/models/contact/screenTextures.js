@@ -1,133 +1,157 @@
+import { activityBar, codeLine, createScreen, text, THEME, treeRow } from "../hero_models/studio/screenTextures";
 import { makeCanvas, seeded, toTexture } from "../hero_models/studio/surfaceTextures";
 
-// Animated 21:9 screens. Screen 1 types out the code of the game that screen 2 plays.
+// Animated 21:9 screens. Screen 1 types out the component that runs the game on screen 2.
 // update(t) takes the clock time in seconds and redraws at most `fps` times a second.
 const MONO = '"JetBrains Mono", Consolas, "Courier New", monospace';
 const SANS = '"Mona Sans", "Segoe UI", Arial, sans-serif';
 
 // ---------------------------------------------------------------- Screen 1: editor
+// VS Code in the hero room's theme (same activity bar, folder and file icons, colors),
+// laid out in 2520 x 1080 units for the 21:9 panel.
+const EW = 2520;
+const EH = 1080;
 
-const CODE = `// game.js: the neon shooter running on screen 2
-const player = { x: W / 2, y: H - 70, speed: 520 };
-let enemies = spawnWave(1), score = 0, level = 1;
+const GAME_CODE = [
+  'import { useEffect, useRef } from "react";',
+  'import { spawnWave, collide, explode, startLoop } from "./engine";',
+  "",
+  "// Screen 2: a neon shooter that plays itself",
+  "export default function NeonShooter() {",
+  "  const canvas = useRef();",
+  "",
+  "  useEffect(() => {",
+  "    const ship = { x: 640, speed: 520 };",
+  "    let enemies = spawnWave(1);",
+  "",
+  "    return startLoop(canvas.current, (dt) => {",
+  "      const goal = enemies.at(-1) ?? ship;",
+  "      ship.x += Math.sign(goal.x - ship.x) * ship.speed * dt;",
+  "      enemies = enemies.filter((e) => !collide(e, ship) || explode(e));",
+  "    });",
+  "  }, []);",
+  "",
+  "  return <canvas ref={canvas} width={1280} height={548} />;",
+  "}",
+];
+const CHARS = GAME_CODE.reduce((n, line) => n + line.length + 1, 0); // +1: the newline
+const TYPE_RATE = 34; // characters per second
+const TYPED_AT = CHARS / TYPE_RATE;
+const COMMAND = "$ npm run dev";
+const LOOP = TYPED_AT + 9;
+const FINISHED = TYPED_AT + 5; // typed, saved, dev server ready
 
-function update(dt) {
-  const goal = lowestEnemy() ?? player;
-  player.x += Math.sign(goal.x - player.x) * player.speed * dt;
-  if (cooldown.ready(0.22)) bullets.push(shoot(player));
+// [depth, name, kind, folder color]
+const TREE = [
+  [0, "⌄ 3D_DEVELOPER_PORTFOLIO", "FOLDER"],
+  [1, "⌄ src", "FOLDER"],
+  [2, "⌄ components", "FOLDER"],
+  [3, "⌄ models", "FOLDER", THEME.cyan],
+  [4, "⌄ contact", "FOLDER", THEME.pink],
+  [5, "ContactExperience.jsx", "FILE"],
+  [5, "DeskSetup.jsx", "FILE"],
+  [5, "GamingChair.jsx", "FILE"],
+  [5, "NeonShooter.jsx", "FILE"],
+  [5, "UltrawideMonitor.jsx", "FILE"],
+  [5, "Webcam.jsx", "FILE"],
+  [4, "› hero_models", "FOLDER"],
+  [2, "› sections", "FOLDER"],
+  [1, "package.json", "PKG"],
+];
 
-  for (const b of bullets) {
-    b.y -= 900 * dt;
-    const hit = enemies.find((e) => collide(b, e));
-    if (hit) explode(hit), (score += 150);
-  }
-  if (!enemies.length) enemies = spawnWave(++level);
-}
+const editorTimeline = {
+  frame: (t) => {
+    const s = t % LOOP;
+    return {
+      typed: Math.max(0, Math.min(CHARS, Math.floor(s * TYPE_RATE))),
+      saved: s > TYPED_AT + 0.6,
+      command: Math.max(0, Math.min(COMMAND.length, Math.floor((s - TYPED_AT - 1.2) * 14))),
+      ready: s > TYPED_AT + 3,
+      caret: Math.floor(t * 2) % 2 === 0,
+    };
+  },
+  render: (g, state) => {
+    g.fillStyle = THEME.bg;
+    g.fillRect(0, 0, EW, EH);
 
-function loop() {
-  update(clock.delta());
-  draw(ctx, { player, enemies, bullets, score });
-  requestAnimationFrame(loop);
-}`;
+    // Activity bar and explorer
+    activityBar(g);
+    g.fillStyle = THEME.sidebar;
+    g.fillRect(72, 0, 380, EH);
+    text(g, "EXPLORER", 100, 44, `600 21px ${SANS}`, THEME.muted);
+    TREE.forEach(([depth, name, kind, color], i) => {
+      const y = 92 + i * 40;
+      if (name === "NeonShooter.jsx") {
+        g.fillStyle = THEME.selection;
+        g.fillRect(72, y - 28, 380, 40);
+      }
+      treeRow(g, depth, name, kind, y, color);
+    });
 
-const COLORS = { comment: "#5c6370", string: "#98c379", keyword: "#c678dd", number: "#d19a66", call: "#61afef", text: "#c9d1d9" };
-const TOKEN = /(\/\/.*$)|("[^"]*")|\b(const|let|function|for|of|if|return)\b|\b(\d+(?:\.\d+)?)\b|([A-Za-z_]\w*(?=\())|([^]+?)/g;
+    // Tabs: a dot on NeonShooter.jsx until it's saved
+    g.fillStyle = THEME.sidebar;
+    g.fillRect(452, 0, EW - 452, 60);
+    g.fillStyle = THEME.bg;
+    g.fillRect(452, 0, 280, 60);
+    g.fillStyle = THEME.pink;
+    g.fillRect(452, 0, 280, 3);
+    text(g, state.saved ? "NeonShooter.jsx" : "NeonShooter.jsx  ●", 490, 40, `400 24px ${SANS}`, THEME.text);
+    text(g, "engine.js", 762, 40, `400 24px ${SANS}`, THEME.muted);
+    text(g, "DeskSetup.jsx", 912, 40, `400 24px ${SANS}`, THEME.muted);
+    text(g, "src › components › models › contact › NeonShooter.jsx", 486, 92, `400 21px ${SANS}`, THEME.muted);
 
-// Each line becomes a list of [text, color] runs
-const LINES = CODE.split("\n").map((line) => {
-  const runs = [];
-  for (const m of line.matchAll(TOKEN)) {
-    const color = m[1] ? COLORS.comment : m[2] ? COLORS.string : m[3] ? COLORS.keyword : m[4] ? COLORS.number : m[5] ? COLORS.call : COLORS.text;
-    const last = runs[runs.length - 1];
-    if (last && last[1] === color) last[0] += m[0];
-    else runs.push([m[0], color]);
-  }
-  return runs;
-});
-const TOTAL = LINES.reduce((n, runs) => n + runs.reduce((k, [text]) => k + text.length, 0) + 1, 0);
-const CPS = 34; // typed characters per second
-const HOLD = 5; // seconds the finished file stays up before it types again
-const CYCLE = TOTAL / CPS + HOLD;
-
-const drawEditor = (g, W, H, typed, caretOn) => {
-  g.fillStyle = "#0d1117";
-  g.fillRect(0, 0, W, H);
-
-  g.fillStyle = "#010409";
-  g.fillRect(0, 0, 320, H);
-  g.font = `500 24px ${SANS}`;
-  ["src", "  game", "    game.js", "    draw.js", "    waves.js", "  main.js", "index.html", "package.json"].forEach((name, i) => {
-    if (i === 2) {
-      g.fillStyle = "#1f2937";
-      g.fillRect(0, 92 + i * 44 - 31, 320, 44);
+    // The code typed so far, with the cursor at the end
+    let left = state.typed;
+    let caret = null;
+    GAME_CODE.forEach((line, i) => {
+      if (left < 0) return;
+      const y = 142 + i * 34;
+      const shown = line.slice(0, left);
+      const current = left <= line.length;
+      if (current) {
+        g.fillStyle = THEME.lineHighlight;
+        g.fillRect(452, y - 26, EW - 452, 34);
+      }
+      text(g, String(i + 1), 540, y, `400 24px ${MONO}`, current ? THEME.muted : THEME.dim, "right");
+      codeLine(g, shown, 576, y);
+      if (current) caret = [576 + g.measureText(shown).width, y];
+      // Minimap: a sliver per typed line on the right edge
+      g.fillStyle = "rgba(195,166,255,0.35)";
+      g.fillRect(EW - 170, 120 + i * 9, Math.min(140, shown.length * 2), 4);
+      left -= line.length + 1;
+    });
+    g.fillStyle = "rgba(217,236,255,0.05)";
+    g.fillRect(EW - 180, 110, 160, GAME_CODE.length * 9 + 20);
+    if (caret && state.caret && !state.saved) {
+      g.fillStyle = THEME.pink;
+      g.fillRect(caret[0] + 1, caret[1] - 26, 3, 32);
     }
-    g.fillStyle = i === 2 ? "#e6edf3" : "#7d8590";
-    g.fillText(name, 28, 92 + i * 44);
-  });
 
-  g.fillStyle = "#161b22";
-  g.fillRect(320, 0, W - 320, 58);
-  g.fillStyle = "#0d1117";
-  g.fillRect(320, 0, 240, 58);
-  g.fillStyle = "#3b82f6";
-  g.fillRect(320, 0, 240, 4);
-  g.fillStyle = "#e6edf3";
-  g.fillText("game.js", 356, 38);
+    // Terminal: the dev server starts once the file is saved
+    g.fillStyle = THEME.border;
+    g.fillRect(452, 838, EW - 452, 1);
+    text(g, "PROBLEMS     OUTPUT     TERMINAL", 486, 876, `500 20px ${SANS}`, THEME.muted);
+    g.fillStyle = THEME.pink;
+    g.fillRect(712, 884, 106, 2);
+    const terminal = [[COMMAND.slice(0, Math.max(2, state.command)), THEME.text]];
+    if (state.ready) terminal.push(["  VITE v6.3.4  ready in 412 ms", THEME.green], ["  ➜  NeonShooter running on screen 2", THEME.blue]);
+    terminal.forEach(([line, color], i) => text(g, line, 486, 924 + i * 36, `400 24px ${MONO}`, color));
 
-  g.font = `400 29px ${MONO}`;
-  let left = typed;
-  let caret = null;
-  LINES.forEach((runs, i) => {
-    if (left < 0) return;
-    const y = 104 + i * 33;
-    g.fillStyle = COLORS.comment;
-    g.textAlign = "right";
-    g.fillText(String(i + 1), 400, y);
-    g.textAlign = "left";
-    let x = 430;
-    for (const [text, color] of runs) {
-      const shown = text.slice(0, Math.max(0, left));
-      left -= text.length;
-      g.fillStyle = color;
-      g.fillText(shown, x, y);
-      x += g.measureText(shown).width;
-      if (left < 0) break;
-    }
-    caret = [x, y];
-    left -= 1; // newline
-  });
-  if (caret && caretOn) {
-    g.fillStyle = "#e6edf3";
-    g.fillRect(caret[0] + 2, caret[1] - 25, 3, 32);
-  }
-
-  g.fillStyle = "#3b82f6";
-  g.fillRect(0, H - 36, W, 36);
-  g.fillStyle = "#ffffff";
-  g.font = `500 20px ${SANS}`;
-  g.fillText(typed >= TOTAL ? "main   ✓ saved · running on screen 2" : "main   ● typing…", 22, H - 11);
+    // Status bar in the site's purple -> pink gradient
+    const bar = g.createLinearGradient(0, 0, EW, 0);
+    bar.addColorStop(0, "#7B61FF");
+    bar.addColorStop(1, THEME.pink);
+    g.fillStyle = bar;
+    g.fillRect(0, EH - 40, EW, 40);
+    text(g, "⎇ main    ✓ 0 problems", 24, EH - 12, `400 21px ${SANS}`, "#ffffff");
+    text(g, "Spaces: 2    UTF-8    JavaScript JSX", EW - 24, EH - 12, `400 21px ${SANS}`, "#ffffff", "right");
+  },
 };
 
+// still: visitors who prefer reduced motion see the finished frame
 export const createCodeScreen = (fps, still = false) => {
-  const W = 2048;
-  const H = 868;
-  const [canvas, g] = makeCanvas(W, H);
-  const texture = toTexture(canvas);
-  let shown = null;
-  return {
-    texture,
-    update(t) {
-      t = Math.floor(t * fps) / fps;
-      const cycleT = still ? CYCLE - 0.01 : t % CYCLE;
-      const typed = Math.min(TOTAL, Math.floor(cycleT * CPS));
-      const caretOn = typed < TOTAL || Math.floor(t * 2) % 2 === 0;
-      const key = typed * 2 + (caretOn ? 1 : 0);
-      if (key === shown) return;
-      shown = key;
-      drawEditor(g, W, H, typed, caretOn);
-      texture.needsUpdate = true;
-    },
-  };
+  const screen = createScreen(editorTimeline, fps, EW, EH);
+  return { texture: screen.texture, update: (t) => screen.update(still ? FINISHED : t) };
 };
 
 // ---------------------------------------------------------------- Screen 2: game
