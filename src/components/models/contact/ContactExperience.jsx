@@ -1,8 +1,12 @@
 import { Canvas } from "@react-three/fiber";
 import { useMediaQuery } from "react-responsive";
-import { OrbitControls } from "@react-three/drei";
+import { Environment, Lightformer, OrbitControls } from "@react-three/drei";
 
-import Computer from "./Computer";
+import DeskSetup from "./DeskSetup";
+import GamingChair from "./GamingChair";
+
+// Code-built setup in real-world meters (floor at y = 0) on a round dark stage
+const TARGET = [0, 0.8, 0];
 
 const ContactExperience = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -10,24 +14,35 @@ const ContactExperience = () => {
   return (
     <Canvas
       shadows
-      camera={{ position: [0, 2, 8], fov: isMobile ? 50 : 45 }} // Adjusted camera position and FOV for better view
+      camera={{ position: isMobile ? [1.5, 1.6, 3.7] : [1.4, 1.6, 3.3], fov: isMobile ? 50 : 45 }}
       gl={{ powerPreference: 'high-performance', antialias: false }} // Disable antialiasing on mobile for better performance
       dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling
     >
-      <ambientLight intensity={0.5} color="#fff4e6" />
-
-      <directionalLight position={[5, 5, 3]} intensity={2.5} color="#ffd9b3" />
-
+      <ambientLight intensity={0.35} color="#cfd8ff" />
       <directionalLight
-        position={[5, 9, 1]}
+        position={[3, 5, 4]}
+        intensity={2.2}
         castShadow
-        intensity={2.5}
-        color="#ffd9b3"
+        shadow-mapSize={[1024, 1024]}
+        shadow-camera-left={-3}
+        shadow-camera-right={3}
+        shadow-camera-top={3}
+        shadow-camera-bottom={-3}
+        shadow-bias={-0.0005}
       />
+      {/* Blue rim light from behind the monitors, and the screens' glow on the desk */}
+      <directionalLight position={[-3, 3, -4]} intensity={1.6} color="#3b82f6" />
+      <pointLight position={[0, 1.1, 0.35]} intensity={1.2} distance={2.5} decay={2} color="#9ec5ff" />
+      {/* Soft reflections for the leather and the monitor plastic */}
+      <Environment resolution={128} frames={1} environmentIntensity={0.5}>
+        <Lightformer form="rect" intensity={2} position={[0, 4, 0]} rotation-x={Math.PI / 2} scale={[6, 6, 1]} />
+        <Lightformer form="rect" intensity={1.5} color="#93c5fd" position={[-4, 2, 2]} rotation-y={Math.PI / 2} scale={[4, 2, 1]} />
+      </Environment>
 
       {/* Configure OrbitControls with passive event listeners */}
       <OrbitControls
+        target={TARGET}
         enablePan={false}
         enableZoom={true} // Enable zoom functionality
         enableRotate={true} // Enable rotation on all devices including mobile
@@ -43,20 +58,14 @@ const ContactExperience = () => {
         touchAction="none"
       />
 
-      <group scale={[1, 1, 1]}>
-        <mesh
-          receiveShadow
-          position={[0, -1.5, 0]}
-          rotation={[-Math.PI / 2, 0, 0]}
-        >
-          <planeGeometry args={[30, 30]} />
-          <meshStandardMaterial color="#a46b2d" />
-        </mesh>
-      </group>
+      <mesh position-y={-0.02} receiveShadow>
+        <cylinderGeometry args={[2.2, 2.2, 0.04, 96]} />
+        <meshStandardMaterial color="#151a26" roughness={0.85} />
+      </mesh>
 
-      <group scale={isMobile ? 0.025 : 0.03} position={[0, isMobile ? -1.45 : -1.49, -2]} castShadow rotation={[0, -Math.PI / 8, 0]}>
-        <Computer />
-      </group>
+      <DeskSetup />
+      {/* Pulled out from the desk and swiveled toward you */}
+      <GamingChair position={[-0.6, 0, 0.8]} rotation-y={-1.95} />
     </Canvas>
   );
 };
