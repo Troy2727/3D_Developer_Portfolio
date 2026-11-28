@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { RoundedBox } from "@react-three/drei";
 
-import { makeCanvas, toTexture } from "../hero_models/studio/surfaceTextures";
+import PcTower from "../hero_models/studio/PcTower";
+import { Keyboard, Mouse } from "../hero_models/studio/Peripherals";
 import { codeScreen, welcomeScreen } from "./screenTextures";
 import UltrawideMonitor, { bent, PANEL } from "./UltrawideMonitor";
 
@@ -12,6 +13,7 @@ const DESK = { w: 2.3, d: 0.8 };
 const MON_Y = 1.05;
 const MON_Z = -0.2;
 const POLE = { z: -0.34, h: 0.4 };
+const PERIPHERAL_SCALE = 1.35;
 
 // Each monitor turns its outer edge 17° toward you; the inner edges meet with a 1 cm gap
 const TURN = 0.3;
@@ -34,30 +36,9 @@ const Bar = ({ from, to, y }) => {
   );
 };
 
-// Light keycaps with thin gaps, for the low-profile keyboard
-const keycapTexture = () => {
-  const [canvas, g] = makeCanvas(720, 240);
-  g.fillStyle = "#c9ccd2";
-  g.fillRect(0, 0, 720, 240);
-  g.fillStyle = "#f7f8fa";
-  for (let row = 0; row < 6; row++) {
-    for (let col = 0; col < 18; col++) {
-      if (row === 5 && col > 5 && col < 12) continue;
-      g.beginPath();
-      g.roundRect(6 + col * 39.6, 6 + row * 38, 33, 32, 5);
-      g.fill();
-    }
-  }
-  g.beginPath();
-  g.roundRect(6 + 6 * 39.6, 6 + 5 * 38, 39.6 * 6 - 6.6, 32, 5); // space bar
-  g.fill();
-  return toTexture(canvas);
-};
-
 const DeskSetup = () => {
   const code = useMemo(() => codeScreen(), []);
   const welcome = useMemo(() => welcomeScreen(), []);
-  const keycaps = useMemo(() => keycapTexture(), []);
 
   // Arm attaches to the back of each monitor's housing
   const vesa = (side) => [side * (MON_X + 0.055 * Math.sin(TURN)), MON_Z - 0.055 * Math.cos(TURN)];
@@ -89,23 +70,17 @@ const DeskSetup = () => {
         <Frame />
       </mesh>
 
-      {/* Desk mat, keyboard and mouse */}
-      <RoundedBox args={[1.0, 0.004, 0.36]} radius={0.002} position={[0.05, TOP + 0.002, 0.17]} receiveShadow>
+      {/* Desk mat with the hero room's RGB keyboard and gaming mouse, scaled up so they
+          don't look tiny next to the 45" screens (tilted keyboard lifted so its front
+          edge rests on the mat) */}
+      <RoundedBox args={[1.1, 0.004, 0.36]} radius={0.002} position={[0.05, TOP + 0.002, 0.17]} receiveShadow>
         <meshStandardMaterial color="#1e2129" roughness={1} />
       </RoundedBox>
-      <group position={[-0.05, TOP + 0.004, 0.17]}>
-        <RoundedBox args={[0.36, 0.014, 0.12]} radius={0.006} position-y={0.007} castShadow>
-          <meshStandardMaterial color="#f3f4f6" roughness={0.5} />
-        </RoundedBox>
-        <mesh position-y={0.0141} rotation-x={-Math.PI / 2}>
-          <planeGeometry args={[0.345, 0.105]} />
-          <meshStandardMaterial map={keycaps} roughness={0.6} />
-        </mesh>
-      </group>
-      <mesh position={[0.3, TOP + 0.004, 0.18]} scale={[0.032, 0.02, 0.058]} castShadow>
-        <sphereGeometry args={[1, 32, 16]} />
-        <meshStandardMaterial color="#f3f4f6" roughness={0.4} />
-      </mesh>
+      <Keyboard position={[-0.12, TOP + 0.004 + 0.0034 * PERIPHERAL_SCALE, 0.17]} rotation-x={0.05} scale={PERIPHERAL_SCALE} />
+      <Mouse position={[0.38, TOP + 0.004, 0.18]} rotation-y={0.08} scale={PERIPHERAL_SCALE} />
+
+      {/* Gaming PC under the right side of the desk, glass panel facing you */}
+      <PcTower position={[0.62, 0, 0]} rotation-y={Math.PI / 2} />
 
       {/* Dual monitor arm: clamp, pole, one bar to each monitor */}
       <mesh position={[0, TOP + 0.015, POLE.z]} castShadow>
