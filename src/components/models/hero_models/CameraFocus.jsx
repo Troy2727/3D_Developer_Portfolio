@@ -26,11 +26,12 @@ const CameraFocus = ({ focus, isWide, screens = SCREENS, fit = FIT }) => {
     if (focus) {
       home.current ??= { position: camera.position.clone(), target: controls.target.clone(), filmOffset: camera.filmOffset };
       const { center, yaw } = screens[focus];
+      const { w, h } = screens[focus].fit ?? fit; // a screen can bring its own fit
       const { width, height } = get().size;
       const vHalf = THREE.MathUtils.degToRad(camera.fov / 2);
       const hHalf = Math.atan(Math.tan(vHalf) * (width / height));
       const share = isWide ? 0.7 : 0.95;
-      const distance = Math.max(fit.w / share / 2 / Math.tan(hHalf), fit.h / 2 / Math.tan(vHalf));
+      const distance = Math.max(w / share / 2 / Math.tan(hHalf), h / 2 / Math.tan(vHalf));
       const facing = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
       goal.current = { position: center.clone().addScaledVector(facing, distance), target: center.clone(), filmOffset: 0 };
       controls.enabled = false;

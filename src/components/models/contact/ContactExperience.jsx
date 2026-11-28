@@ -7,9 +7,12 @@ import CameraFocus from "../hero_models/CameraFocus";
 import Chair from "../hero_models/studio/Chair";
 import DeskSetup, { SCREEN_FIT, SCREENS } from "./DeskSetup";
 import GamingChair from "./GamingChair";
+import WallBoard, { BOARD_SCREEN } from "./WallBoard";
 
-// Code-built setup in real-world meters (floor at y = 0) on a round dark stage
-const TARGET = [0, 0.8, 0];
+// Code-built setup in real-world meters (floor at y = 0) on a round dark stage,
+// with the "How I build" board on the wall behind it
+const TARGET = [0, 1.0, 0];
+const ALL_SCREENS = { ...SCREENS, 3: BOARD_SCREEN };
 const CHAIR_FACE = { x: -0.12, z: 0.17 }; // the keyboard
 const CHAIR_BOUNDS = { x: [-1.3, 1.3], z: [0.75, 1.5] }; // in front of the desk, on the stage
 
@@ -24,6 +27,7 @@ const ContactExperience = () => {
   // a click elsewhere, or the back button zooms back out
   const [focus, setFocus] = useState(null);
   const leave = () => setFocus(null);
+  const toggleFocus = (screen) => setFocus((current) => (current === screen ? null : screen));
 
   useEffect(() => {
     if (!focus) return;
@@ -36,7 +40,7 @@ const ContactExperience = () => {
     <>
     <Canvas
       shadows
-      camera={{ position: isMobile ? [1.5, 1.6, 3.7] : [1.4, 1.6, 3.3], fov: isMobile ? 50 : 45 }}
+      camera={{ position: isMobile ? [1.8, 1.9, 4.6] : [1.6, 1.9, 4.0], fov: isMobile ? 50 : 45 }}
       gl={{ powerPreference: 'high-performance', antialias: false }} // Disable antialiasing on mobile for better performance
       dpr={isMobile ? 1 : [1, 1.5]} // Lower resolution on mobile, capped at 1.5x elsewhere
       performance={{ min: 0.5 }} // Allow performance scaling
@@ -63,7 +67,7 @@ const ContactExperience = () => {
         <Lightformer form="rect" intensity={1.5} color="#93c5fd" position={[-4, 2, 2]} rotation-y={Math.PI / 2} scale={[4, 2, 1]} />
       </Environment>
 
-      <CameraFocus focus={focus} isWide={false} screens={SCREENS} fit={SCREEN_FIT} />
+      <CameraFocus focus={focus} isWide={false} screens={ALL_SCREENS} fit={SCREEN_FIT} />
       {/* Configure OrbitControls with passive event listeners */}
       <OrbitControls
         target={TARGET}
@@ -87,7 +91,8 @@ const ContactExperience = () => {
         <meshStandardMaterial color="#151a26" roughness={0.85} />
       </mesh>
 
-      <DeskSetup onSelect={(screen) => setFocus((current) => (current === screen ? null : screen))} />
+      <DeskSetup onSelect={toggleFocus} />
+      <WallBoard onSelect={toggleFocus} />
       {/* Drag it across the floor like the hero room's chair: it stays in front of the desk,
           on the stage, and turns to face the keyboard. Steps aside while zoomed in. */}
       <Chair position={[-0.35, 0, 1.0]} face={CHAIR_FACE} bounds={CHAIR_BOUNDS} visible={focus === null}>
@@ -106,12 +111,15 @@ const ContactExperience = () => {
       </button>
     ) : (
       <div className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
-        <div className="pointer-events-auto flex gap-2">
-          <button type="button" onClick={() => setFocus(1)} className={`whitespace-nowrap px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
-            View screen 1 · code
+        <div className="pointer-events-auto flex flex-wrap justify-center gap-1.5 sm:gap-2">
+          <button type="button" onClick={() => setFocus(1)} className={`whitespace-nowrap px-2 sm:px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
+            View screen 1<span className="hidden sm:inline"> · code</span>
           </button>
-          <button type="button" onClick={() => setFocus(2)} className={`whitespace-nowrap px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
-            View screen 2 · game
+          <button type="button" onClick={() => setFocus(2)} className={`whitespace-nowrap px-2 sm:px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
+            View screen 2<span className="hidden sm:inline"> · game</span>
+          </button>
+          <button type="button" onClick={() => setFocus(3)} className={`whitespace-nowrap px-2 sm:px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
+            View board<span className="hidden sm:inline"> · how I build</span>
           </button>
         </div>
         <p className="whitespace-nowrap rounded-full bg-black/40 px-3 py-1 text-xs text-white/70">
