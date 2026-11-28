@@ -23,19 +23,28 @@ const glowTexture = () => {
 
 // Phones: the two colors painted as soft pools where the desktop lights land, instead of
 // two point lights that every lit surface would have to compute. Per side: the wall just
-// above the riser, the riser top (kept within its 1.2 m width) and the desk in front.
+// above the riser, the riser top (kept within its 1.2 m width), the desk in front, and
+// the monitor's back (facing the wall, so only seen from behind; x and yaw follow the
+// monitor in Monitors.jsx). position[0] is the distance from the room's middle.
 const POOLS = [
-  { position: [0, Y + 0.06, -0.598], rotation: 0, size: [0.8, 0.5] },
-  { position: [0, 0.851, -0.44], rotation: -Math.PI / 2, size: [0.44, 0.26] },
-  { position: [0, 0.751, -0.22], rotation: -Math.PI / 2, size: [0.75, 0.5] },
+  { position: [0.38, Y + 0.06, -0.598], rotation: [0, 0], size: [0.8, 0.5] },
+  { position: [0.38, 0.851, -0.44], rotation: [-Math.PI / 2, 0], size: [0.44, 0.26] },
+  { position: [0.38, 0.751, -0.22], rotation: [-Math.PI / 2, 0], size: [0.75, 0.5] },
+  { position: [0.325, 1.03, -0.4], rotation: [0, Math.PI], yaw: 0.14, size: [0.62, 0.42] },
 ];
 
 const glowMaterial = (map) =>
   new THREE.MeshBasicMaterial({ map, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false });
 
-const GlowPools = ({ material, x }) =>
-  POOLS.map(({ position, rotation, size }) => (
-    <mesh key={position[1]} position={[x + position[0], position[1], position[2]]} rotation-x={rotation} material={material}>
+// side: -1 for the left half, 1 for the right
+const GlowPools = ({ material, side }) =>
+  POOLS.map(({ position, rotation, yaw = 0, size }) => (
+    <mesh
+      key={position[1]}
+      position={[side * position[0], position[1], position[2]]}
+      rotation={[rotation[0], rotation[1] - side * yaw, 0]}
+      material={material}
+    >
       <planeGeometry args={size} />
     </mesh>
   ));
@@ -66,8 +75,8 @@ const LedStrip = () => {
       {/* The wall wash */}
       {glows ? (
         <>
-          <GlowPools material={glows[0]} x={-0.38} />
-          <GlowPools material={glows[1]} x={0.38} />
+          <GlowPools material={glows[0]} side={-1} />
+          <GlowPools material={glows[1]} side={1} />
         </>
       ) : (
         <>
