@@ -19,6 +19,7 @@ const PILL =
 
 const ContactExperience = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTouch = useMediaQuery({ query: "(pointer: coarse)" });
   // Clicking a monitor (or a button) zooms in on screen 1 or 2; clicking it again, Esc,
   // a click elsewhere, or the back button zooms back out
   const [focus, setFocus] = useState(null);
@@ -104,13 +105,18 @@ const ContactExperience = () => {
         ← Back to desk
       </button>
     ) : (
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex gap-2">
-        <button type="button" onClick={() => setFocus(1)} className={`whitespace-nowrap px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
-          View screen 1 · code
-        </button>
-        <button type="button" onClick={() => setFocus(2)} className={`whitespace-nowrap px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
-          View screen 2 · game
-        </button>
+      <div className="pointer-events-none absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+        <div className="pointer-events-auto flex gap-2">
+          <button type="button" onClick={() => setFocus(1)} className={`whitespace-nowrap px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
+            View screen 1 · code
+          </button>
+          <button type="button" onClick={() => setFocus(2)} className={`whitespace-nowrap px-3 py-1 text-xs text-white/90 bg-black/50 ${PILL}`}>
+            View screen 2 · game
+          </button>
+        </div>
+        <p className="whitespace-nowrap rounded-full bg-black/40 px-3 py-1 text-xs text-white/70">
+          {isTouch ? "Swipe to look around · pinch to zoom · tap a screen" : "Drag to look around · scroll to zoom · click a screen"}
+        </p>
       </div>
     )}
     </>
