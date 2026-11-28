@@ -13,7 +13,8 @@ const FIT = { w: 0.68, h: 0.42 }; // one screen plus a little margin, in meters
 // to where it was when `focus` is null. OrbitControls are paused for the whole move so they
 // don't fight it. On xl the canvas runs under the headline, so the screen is framed in the
 // visible part (about 70% of the canvas) and the film shift is eased to zero.
-const CameraFocus = ({ focus, isWide }) => {
+// `screens` and `fit` default to the hero studio's; the Contact setup passes its own.
+const CameraFocus = ({ focus, isWide, screens = SCREENS, fit = FIT }) => {
   const camera = useThree((state) => state.camera);
   const controls = useThree((state) => state.controls);
   const get = useThree((state) => state.get);
@@ -24,12 +25,12 @@ const CameraFocus = ({ focus, isWide }) => {
     if (!controls) return;
     if (focus) {
       home.current ??= { position: camera.position.clone(), target: controls.target.clone(), filmOffset: camera.filmOffset };
-      const { center, yaw } = SCREENS[focus];
+      const { center, yaw } = screens[focus];
       const { width, height } = get().size;
       const vHalf = THREE.MathUtils.degToRad(camera.fov / 2);
       const hHalf = Math.atan(Math.tan(vHalf) * (width / height));
       const share = isWide ? 0.7 : 0.95;
-      const distance = Math.max(FIT.w / share / 2 / Math.tan(hHalf), FIT.h / 2 / Math.tan(vHalf));
+      const distance = Math.max(fit.w / share / 2 / Math.tan(hHalf), fit.h / 2 / Math.tan(vHalf));
       const facing = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
       goal.current = { position: center.clone().addScaledVector(facing, distance), target: center.clone(), filmOffset: 0 };
       controls.enabled = false;
@@ -37,7 +38,7 @@ const CameraFocus = ({ focus, isWide }) => {
       goal.current = home.current;
       home.current = null;
     }
-  }, [focus, isWide, camera, controls, get]);
+  }, [focus, isWide, screens, fit, camera, controls, get]);
 
   useFrame((_, delta) => {
     const target = goal.current;

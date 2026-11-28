@@ -145,7 +145,7 @@ const Contact = () => {
           <div className="xl:col-span-7 min-h-96">
             <div
               ref={experienceRef}
-              className="bg-[radial-gradient(circle_at_50%_30%,#1e2a4a_0%,#0b0e17_70%)] w-full h-full hover:cursor-grab rounded-3xl overflow-hidden"
+              className="bg-[radial-gradient(circle_at_50%_30%,#1e2a4a_0%,#0b0e17_70%)] relative w-full h-full hover:cursor-grab rounded-3xl overflow-hidden"
             >
               {showExperience && (
                 <Suspense fallback={null}>

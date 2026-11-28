@@ -4,6 +4,7 @@ import * as THREE from "three";
 // Origin = body center, screen faces +z. The edges wrap ~17 cm toward the viewer.
 export const PANEL = [1.051, 0.45];
 const BODY = [1.067, 0.47, 0.02];
+export const TOP_EDGE = BODY[1] / 2;
 const CURVE_R = 0.8;
 
 // Wrap every vertex around a vertical axis CURVE_R in front of the screen
@@ -28,7 +29,7 @@ const HOUSING_GEOMETRY = bend(new THREE.BoxGeometry(0.56, 0.26, 0.05, 32, 1, 1).
 // Thin blue light line across the back, for a bit of glow behind the setup
 const BACK_LIGHT_GEOMETRY = bend(new THREE.PlaneGeometry(0.5, 0.008, 32, 1).rotateY(Math.PI).translate(0, 0.06, -0.0556));
 
-const UltrawideMonitor = ({ screen, ...props }) => (
+const UltrawideMonitor = ({ screen, children, ...props }) => (
   <group {...props}>
     <mesh geometry={BODY_GEOMETRY} castShadow receiveShadow>
       <meshStandardMaterial color="#141519" roughness={0.4} metalness={0.2} />
@@ -43,6 +44,7 @@ const UltrawideMonitor = ({ screen, ...props }) => (
     <mesh geometry={BACK_LIGHT_GEOMETRY}>
       <meshBasicMaterial color="#3b82f6" toneMapped={false} />
     </mesh>
+    {children}
   </group>
 );
 

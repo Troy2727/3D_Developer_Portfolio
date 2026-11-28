@@ -1,10 +1,15 @@
 import { useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
 import { RoundedBox } from "@react-three/drei";
+import * as THREE from "three";
 
+import { isPhone } from "../hero_models/studio/device";
 import PcTower from "../hero_models/studio/PcTower";
 import { Keyboard, Mouse } from "../hero_models/studio/Peripherals";
-import { codeScreen, welcomeScreen } from "./screenTextures";
-import UltrawideMonitor, { bent, PANEL } from "./UltrawideMonitor";
+import { reducedMotion } from "../hero_models/studio/rgb";
+import { createCodeScreen, createGameScreen } from "./screenTextures";
+import UltrawideMonitor, { bent, PANEL, TOP_EDGE } from "./UltrawideMonitor";
+import Webcam from "./Webcam";
 
 // White 230 x 80 cm desk (top at 75 cm) with two 45" curved ultrawides on a dual arm.
 // Real-world meters, floor at y = 0, the screens face +z.
@@ -19,6 +24,17 @@ const PERIPHERAL_SCALE = 1.35;
 const TURN = 0.3;
 const [innerX, innerZ] = bent(-PANEL[0] / 2 - 0.008);
 const MON_X = 0.005 - innerX * Math.cos(TURN) + innerZ * Math.sin(TURN);
+
+// Screen centers and facing, for the camera zoom (hero_models/CameraFocus.jsx)
+export const SCREENS = {
+  1: { center: new THREE.Vector3(-MON_X, MON_Y, MON_Z), yaw: TURN },
+  2: { center: new THREE.Vector3(MON_X, MON_Y, MON_Z), yaw: -TURN },
+};
+// Wider than the panel: the curved edges come 17 cm closer to the camera and look bigger
+export const SCREEN_FIT = { w: 1.35, h: 0.6 };
+
+// Phones redraw the screens less often; reduced motion shows a still frame
+const FPS = isPhone ? { code: 8, game: 15 } : { code: 15, game: 30 };
 
 const Frame = () => <meshStandardMaterial color="#dfe2e7" roughness={0.4} metalness={0.4} />;
 const ArmMetal = () => <meshStandardMaterial color="#1c1d22" roughness={0.35} metalness={0.6} />;
@@ -36,9 +52,20 @@ const Bar = ({ from, to, y }) => {
   );
 };
 
-const DeskSetup = () => {
-  const code = useMemo(() => codeScreen(), []);
-  const welcome = useMemo(() => welcomeScreen(), []);
+// onSelect(1 | 2): a monitor was clicked
+const DeskSetup = ({ onSelect }) => {
+  const code = useMemo(() => createCodeScreen(FPS.code, reducedMotion), []);
+  const game = useMemo(() => createGameScreen(FPS.game, reducedMotion), []);
+
+  useFrame(({ clock }) => {
+    code.update(clock.elapsedTime);
+    game.update(clock.elapsedTime);
+  });
+
+  const select = (screen) => (e) => {
+    e.stopPropagation();
+    onSelect?.(screen);
+  };
 
   // Arm attaches to the back of each monitor's housing
   const vesa = (side) => [side * (MON_X + 0.055 * Math.sin(TURN)), MON_Z - 0.055 * Math.cos(TURN)];
@@ -79,8 +106,8 @@ const DeskSetup = () => {
       <Keyboard position={[-0.12, TOP + 0.004 + 0.0034 * PERIPHERAL_SCALE, 0.17]} rotation-x={0.05} scale={PERIPHERAL_SCALE} />
       <Mouse position={[0.38, TOP + 0.004, 0.18]} rotation-y={0.08} scale={PERIPHERAL_SCALE} />
 
-      {/* Gaming PC under the right side of the desk, glass panel facing you */}
-      <PcTower position={[0.62, 0, 0]} rotation-y={Math.PI / 2} />
+      {/* Gaming PC under the right side of the desk, its three lit front fans facing you */}
+      <PcTower position={[0.62, 0, -0.02]} rotation-y={0.4} />
 
       {/* Dual monitor arm: clamp, pole, one bar to each monitor */}
       <mesh position={[0, TOP + 0.015, POLE.z]} castShadow>
@@ -95,8 +122,11 @@ const DeskSetup = () => {
         <Bar key={side} from={[0, POLE.z]} to={vesa(side)} y={MON_Y - 0.02} />
       ))}
 
-      <UltrawideMonitor screen={code} position={[-MON_X, MON_Y, MON_Z]} rotation-y={TURN} />
-      <UltrawideMonitor screen={welcome} position={[MON_X, MON_Y, MON_Z]} rotation-y={-TURN} />
+      {/* Screen 1 writes the game's code, screen 2 plays it; clicking one zooms in on it */}
+      <UltrawideMonitor screen={code.texture} position={[-MON_X, MON_Y, MON_Z]} rotation-y={TURN} onClick={select(1)}>
+        <Webcam position-y={TOP_EDGE} />
+      </UltrawideMonitor>
+      <UltrawideMonitor screen={game.texture} position={[MON_X, MON_Y, MON_Z]} rotation-y={-TURN} onClick={select(2)} />
     </group>
   );
 };
